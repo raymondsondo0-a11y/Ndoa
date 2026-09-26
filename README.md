@@ -25,3 +25,6 @@ Never commit FTP credentials to the repository.
 
 ## Before the wedding
 Replace the sample couple names, wedding date, venue, photos and event times in `index.html` and `assets/js/app.js`.
+
+
+Deployment trigger verified on 26 September 2026. Production target: /ndoa.kesug.com/htdocs/.
