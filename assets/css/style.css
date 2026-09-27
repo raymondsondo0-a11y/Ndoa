@@ -24,3 +24,16 @@
 @media(max-width:900px){.section-intro{grid-template-columns:1fr;gap:25px}.story-stage,.venue-panel,.rsvp-shell{grid-template-columns:1fr}.story-copy{padding:20px 0}.portrait-image{height:560px}.venue-copy{padding:60px}.rsvp-side{padding:60px}.rsvp-form-wrap{padding:60px}.editorial-gallery{grid-template-columns:1fr 1fr;grid-template-rows:260px 260px 260px}.item-a{grid-row:span 2}.item-d{grid-column:span 2}}
 @media(max-width:767px){.wedding-nav{padding:12px 0}.navbar-collapse{margin-top:10px;background:#fffaf4ed;padding:15px;border:1px solid #6b3d2815}.hero h1{font-size:4.6rem}.hero-script{font-size:2.1rem}.hero-meta{gap:12px}.hero-meta strong{font-size:9px}.hero-stamp{width:82px;height:82px;right:5%;bottom:13%;font-size:14px}.announcement-inner{justify-content:flex-start;animation:marquee 22s linear infinite;width:max-content}.section{padding:90px 0}.section-intro h2{font-size:4rem}.story-stage{gap:55px}.portrait-image{height:480px}.portrait-caption{display:block}.portrait-caption b{display:block;margin-top:7px}.countdown-section{padding:90px 0}.countdown-grid{grid-template-columns:1fr 1fr}.countdown-grid div{border-bottom:1px solid #c69b6124}.countdown-grid div:nth-child(2){border-right:0}.countdown-grid strong{font-size:3.8rem}.lux-timeline .timeline-card{grid-template-columns:42px 1fr;gap:10px;padding:30px 0}.timeline-number{grid-row:span 2}.timeline-time{font-size:30px}.timeline-card h3{font-size:31px}.editorial-gallery{grid-template-columns:1fr 1fr;grid-template-rows:220px 220px 220px}.item-a{grid-row:span 2}.item-d{grid-column:span 2}.venue-copy{padding:45px 28px}.venue-map{min-height:400px}.rsvp-side,.rsvp-form-wrap{padding:45px 28px}.rsvp-side h2{font-size:4rem}.footer .container{display:block}.footer span{display:block;margin:5px 0}.hero-bottom{display:none}}
 @keyframes marquee{to{transform:translateX(-50%)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1!important;transform:none!important}.loader-orbit,.image-shimmer{animation:none}.announcement-inner{animation:none}}
+
+/* Bootstrap + Swiper luxury integration */
+.wedding-swiper{position:relative;padding:8px 0 56px;overflow:hidden}
+.wedding-swiper .swiper-slide{height:auto}
+.wedding-swiper .swiper-button-prev,.wedding-swiper .swiper-button-next{width:48px;height:48px;border:1px solid rgba(198,155,97,.55);border-radius:50%;background:rgba(255,250,244,.82);backdrop-filter:blur(12px);color:var(--ch);top:auto;bottom:0}
+.wedding-swiper .swiper-button-prev{left:auto;right:64px}
+.wedding-swiper .swiper-button-next{right:4px}
+.wedding-swiper .swiper-button-prev:after,.wedding-swiper .swiper-button-next:after{font-size:15px;font-weight:700}
+.wedding-swiper .swiper-pagination{bottom:15px!important;left:0!important;width:auto!important;text-align:left}
+.wedding-swiper .swiper-pagination-bullet{background:var(--gold);opacity:.35}
+.wedding-swiper .swiper-pagination-bullet-active{opacity:1;width:26px;border-radius:8px}
+#rsvpForm button:disabled{opacity:.65;cursor:wait}
+@media(max-width:575px){.wedding-swiper .swiper-button-prev{right:58px}.wedding-swiper .swiper-button-next{right:0}}
