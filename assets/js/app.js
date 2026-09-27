@@ -9,7 +9,21 @@ const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isInte
 document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
 $("a[href^='#']").on("click",function(){const t=$(this).attr("href");if(t&&t!=="#")$("html,body").animate({scrollTop:$(t).offset().top-70},650);});
-$("#rsvpForm").on("submit",function(e){e.preventDefault();const data=Object.fromEntries(new FormData(this));localStorage.setItem("wedding_rsvp",JSON.stringify({...data,submittedAt:new Date().toISOString()}));this.reset();$("#rsvpSuccess").prop("hidden",false);});
+$("#rsvpForm").on("submit",async function(e){
+ e.preventDefault();
+ const form=this,btn=$(form).find("button[type=submit]"),label=btn.find("span"),old=label.text();
+ btn.prop("disabled",true);label.text("Sending…");
+ try{
+   const response=await fetch(form.action,{method:"POST",body:new FormData(form),headers:{"Accept":"application/json"}});
+   const result=await response.json();
+   if(!response.ok||!result.success)throw new Error(result.message||"Unable to send RSVP");
+   localStorage.setItem("wedding_rsvp",JSON.stringify({...Object.fromEntries(new FormData(form)),submittedAt:new Date().toISOString()}));
+   form.reset();$("#rsvpSuccess").prop("hidden",false).text("Thank you — your RSVP has been received. ♥");
+ }catch(err){
+   $("#rsvpSuccess").prop("hidden",false).text("We could not send your RSVP right now. Please try again.");
+ }
+ btn.prop("disabled",false);label.text(old);
+});
 $("#musicBtn").on("click",function(){const a=document.getElementById("weddingAudio");if(!a.src){alert("Add the couple's licensed wedding song as assets/audio/wedding-song.mp3, then click again.");return}if(a.paused){a.play();$(this).find("span").text("Pause song")}else{a.pause();$(this).find("span").text("Our song")}});
 
 $(function(){
@@ -35,3 +49,15 @@ function animate(t){points.rotation.y=t*.000025;points.rotation.x=Math.sin(t*.00
 requestAnimationFrame(animate);
 addEventListener("resize",()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
 })();
+
+$(function(){
+ if(window.Swiper){
+   new Swiper(".wedding-swiper",{
+     loop:true,grabCursor:true,speed:900,spaceBetween:18,
+     autoplay:{delay:4200,disableOnInteraction:false},
+     pagination:{el:".swiper-pagination",clickable:true},
+     navigation:{nextEl:".swiper-button-next",prevEl:".swiper-button-prev"},
+     breakpoints:{0:{slidesPerView:1.15},576:{slidesPerView:2},992:{slidesPerView:3}}
+   });
+ }
+});
