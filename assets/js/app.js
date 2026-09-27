@@ -61,3 +61,15 @@ $(function(){
    });
  }
 });
+
+/* 15-image wedding background rotation: one new photo every 3 seconds */
+(function(){
+  const slides=[...document.querySelectorAll(".wedding-bg-slide")];
+  if(slides.length<2)return;
+  let current=0;
+  setInterval(()=>{
+    slides[current].classList.remove("is-active");
+    current=(current+1)%slides.length;
+    slides[current].classList.add("is-active");
+  },3000);
+})();
