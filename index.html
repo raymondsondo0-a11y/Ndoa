@@ -4,12 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#fffaf4">
-<meta name="description" content="A premium wedding celebration.">
+<meta name="description" content="A premium wedding celebration in Tanzania.">
+<meta name="author" content="Ndoa Wedding Experience">
+<meta property="og:title" content="Our Wedding — A Celebration of Love">
+<meta property="og:description" content="Two souls. One forever.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ndoa.kesug.com/">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8D%3C/text%3E%3C/svg%3E">
 <title>Our Wedding — A Celebration of Love</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -70,13 +79,13 @@
 <section id="gallery" class="section gallery-section">
 <div class="container">
 <div class="section-intro light reveal"><div><span class="eyebrow">03 — MEMORIES</span><h2>Frames of a<br><em>beautiful life.</em></h2></div><p>Replace these curated placeholders with the couple's real photographs. The layout is ready for editorial-quality images.</p></div>
-<div class="editorial-gallery">
+<div class="swiper wedding-swiper"><div class="swiper-wrapper">
 <div class="gallery-item item-a reveal"><div>01</div><span>THE BEGINNING</span></div>
 <div class="gallery-item item-b reveal"><div>02</div><span>TOGETHER</span></div>
 <div class="gallery-item item-c reveal"><div>03</div><span>THE MOMENT</span></div>
 <div class="gallery-item item-d reveal"><div>04</div><span>FOREVER</span></div>
 <div class="gallery-item item-e reveal"><div>05</div><span>FAMILY</span></div>
-</div>
+</div><div class="swiper-pagination"></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div></div>
 </div></section>
 
 <section id="location" class="section venue-section">
@@ -91,7 +100,7 @@
 <div class="container">
 <div class="rsvp-shell reveal">
 <div class="rsvp-side"><span class="eyebrow">05 — RSVP</span><h2>Your presence<br>means <em>everything.</em></h2><p>Kindly let us know if you will be joining us. We cannot wait to celebrate with you.</p><div class="rsvp-seal">A <i>&amp;</i> B<br><small>FOREVER</small></div></div>
-<div class="rsvp-form-wrap"><form id="rsvpForm" class="row g-3"><div class="col-md-6"><label>YOUR NAME</label><input class="form-control" name="name" placeholder="Full name" required></div><div class="col-md-6"><label>GUESTS</label><input class="form-control" name="guests" type="number" min="1" max="10" value="1" required></div><div class="col-12"><label>ATTENDANCE</label><select class="form-select" name="attendance" required><option value="">Please select</option><option>Joyfully, yes!</option><option>Sorry, I cannot make it</option></select></div><div class="col-12"><label>MESSAGE</label><textarea class="form-control" name="message" rows="4" placeholder="A note for the couple"></textarea></div><div class="col-12"><button class="btn btn-primary-luxe w-100" type="submit">Confirm my place <b>↗</b></button></div></form><div id="rsvpSuccess" class="success-message" hidden>Thank you — your response has been saved on this device. ♥</div></div>
+<div class="rsvp-form-wrap"><form id="rsvpForm" class="row g-3" action="api/rsvp.php" method="post"><div class="col-md-6"><label>YOUR NAME</label><input class="form-control" name="name" placeholder="Full name" required></div><div class="col-md-6"><label>GUESTS</label><input class="form-control" name="guests" type="number" min="1" max="10" value="1" required></div><div class="col-12"><label>ATTENDANCE</label><select class="form-select" name="attendance" required><option value="">Please select</option><option>Joyfully, yes!</option><option>Sorry, I cannot make it</option></select></div><div class="col-12"><label>MESSAGE</label><textarea class="form-control" name="message" rows="4" placeholder="A note for the couple"></textarea></div><div class="col-12"><button class="btn btn-primary-luxe w-100" type="submit"><span>Confirm my place</span> <b>↗</b></button></div></form><div id="rsvpSuccess" class="success-message" hidden>Thank you — your response has been saved on this device. ♥</div></div>
 </div></div></section>
 
 <section class="closing"><div class="closing-glow"></div><div class="container text-center"><span class="closing-mark">A <i>&amp;</i> B</span><p>“Where there is love, there is a beautiful beginning.”</p><small>WITH LOVE, FROM OUR FAMILY TO YOURS</small></div></section>
@@ -103,5 +112,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="assets/js/app.js"></script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
 </body></html>
