@@ -1,4 +1,4 @@
-name: 🚀 Deploy Social Media Ad Scheduler to ndoa.kesug.com
+name: 🚀 Deploy Social Studio to ndoa.kesug.com
 
 on:
   push:
@@ -6,25 +6,30 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
-    name: Publish Social Media Ad Scheduler to InfinityFree
+    name: Publish Social Studio to InfinityFree
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Social Media Ad Scheduler source
+      - name: Checkout Ndoa repository
         uses: actions/checkout@v4
-        with:
-          repository: raymondsondo0-a11y/afrika-flix
-          ref: main
-          path: site
 
-      - name: Deploy scheduler using the existing Ndoa hosting credentials
+      - name: Prepare clean public website
+        run: |
+          mkdir -p deploy
+          cp index.html deploy/index.html
+          printf '%s\n' 'Options -Indexes' > deploy/.htaccess
+
+      - name: Deploy using the existing Ndoa hosting credentials
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftpupload.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: site/
+          local-dir: deploy/
           server-dir: /ndoa.kesug.com/htdocs/
           protocol: ftp
           port: 21
@@ -32,14 +37,3 @@ jobs:
           exclude: |
             **/.git*
             **/.github/**
-            **/private/config.php
-            **/private/**
-            **/uploads/**
-            **/vendor/**
-            **/setup.php
-            **/login.php
-            **/watch.php
-            **/logout.php
-            **/admin/**
-            **/partials/**
-            **/assets/**
