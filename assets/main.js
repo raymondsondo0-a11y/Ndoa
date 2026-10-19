@@ -178,7 +178,32 @@ form.addEventListener('submit',e=>{
  const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
  data.push(...plan);
- if(persist()){const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
+ if(persist()){const printButton=$('#printReport');
+if(printButton)printButton.addEventListener('click',()=>{
+ if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then print the full report.';return}
+ const plans=[...new Map(data.map(c=>[c.planId||c.id,c])).values()];
+ const selected=plans[plans.length-1];
+ const items=data.filter(c=>(c.planId||c.id)===(selected.planId||selected.id)).slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const escHtml=s=>String(s??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const photo=imageByType[selected.businessType]||imageByType.other;
+ const win=window.open('','_blank');
+ if(!win){$('#plannerFeedback').textContent='Allow pop-ups for this website, then tap Print Report again.';return}
+ const details=[
+  ['Business / service',selected.businessName],['Business type',typeNames[selected.businessType]||selected.businessType],
+  ['Product / service',selected.offer],['Target customers',selected.audience],['Campaign goal',selected.goal],
+  ['Preferred channel',selected.preferredMedia||selected.media],['Schedule starts',selected.date],
+  ['Monthly advertising budget','TZS '+money(selected.totalBudget)],['Creative recommendation',selected.creative||selected.task],
+  ['Extra notes',selected.notes||'None provided']
+ ];
+ const detailRows=details.map(r=>'<tr><th>'+escHtml(r[0])+'</th><td>'+escHtml(r[1])+'</td></tr>').join('');
+ const scheduleRows=items.map(x=>'<tr><td><b>'+escHtml(x.date)+'</b><br>'+escHtml(dayNames[new Date(x.date+'T12:00:00').getDay()])+'</td><td>'+escHtml(x.media||'—')+'</td><td>'+escHtml(x.time||'18:30')+' EAT</td><td>'+escHtml(x.task||x.creative||x.offer||'Daily marketing activity')+'</td><td>TZS '+money(x.budget||0)+'<br>'+ (x.paid?'Paid promotion':'Organic task')+'</td><td>'+escHtml(x.status||'Planned')+'</td></tr>').join('');
+ const html='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Raymond Campaign Report</title><style>'+
+ '*{box-sizing:border-box}html,body{margin:0;font:12px Arial,sans-serif;color:#142334;line-height:1.45}body{background:#eef2f5}.toolbar{position:sticky;top:0;z-index:5;background:#102233;color:white;padding:12px 4%;display:flex;justify-content:space-between;align-items:center;gap:10px}.toolbar button{border:0;border-radius:8px;padding:11px 15px;background:#f2bf55;color:#102233;font-weight:bold;font-size:14px}.bg-photo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:.19;z-index:-1;pointer-events:none}.sheet{max-width:1100px;margin:22px auto;padding:26px;background:rgba(255,255,255,.91);border:1px solid rgba(220,170,70,.8);box-shadow:0 10px 35px #10223325}.brand{border-bottom:4px solid #d6a744;padding-bottom:15px;display:flex;justify-content:space-between;gap:15px}.brand h1{font-size:25px;margin:6px 0;color:#102233}.eyebrow{font-weight:bold;letter-spacing:2px;color:#946414;font-size:11px}.meta{text-align:right;color:#64748b}.page{margin-top:22px}.page h2{border-bottom:1px solid #d6a744;padding-bottom:7px;color:#102233;font-size:19px}.details,.schedule{width:100%;border-collapse:collapse;background:rgba(255,255,255,.87)}td,th{border:1px solid #d5dee7;padding:7px;text-align:left;vertical-align:top;overflow-wrap:anywhere}.details th{width:28%;background:rgba(232,238,243,.94)}.schedule th{background:#102233;color:#fff;font-size:10px}.schedule td{font-size:10px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.summary div{border:1px solid #d5dee7;background:rgba(255,255,255,.86);border-radius:7px;padding:10px}.summary small{display:block;color:#64748b;font-size:9px;text-transform:uppercase}.summary b{display:block;margin-top:4px}.note{background:rgba(255,248,226,.93);border-left:4px solid #d6a744;padding:10px}.foot{margin-top:24px;padding-top:10px;border-top:1px solid #d5dee7;color:#64748b;font-size:10px}@page{size:A4 landscape;margin:9mm}@media print{html,body{background:transparent!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.toolbar{display:none}.bg-photo{position:fixed;opacity:.20;width:100%;height:100%;object-fit:cover}.sheet{max-width:none;margin:0;padding:0;border:0;box-shadow:none;background:rgba(255,255,255,.78)}.page{break-before:page}.page:first-of-type{break-before:auto}thead{display:table-header-group}tr{break-inside:avoid}.schedule{table-layout:fixed}.schedule td,.schedule th{font-size:9px;padding:5px}}@media(max-width:700px){.sheet{margin:0;padding:14px}.brand{display:block}.meta{text-align:left}.summary{grid-template-columns:repeat(2,1fr)}.schedule{min-width:760px}.page{overflow-x:auto}}'+
+ '</style></head><body><img class="bg-photo" src="'+escHtml(photo)+'" alt=""><div class="toolbar"><b>RAYMOND · CAMPAIGN REPORT</b><div><button onclick="window.print()">Print / Save as PDF ⎙</button></div></div><main class="sheet"><header class="brand"><div><div class="eyebrow">RAYMOND SMART CAMPAIGN PLANNER</div><h1>Campaign Recommendation & Monthly Schedule</h1><p>Personalised report with campaign details, daily content ideas, channels and budget.</p></div><div class="meta">Generated<br><b>'+escHtml(new Date().toLocaleString('en-GB'))+'</b><br>East Africa Time (EAT)</div></header><section class="page"><h2>01 · Your Campaign Details</h2><table class="details"><tbody>'+detailRows+'</tbody></table><div class="summary"><div><small>Business</small><b>'+escHtml(selected.businessName||'—')+'</b></div><div><small>Recommended channel</small><b>'+escHtml(selected.media||'—')+'</b></div><div><small>Monthly budget</small><b>TZS '+money(selected.totalBudget)+'</b></div><div><small>Scheduled days</small><b>'+items.length+'</b></div></div><p><b>Creative direction:</b> '+escHtml(selected.creative||selected.task||'—')+'</p><p class="note">Budget figures are planning allocations, not a guarantee of advertising reach or results. The planner does not publish advertisements automatically.</p></section><section class="page"><h2>02 · Full Daily Schedule</h2><table class="schedule"><thead><tr><th>Date / day</th><th>Platform</th><th>Time</th><th>Daily post / video idea</th><th>Planned budget</th><th>Status</th></tr></thead><tbody>'+scheduleRows+'</tbody></table><p class="foot">Raymond Smart Campaign Planner · Status values describe planned tasks only. They do not confirm that content has been published.</p></section></main><script>window.addEventListener("load",function(){var im=document.querySelector(".bg-photo");if(im&&!im.complete)im.addEventListener("load",function(){}, {once:true});});<\/script></body></html>';
+ win.document.open();win.document.write(html);win.document.close();
+ $('#plannerFeedback').textContent='Your print-ready report is open in a new tab. It includes a background image matched to the selected business. Tap “Print / Save as PDF” to print it or save a PDF copy.';
+});
+const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
 });
 $('#campaignList').addEventListener('click',e=>{const b=e.target.closest('[data-delete]');if(b){const item=data.find(c=>c.id===b.dataset.delete);if(item&&item.planId)data=data.filter(c=>c.planId!==item.planId);else data=data.filter(c=>c.id!==b.dataset.delete);persist();$('#plannerFeedback').textContent='Entire monthly plan deleted.'}});
 $('#prevMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()-1);drawCalendar()});
@@ -225,7 +250,31 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
   const selected=plans[plans.length-1];
   const items=data.filter(c=>(c.planId||c.id)===(selected.planId||selected.id)).slice().sort((a,b)=>a.date.localeCompare(b.date));
   if(!items.length)throw new Error('No daily schedule was found for this campaign.');
+  let reportBackground=null;
+  try{
+   const photoUrl=imageByType[selected.businessType]||imageByType.other;
+   reportBackground=await new Promise(resolve=>{
+    const img=new Image();img.crossOrigin='anonymous';
+    const timer=setTimeout(()=>resolve(null),7000);
+    img.onload=()=>{
+     clearTimeout(timer);
+     try{
+      const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=850;
+      const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      ctx.fillStyle='rgba(255,255,255,0.84)';ctx.fillRect(0,0,canvas.width,canvas.height);
+      resolve(canvas.toDataURL('image/jpeg',0.88));
+     }catch(e){resolve(null)}
+    };
+    img.onerror=()=>{clearTimeout(timer);resolve(null)};
+    img.src=photoUrl;
+   });
+  }catch(e){reportBackground=null}
   const doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true});
+  if(reportBackground){
+   const paintReportBackground=()=>{try{doc.addImage(reportBackground,'JPEG',0,0,297,210,'raymond-report-bg','FAST')}catch(e){}};
+   doc.internal.events.subscribe('addPage',paintReportBackground);
+   paintReportBackground();
+  }
   const margin=12;
   doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(16,34,51);
   doc.text('Raymond Campaign Recommendation & Schedule',margin,16);
