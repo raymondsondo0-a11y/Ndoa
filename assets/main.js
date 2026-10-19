@@ -32,7 +32,33 @@ function recommendation(){
  const keywords=(photoTerms+' '+offerText).toLowerCase().replace(/[^a-z0-9\\s-]/g,' ').split(/\\s+/).filter(w=>w.length>2).slice(0,8).join(',');
  const dynamicPhoto='https://loremflickr.com/1600/900/'+encodeURIComponent(keywords||photoTerms);
  const hero=document.querySelector('.planner-intro');
- if(hero){hero.style.backgroundImage='linear-gradient(100deg,rgba(4,12,22,.82),rgba(5,17,29,.34)),url("'+dynamicPhoto+'")';hero.style.backgroundPosition='center';hero.style.backgroundSize='cover';}
+ // Bright live background slideshow: 12 online photos, rotating every 2 seconds.
+ // This changes only the planner hero background, not the customer's preview image.
+ if(hero && !hero.dataset.backgroundSlideshow){
+  const heroPhotos=[
+   'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1632823471565-1ecdf5c6f1b4?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=90',
+   'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=90'
+  ];
+  let photoIndex=0;
+  const showHeroPhoto=()=>{
+   hero.style.backgroundImage='linear-gradient(100deg,rgba(4,12,22,.42),rgba(5,17,29,.12)),url("'+heroPhotos[photoIndex]+'")';
+   hero.style.backgroundPosition='center';
+   hero.style.backgroundSize='cover';
+  };
+  hero.dataset.backgroundSlideshow='active';
+  showHeroPhoto();
+  window.setInterval(()=>{photoIndex=(photoIndex+1)%heroPhotos.length;showHeroPhoto();},2000);
+ }
  const image=$('#recImage');if(image){image.src=dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
  const caption=$('#recImageCaption');if(caption)caption.textContent='Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
 
