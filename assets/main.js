@@ -178,7 +178,9 @@ form.addEventListener('submit',e=>{
  const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
  data.push(...plan);
- if(persist()){const printButton=$('#printReport');
+ if(persist()){const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
+});
+const printButton=$('#printReport');
 if(printButton)printButton.addEventListener('click',()=>{
  if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then print the full report.';return}
  const plans=[...new Map(data.map(c=>[c.planId||c.id,c])).values()];
@@ -203,8 +205,11 @@ if(printButton)printButton.addEventListener('click',()=>{
  win.document.open();win.document.write(html);win.document.close();
  $('#plannerFeedback').textContent='Your print-ready report is open in a new tab. It includes a background image matched to the selected business. Tap “Print / Save as PDF” to print it or save a PDF copy.';
 });
-const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
-});
+
+// Keep the report controls available beside the calendar, even after reloading a saved plan.
+const quickDownload=$('#downloadReportQuick');if(quickDownload)quickDownload.addEventListener('click',()=>$('#downloadReport')?.click());
+const quickPrint=$('#printReportQuick');if(quickPrint)quickPrint.addEventListener('click',()=>$('#printReport')?.click());
+const quickCsv=$('#downloadCsvQuick');if(quickCsv)quickCsv.addEventListener('click',()=>$('#downloadCsv')?.click());
 $('#campaignList').addEventListener('click',e=>{const b=e.target.closest('[data-delete]');if(b){const item=data.find(c=>c.id===b.dataset.delete);if(item&&item.planId)data=data.filter(c=>c.planId!==item.planId);else data=data.filter(c=>c.id!==b.dataset.delete);persist();$('#plannerFeedback').textContent='Entire monthly plan deleted.'}});
 $('#prevMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()-1);drawCalendar()});
 $('#nextMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()+1);drawCalendar()});
