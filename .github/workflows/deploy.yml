@@ -1,28 +1,42 @@
-name: 🚀 Deploy Wedding Website (manual only — shared domain reserved for scheduler)
+name: 🚀 Deploy Social Media Ad Scheduler to ndoa.kesug.com
 
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: Publish to InfinityFree
+    name: Publish Social Media Ad Scheduler to InfinityFree
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Social Media Ad Scheduler source
         uses: actions/checkout@v4
+        with:
+          repository: raymondsondo0-a11y/afrika-flix
+          ref: main
+          path: site
 
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+      - name: Deploy scheduler using the existing Ndoa hosting credentials
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftpupload.net
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: site/
+          server-dir: /ndoa.kesug.com/htdocs/
           protocol: ftp
           port: 21
-          server-dir: /ndoa.kesug.com/htdocs/
+          dangerous-clean-slate: true
           exclude: |
             **/.git*
-            **/.git*/**
-            **/node_modules/**
-            .github/**
-            README.md
+            **/.github/**
+            **/private/config.php
+            **/private/**
+            **/uploads/**
+            **/vendor/**
+            **/setup.php
+            **/login.php
+            **/watch.php
+            **/logout.php
+            **/admin/**
+            **/partials/**
+            **/assets/**
