@@ -2,6 +2,9 @@ name: Deploy NDOA multi-page website
 on:
   push:
     branches: [main]
+    paths:
+      - 'index.html'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 permissions:
   contents: read
