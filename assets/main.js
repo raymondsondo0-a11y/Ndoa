@@ -27,8 +27,15 @@ function recommendation(){
  $('#recBudget').textContent=budget!==''?'TZS '+money(budget)+' monthly total':'Enter your monthly budget';
  $('#recCreative').textContent=creativeByType[type];
  $('#recSummary').textContent='Plan one practical task for every day Monday–Sunday. Paid promotions rotate between Facebook, TikTok and YouTube; organic tasks fill the other days. The full monthly budget you enter is divided across planned paid promotion dates.';
- const image=$('#recImage');if(image){image.src=imageByType[type]||imageByType.other;image.alt=typeNames[type]+' advertising visual'}
- const caption=$('#recImageCaption');if(caption)caption.textContent=creativeByType[type];
+ const offerText=$('#offer').value.trim();
+ const photoTerms=({carScanner:'car diagnostics mechanic workshop',carRepair:'auto repair garage mechanic',carSales:'modern car dealership',hotel:'beautiful hotel interior',fashion:'fashion clothing boutique',electronics:'electronics computer technology',realEstate:'modern house real estate',education:'students classroom learning',tourism:'Tanzania safari travel landscape',other:'small business product marketing'})[type]||'business marketing';
+ const keywords=(photoTerms+' '+offerText).toLowerCase().replace(/[^a-z0-9\\s-]/g,' ').split(/\\s+/).filter(w=>w.length>2).slice(0,8).join(',');
+ const dynamicPhoto='https://loremflickr.com/1600/900/'+encodeURIComponent(keywords||photoTerms);
+ const hero=document.querySelector('.planner-intro');
+ if(hero){hero.style.backgroundImage='linear-gradient(100deg,rgba(4,12,22,.82),rgba(5,17,29,.34)),url("'+dynamicPhoto+'")';hero.style.backgroundPosition='center';hero.style.backgroundSize='cover';}
+ const image=$('#recImage');if(image){image.src=dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
+ const caption=$('#recImageCaption');if(caption)caption.textContent='Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
+
  return {type,media,date:iso(d),time:mediaTimes[media]||'18:30',creative:creativeByType[type]};
 }
 form.querySelectorAll('input,select,textarea').forEach(el=>{el.addEventListener('input',recommendation);el.addEventListener('change',recommendation)});
@@ -122,6 +129,18 @@ $('#campaignList').addEventListener('click',e=>{const b=e.target.closest('[data-
 $('#prevMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()-1);drawCalendar()});
 $('#nextMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()+1);drawCalendar()});
 $('#resetPlanner').addEventListener('click',()=>{form.reset();$('#startDate').value=iso(today);$('#plannerFeedback').textContent='Form cleared. Choose your business and budget to generate a new weekly plan.';recommendation()});
+const downloadCsv=$('#downloadCsv');
+if(downloadCsv)downloadCsv.addEventListener('click',()=>{
+ if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then download the full schedule.';return;}
+ const latestId=data[data.length-1].planId;
+ const items=data.filter(x=>x.planId===latestId).slice().sort((a,b)=>a.date.localeCompare(b.date));
+ const fields=[['Date','Day','Business','Offer','Platform','Time EAT','Detailed task','Paid promotion','Budget TZS','Status']];
+ items.forEach(x=>fields.push([x.date,dayNames[new Date(x.date+'T12:00:00').getDay()],x.businessName,x.offer,x.media,x.time,x.task,x.paid?'Yes':'No',x.budget||0,x.status||'Planned']));
+ const csv=fields.map(row=>row.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\\r\\n');
+ const blob=new Blob(['\\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='NDOA-Full-Schedule-'+items[0].date+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+ $('#plannerFeedback').textContent='Full daily schedule downloaded as CSV. You can open it in Excel or Google Sheets.';
+});
 $('#downloadReport').addEventListener('click',()=>{
  if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then download the full report.';return}
  const plans=[...new Map(data.map(c=>[c.planId||c.id,c])).values()];
@@ -142,7 +161,7 @@ $('#downloadReport').addEventListener('click',()=>{
  a.download='NDOA-Campaign-Report-'+(selected.date||iso(new Date()))+'.html';
  a.style.display='none';document.body.appendChild(a);a.click();a.remove();
  setTimeout(()=>URL.revokeObjectURL(url),60000);
- $('#plannerFeedback').textContent='Report downloaded. Open the downloaded HTML report; use “Print / Save as PDF” inside it and choose “Save as PDF” to create a PDF copy.';
+ $('#plannerFeedback').textContent='Full report downloaded as HTML. Open it and choose Download PDF; Print report is available as a backup.';
 });
 const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel)calPanel.hidden=!data.length;const hint=document.createElement('p');hint.id='calendarHint';hint.className='microcopy mt-3';hint.textContent=data.length?'Your saved daily plan is shown below.':'Create a schedule to display the detailed calendar here.';$('#calendar')?.after(hint);recommendation();drawList();drawCalendar();
 })();
