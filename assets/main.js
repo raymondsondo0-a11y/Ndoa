@@ -29,6 +29,10 @@ if(form){
   $('#recTime').textContent=(times[media]||'18:30')+' EAT (UTC+3)';
   $('#recBudget').textContent='TZS '+money($('#budget').value);
   $('#recCreative').textContent=creativeByType[type];
+  const dayText=dayNames[d.getDay()]+', '+d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  $('#recSummary').textContent='Promote '+(offer||typeNames[type])+' on '+media+' on '+dayText+' at '+(times[media]||'18:30')+' EAT. Planned budget: TZS '+money($('#budget').value)+'.';
+  const image=$('#recImage');if(image){image.src=imageByType[type]||imageByType.other;image.alt=typeNames[type]+' advertising visual';}
+  const caption=$('#recImageCaption');if(caption)caption.textContent=creativeByType[type];
   return {type,media,date:iso(d),time:times[media]||'18:30',creative:creativeByType[type]};
  }
  fields.forEach(name=>{const el=form.elements.namedItem(name);if(el)el.addEventListener('input',recommendation);if(el)el.addEventListener('change',recommendation)});
