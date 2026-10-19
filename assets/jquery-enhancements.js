@@ -17,21 +17,7 @@
       },{threshold:.12});
       $('.card,.photo,.stat,.panel,.form-wrap').each(function(){this.classList.add('reveal-ready');observer.observe(this);});
     }
-    // Better mobile navigation; preserve the site's custom menu styling.
-    $('.menu').attr({'aria-expanded':'false','aria-controls':'primary-navigation'});
-    $('.links').attr('id','primary-navigation');
-    $('.menu').on('click',function(){
-      var $menu=$(this),$links=$('.links');
-      $links.toggleClass('open');
-      $menu.attr('aria-expanded',$links.hasClass('open')?'true':'false');
-      $menu.text($links.hasClass('open')?'✕':'☰');
-    });
-    $('.links a').on('click',function(){
-      if(window.matchMedia('(max-width: 820px)').matches){
-        $('.links').removeClass('open');$('.menu').attr('aria-expanded','false').text('☰');
-      }
-    });
-    // Add keyboard-friendly image captions and lazy-load remote gallery imagery.
+    // Accessible mobile navigation, controlled only by jQuery.\n    $('.menu').attr({'aria-expanded':'false','aria-controls':'primary-navigation'});\n    $('.links').attr('id','primary-navigation');\n    $('.menu').on('click',function(){var $button=$(this),$links=$('.links');$links.toggleClass('open');$button.attr('aria-expanded',$links.hasClass('open')?'true':'false').text($links.hasClass('open')?'✕':'☰');});\n    $('.links a').on('click',function(){if(window.matchMedia('(max-width: 1050px)').matches){$('.links').removeClass('open');$('.menu').attr('aria-expanded','false').text('☰');}});\n    // Add keyboard-friendly image captions and lazy-load remote gallery imagery.
     $('img').each(function(){
       if(!this.hasAttribute('loading'))this.setAttribute('loading','lazy');
       if(this.alt)this.setAttribute('decoding','async');
