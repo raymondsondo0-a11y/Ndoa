@@ -1,8 +1,6 @@
-name: 🚀 Deploy Wedding Website
+name: 🚀 Deploy Wedding Website (manual only — shared domain reserved for scheduler)
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
