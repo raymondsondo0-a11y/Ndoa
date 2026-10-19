@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'scheduler.html'
+      - 'assets/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 permissions:
