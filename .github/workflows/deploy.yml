@@ -1,6 +1,9 @@
 name: 🚀 Deploy Social Media Ad Scheduler to ndoa.kesug.com
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
