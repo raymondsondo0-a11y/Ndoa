@@ -44,7 +44,7 @@ function planDates(start,frequency,media){
  for(let day=d.getDate();day<=maxDay;day++){
   const candidate=new Date(d.getFullYear(),d.getMonth(),day,12);
   if(!allowed.includes(candidate.getDay()))continue;
-  if(frequency==='weekly'&&dates.length%1===0){if(Math.floor((day-d.getDate())/7)>=0)dates.push(iso(candidate))}
+  if(frequency==='weekly'){const week=Math.floor((day-d.getDate())/7);if(!dates.some(x=>Math.floor((Number(x.slice(-2))-d.getDate())/7)===week))dates.push(iso(candidate))}
   else if(frequency==='3weekly'){const week=Math.floor((day-d.getDate())/7);const used=dates.filter(x=>Math.floor((Number(x.slice(-2))-d.getDate())/7)===week).length;if(used<3)dates.push(iso(candidate))}
   else if(frequency==='daily')dates.push(iso(candidate));
  }
