@@ -1,116 +1,110 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#102d40">
-<meta name="description" content="Create a professional Field and Industrial Training Report from your logbook, supporting documents and reliable online research.">
-<meta name="robots" content="index,follow">
-<meta property="og:title" content="FieldReport Studio — AI Industrial Training Reports">
-<meta property="og:description" content="Turn your logbook into a structured, researched industrial training report.">
-<meta property="og:type" content="website">
-<title>FieldReport Studio | AI Industrial Training Report</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f5f0"><meta name="description" content="Plan, organize and schedule your social media campaigns in one calm, premium workspace.">
+<title>Social Studio — Campaign Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<link href="assets/css/report-studio.css?v=2" rel="stylesheet">
-<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<style>
+:root{--bg:#f7f5f0;--paper:#fffefa;--ink:#242a25;--muted:#7b8179;--line:#e8e5dc;--green:#244b3d;--green2:#dce9df;--gold:#bd9958;--goldbg:#f3ead7;--red:#b85a4c;--shadow:0 12px 35px #26352b0b}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:14px}button,input,textarea,select{font:inherit}button{cursor:pointer}.app{max-width:1500px;margin:auto;min-height:100vh;display:grid;grid-template-columns:240px minmax(0,1fr)}.sidebar{background:#f0eee7;border-right:1px solid var(--line);padding:27px 18px;display:flex;flex-direction:column;gap:26px}.brand{display:flex;gap:11px;align-items:center;padding:0 8px}.brand-icon{height:39px;width:39px;border-radius:13px;background:var(--green);color:#f7e8c5;display:grid;place-items:center;font-family:Manrope;font-weight:800;font-size:19px}.brand strong{font:800 16px Manrope;display:block;letter-spacing:-.5px}.brand small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.nav-label{font-size:10px;font-weight:700;color:#9b9c91;letter-spacing:1.5px;padding:0 11px;margin-bottom:-14px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;color:#656c64;text-align:left;border-radius:11px;padding:12px 13px;display:flex;gap:12px;align-items:center;font-weight:600}.nav button span:first-child{font-size:17px;width:20px;text-align:center}.nav button.active,.nav button:hover{background:#fffefa;color:var(--green);box-shadow:0 3px 12px #27372c08}.sidebar-bottom{margin-top:auto;background:#e6e8dd;border:1px solid #dfe1d6;border-radius:15px;padding:15px}.sidebar-bottom b{display:block;font:700 12px Manrope;margin-bottom:7px}.sidebar-bottom p{font-size:11px;color:#697167;line-height:1.6;margin:0}.main{min-width:0;padding:26px clamp(16px,3vw,42px) 45px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:31px}.crumb{color:var(--muted);font-size:12px}.crumb b{color:var(--ink)}.top-right{display:flex;align-items:center;gap:11px}.today{font-size:12px;color:var(--muted)}.avatar{height:35px;width:35px;border-radius:50%;background:var(--goldbg);color:#775c2d;display:grid;place-items:center;font-weight:800}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;margin-bottom:26px}.eyebrow{text-transform:uppercase;letter-spacing:1.7px;color:#9b7b44;font-size:10px;font-weight:800;margin-bottom:10px}.hero h1{font:800 clamp(26px,3.5vw,39px)/1.15 Manrope;letter-spacing:-1.6px;margin:0 0 10px}.hero p{color:var(--muted);margin:0;line-height:1.7;max-width:590px}.primary{border:0;background:var(--green);color:white;padding:12px 17px;border-radius:10px;font-weight:700;box-shadow:0 6px 14px #244b3d20;white-space:nowrap}.primary:hover{background:#18382c}.secondary{background:white;border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 13px;font-weight:600}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:24px}.stat,.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:17px 18px}.stat-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;font-weight:600}.stat-icon{height:31px;width:31px;display:grid;place-items:center;background:#f1efe7;border-radius:10px;font-size:15px}.stat-num{font:800 27px Manrope;letter-spacing:-1px;margin-top:12px}.stat-foot{color:#8a8e85;font-size:11px;margin-top:4px}.stat-foot em{color:var(--green);font-style:normal;font-weight:700}.content-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,.9fr);gap:18px;align-items:start}.card{overflow:hidden;margin-bottom:18px}.card-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}.card-head h2{font:800 15px Manrope;margin:0}.card-head p{font-size:11px;color:var(--muted);margin:5px 0 0}.card-body{padding:18px 20px}.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters select,.field input,.field textarea,.field select{border:1px solid var(--line);border-radius:9px;padding:10px 11px;background:#fffefa;color:var(--ink);width:100%;outline:none}.filters select{width:auto;padding:8px 10px;font-size:11px}.filters select:focus,.field input:focus,.field textarea:focus,.field select:focus{border-color:#9ab5a3;box-shadow:0 0 0 3px #dce9df80}.post-list{display:grid}.post{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;padding:15px 0;border-bottom:1px solid #efede6;align-items:start}.post:last-child{border-bottom:0;padding-bottom:0}.platform{width:39px;height:39px;border-radius:12px;display:grid;place-items:center;font-size:16px;font-weight:800}.instagram{background:#f8e5df;color:#a44c57}.facebook{background:#e2ebfb;color:#315c9c}.linkedin{background:#e0edf4;color:#236587}.tiktok{background:#e7e5e7;color:#242424}.post h3{font-size:12px;margin:1px 0 6px;font-weight:700;line-height:1.45}.post-meta{font-size:10px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}.scheduled{background:var(--green2);color:#2b6548}.draft{background:#f2ead8;color:#87672d}.published{background:#e8e8e5;color:#60655e}.empty{text-align:center;padding:35px 10px;color:var(--muted)}.empty b{display:block;color:var(--ink);font:700 14px Manrope;margin-bottom:6px}.calendar-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}.day-label{color:#9a9d94;font-size:9px;padding:5px 0}.day{position:relative;min-height:34px;border-radius:8px;display:grid;place-items:center;font-size:11px;color:#656c64}.day.today{background:var(--green);color:white;font-weight:800}.day.has-event:after{content:'';width:4px;height:4px;border-radius:50%;background:var(--gold);position:absolute;bottom:3px}.day.muted{opacity:.3}.calendar-title{font:800 13px Manrope}.calendar-actions{display:flex;gap:4px}.icon-btn{border:1px solid var(--line);background:#fffefa;border-radius:8px;height:29px;width:29px;color:#5b645c}.calendar-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:10px;color:var(--muted)}.legend-dot{display:inline-block;height:6px;width:6px;background:var(--gold);border-radius:50%;margin-right:5px}.tips{background:#f1eadb;border-color:#e8dfca}.tips .card-head{border-color:#e8dfca}.tip-item{display:flex;gap:11px;padding:10px 0}.tip-icon{flex:0 0 30px;height:30px;border-radius:9px;background:#fff9eb;display:grid;place-items:center}.tip-item b{display:block;font-size:11px;margin-bottom:4px}.tip-item p{margin:0;color:#77776a;font-size:10px;line-height:1.6}.platforms{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.platform-choice{border:1px solid var(--line);background:white;border-radius:10px;padding:11px 4px;text-align:center;color:#686d65}.platform-choice span{display:block;font-size:18px;margin-bottom:5px}.platform-choice small{font-size:10px;font-weight:700}.platform-choice.selected{border-color:#7a9c87;background:#edf4ee;color:var(--green);box-shadow:inset 0 0 0 1px #7a9c87}.field{display:grid;gap:7px;margin-bottom:15px}.field label{font-size:11px;font-weight:700;color:#555e55}.field textarea{min-height:90px;resize:vertical;line-height:1.6}.field input[type=date],.field input[type=time]{min-height:40px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.modal-backdrop{position:fixed;inset:0;background:#1a261fc2;display:none;align-items:center;justify-content:center;padding:14px;z-index:10;overflow:auto}.modal-backdrop.open{display:flex}.modal{width:min(590px,100%);max-height:95vh;overflow:auto;background:var(--paper);border-radius:18px;box-shadow:0 25px 80px #0003}.modal-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:center}.modal-head h2{font:800 19px Manrope;margin:0}.close{border:0;background:#f1efe8;border-radius:8px;width:32px;height:32px;font-size:18px}.modal-body{padding:20px 22px}.modal-foot{display:flex;justify-content:space-between;gap:10px;padding:16px 22px;border-top:1px solid var(--line)}.helper{font-size:10px;color:var(--muted);line-height:1.6;margin-top:6px}.toast{position:fixed;right:18px;bottom:18px;z-index:20;background:#213f32;color:white;padding:13px 17px;border-radius:11px;box-shadow:0 10px 35px #0002;max-width:min(360px,calc(100% - 36px));display:none}.toast.show{display:block;animation:fade .2s ease}@keyframes fade{from{transform:translateY(7px);opacity:0}to{transform:none;opacity:1}}.footer{text-align:center;color:#a0a196;font-size:10px;padding:15px 0 0}.hidden{display:none!important}
+@media(max-width:1050px){.app{grid-template-columns:205px minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.content-grid{grid-template-columns:minmax(0,1fr)}.right-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}.right-col .card{margin-bottom:0}}
+@media(max-width:680px){.app{display:block}.sidebar{position:sticky;top:0;z-index:5;padding:10px 12px;border-right:0;border-bottom:1px solid var(--line);gap:10px}.brand{padding:0 3px}.brand-icon{width:33px;height:33px}.brand strong{font-size:14px}.sidebar .nav-label,.sidebar-bottom{display:none}.nav{display:flex;overflow:auto;gap:5px;padding-bottom:1px}.nav button{flex:0 0 auto;padding:8px 10px;font-size:11px;gap:6px}.nav button span:first-child{font-size:14px;width:auto}.main{padding:19px 13px 30px}.topbar{margin-bottom:23px}.today{display:none}.hero{align-items:flex-start;flex-direction:column;gap:15px}.hero h1{font-size:29px}.hero p{font-size:12px}.hero .primary{width:100%}.stats{gap:9px;margin-bottom:15px}.stat{padding:13px}.stat-num{font-size:24px}.stat-top{font-size:10px}.stat-icon{width:27px;height:27px}.stat-foot{font-size:10px}.content-grid{gap:10px}.card{border-radius:13px;margin-bottom:12px}.card-head{padding:15px}.card-body{padding:15px}.right-col{display:block}.right-col .card{margin-bottom:12px}.post{grid-template-columns:36px minmax(0,1fr) auto;gap:8px}.platform{width:34px;height:34px}.post h3{font-size:11px}.post-meta{font-size:9px}.badge{font-size:9px;padding:4px 6px}.filters{width:100%}.filters select{flex:1;min-width:0}.form-row{grid-template-columns:1fr;gap:0}.modal-head,.modal-body{padding:17px}.modal-foot{padding:13px 17px}.platforms{gap:5px}.platform-choice small{font-size:9px}.footer{line-height:1.6}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
 </head>
 <body>
-<div class="app-shell">
-<header class="topbar">
-<a class="brand" href="./" aria-label="FieldReport Studio home"><span class="brand-mark">▤</span><span><strong>FieldReport Studio</strong><small>AI-powered academic writing</small></span></a>
-<div class="top-actions"><span class="status-pill">● English · Industrial Training</span><div class="avatar" aria-label="Student workspace">ST</div></div>
-</header>
-<div class="layout">
+<div class="app">
 <aside class="sidebar">
-<div class="side-label">WORKSPACE</div>
-<a href="#setupSection" class="nav-item active"><span>✦</span><span>Report generator</span></a>
-<a href="#uploadPanel" class="nav-item"><span>▤</span><span>My documents</span></a>
-<a href="#researchInfo" class="nav-item"><span>⌕</span><span>Web research</span></a>
-<a href="#reportGuide" class="nav-item"><span>☷</span><span>Report structure</span></a>
-<div class="sidebar-note"><strong>Built around your evidence</strong><p>Your logbook is the primary source for your practical activities. Online research adds background knowledge, not invented experience.</p></div>
+<div class="brand"><div class="brand-icon">S</div><div><strong>Social Studio</strong><small>Campaigns, made clearer</small></div></div>
+<div class="nav-label">WORKSPACE</div>
+<nav class="nav" aria-label="Main navigation">
+<button class="active" data-view="overview"><span>◫</span>Overview</button>
+<button data-view="calendar"><span>▦</span>Calendar</button>
+<button data-view="campaigns"><span>◈</span>All campaigns</button>
+<button data-view="drafts"><span>✎</span>Drafts</button>
+</nav>
+<div class="nav-label">TOOLS</div><nav class="nav"><button id="exportBtn"><span>⇩</span>Export schedule</button><button id="clearFilterBtn"><span>↻</span>Reset filters</button></nav>
+<div class="sidebar-bottom"><b>✦ A calmer way to plan</b><p>Keep your ideas, creative notes and publishing dates organized in one place. Start with a draft and build a consistent posting rhythm.</p></div>
 </aside>
 <main class="main">
-<section class="page-head">
-<div><div class="eyebrow">Your academic writing workspace</div><h1>From logbook to<br>professional report.</h1><p>Upload your field logbook, documents or photos. AI will identify the training topic, research supporting information online and prepare a structured English Industrial Training Report for you to review.</p></div>
-<div class="head-badge"><b>✓</b> Field / Industrial Training</div>
+<header class="topbar"><div class="crumb">Workspace&nbsp; / &nbsp;<b id="crumbLabel">Overview</b></div><div class="top-right"><span class="today" id="todayLabel"></span><div class="avatar">SS</div></div></header>
+<section class="hero"><div><div class="eyebrow">Your social command centre</div><h1>Make every post<br>count.</h1><p>Plan your next campaign, keep content moving and see what is coming up — all from one simple workspace.</p></div><button class="primary" id="newCampaignBtn">＋&nbsp; Create campaign</button></section>
+<section class="stats" aria-label="Campaign summary">
+<div class="stat"><div class="stat-top">Planned posts <span class="stat-icon">▤</span></div><div class="stat-num" id="statTotal">0</div><div class="stat-foot">All your campaign ideas</div></div>
+<div class="stat"><div class="stat-top">Scheduled <span class="stat-icon">◷</span></div><div class="stat-num" id="statScheduled">0</div><div class="stat-foot"><em>Ready for your calendar</em></div></div>
+<div class="stat"><div class="stat-top">Drafts <span class="stat-icon">✎</span></div><div class="stat-num" id="statDrafts">0</div><div class="stat-foot">Still being polished</div></div>
+<div class="stat"><div class="stat-top">Platforms <span class="stat-icon">◎</span></div><div class="stat-num" id="statPlatforms">0</div><div class="stat-foot">Across selected channels</div></div>
 </section>
-<div class="steps" aria-label="Report generation steps">
-<div class="step active"><span class="step-number">01</span><span><strong>Upload evidence</strong><small>Logbook, files or photos</small></span></div>
-<div class="step"><span class="step-number">02</span><span><strong>Research & write</strong><small>AI analysis and sources</small></span></div>
-<div class="step"><span class="step-number">03</span><span><strong>Review & export</strong><small>Word or PDF</small></span></div>
+<div class="content-grid">
+<div class="left-col">
+<section class="card" id="campaignCard"><div class="card-head"><div><h2 id="listHeading">Upcoming campaigns</h2><p id="listSubheading">Your next posts, all in one place.</p></div><div class="filters"><select id="statusFilter" aria-label="Filter by status"><option value="all">All status</option><option value="Scheduled">Scheduled</option><option value="Draft">Draft</option><option value="Published">Published</option></select><select id="platformFilter" aria-label="Filter by platform"><option value="all">All platforms</option><option>Instagram</option><option>Facebook</option><option>TikTok</option><option>LinkedIn</option><option>X</option><option>YouTube</option></select></div></div><div class="card-body"><div class="post-list" id="postList"></div></div></section>
+<section class="card"><div class="card-head"><div><h2>Quick start</h2><p>Three simple steps to keep your content on track.</p></div></div><div class="card-body">
+<div class="tip-item"><div class="tip-icon">✦</div><div><b>1. Capture the idea</b><p>Write your caption, campaign goal and creative notes before you forget them.</p></div></div>
+<div class="tip-item"><div class="tip-icon">▦</div><div><b>2. Choose a publishing time</b><p>Assign a platform, date and time to make your plan concrete.</p></div></div>
+<div class="tip-item"><div class="tip-icon">✓</div><div><b>3. Review and publish</b><p>Export your schedule and publish through each platform or a connected publishing service.</p></div></div>
+</div></section>
 </div>
-<section id="setupSection">
-<form id="reportForm" enctype="multipart/form-data">
-<div class="workspace">
-<div>
-<section class="panel" id="uploadPanel">
-<div class="panel-head"><div><h2>Upload your logbook & documents</h2><p>Use clear scans or photos so your activities can be read accurately.</p></div><span class="mini-tag">STEP 01</span><span id="fileCount" class="mini-tag">0 files</span></div>
-<div class="panel-body">
-<div id="dropzone" class="dropzone">
-<div class="upload-icon">⇧</div><h3>Drop your files here</h3><p>Or select files from your device. Supported formats: PDF, Word, TXT and photos of your logbook.</p>
-<button class="btn btn-primary" type="button" id="browseBtn" onclick="document.getElementById('documents').click()">＋ Choose files</button>
-<input id="documents" name="documents[]" type="file" accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.webp" multiple hidden>
-<p class="field-hint" style="margin-top:13px;margin-bottom:0">Maximum 8 files · 8 MB each · Your files are processed for this request, not saved as a document library.</p>
-</div>
-<div id="fileList" class="file-list"></div>
-<div id="emptyFiles" class="field-hint" style="text-align:center;margin-top:13px">No files selected yet.</div>
-</div>
-</section>
-<section class="panel" id="reportGuide">
-<div class="panel-head"><div><h2>Report details</h2><p>Fill in what you know. Leave unknown fields blank; AI will mark missing facts for confirmation.</p></div><span class="mini-tag">STEP 02</span></div>
-<div class="panel-body">
-<div class="form-grid">
-<div class="field"><label for="studentName">Student full name</label><input id="studentName" name="student_name" placeholder="Enter your full name" autocomplete="name"></div>
-<div class="field"><label for="institution">University / institution</label><input id="institution" name="institution" placeholder="e.g. University of Dodoma"></div>
-<div class="field"><label for="organization">Training organization</label><input id="organization" name="organization" placeholder="Company or institution name"></div>
-<div class="field"><label for="department">Department / section</label><input id="department" name="department" placeholder="e.g. ICT / Networking"></div>
-</div>
-<div class="field"><label for="trainingPeriod">Training period</label><input id="trainingPeriod" name="training_period" placeholder="e.g. 1 June – 31 August 2026"></div>
-<div class="field"><label for="extraNotes">Additional instructions (optional)</label><textarea id="extraNotes" name="extra_notes" placeholder="Mention your course, report guidelines, required chapter headings, key projects, supervisor notes or anything your logbook does not fully explain."></textarea><div class="field-hint">AI will use these notes as context and will not treat them as proof of activities unless you confirm them.</div></div>
-<div class="check-row"><input id="confirmAccuracy" type="checkbox" required><label for="confirmAccuracy">I understand this report is a draft. I will check the details, references and images and correct any inaccurate or missing information before submitting it.</label></div>
-<button id="generateBtn" class="btn btn-primary btn-wide" type="submit" disabled>✦ Generate my report</button>
-<div class="secure-note"><span>🔒</span><span>Files are sent to the configured AI service for analysis. Do not upload passwords, national ID details or unrelated sensitive documents.</span></div>
-<div id="loadingWrap" class="loading-wrap"><div class="spinner"></div><strong>Preparing your report</strong><p id="loadingText">Reading your logbook and researching the topic…<br>This can take a little while.</p></div>
-</div>
-</section>
-</div>
-<div class="side-column">
-<div class="side-card">
-<h3>What AI will do</h3>
-<div class="feature"><span class="feature-icon">▤</span><div><strong>Read your evidence</strong><p>Analyze logbook entries, document text and readable photos to identify real tasks and skills.</p></div></div>
-<div class="feature"><span class="feature-icon">⌕</span><div><strong>Research online</strong><p>Find relevant technical background and include links to supporting web sources.</p></div></div>
-<div class="feature"><span class="feature-icon">▧</span><div><strong>Find related images</strong><p>Search Wikimedia Commons for illustrative figures and show source and licence information where available.</p></div></div>
-<div class="feature"><span class="feature-icon">☷</span><div><strong>Build report chapters</strong><p>Prepare an academic structure with an executive summary, training activities, skills, challenges, conclusion and references.</p></div></div>
-</div>
-<div class="side-card" id="researchInfo">
-<h3>Research with clear sources</h3>
-<p style="font-size:11px;color:var(--muted);line-height:1.7;margin:0">The report will use online sources for technical explanations and context. Sources will be listed for checking. The AI must not present online information as proof that you personally completed a task.</p>
-<div class="notice">Important: Check all image licences and replace generic illustrations with photos of your actual workplace or equipment when your institution requires original evidence.</div>
-</div>
-<div class="side-card">
-<h3>Export options</h3>
-<div class="feature"><span class="feature-icon">W</span><div><strong>Microsoft Word (.docx)</strong><p>Download an editable report draft for final formatting and supervisor review.</p></div></div>
-<div class="feature"><span class="feature-icon">PDF</span><div><strong>Save as PDF</strong><p>Use Print / Save as PDF to save the report preview.</p></div></div>
+<div class="right-col">
+<section class="card" id="calendarCard"><div class="card-head"><div><h2>Content calendar</h2><p>At a glance</p></div><div class="calendar-actions"><button class="icon-btn" id="prevMonth" aria-label="Previous month">‹</button><button class="icon-btn" id="nextMonth" aria-label="Next month">›</button></div></div><div class="card-body"><div class="calendar-title" id="calendarTitle" style="margin-bottom:12px"></div><div class="calendar-mini" id="calendarGrid"></div><div class="calendar-foot"><span><i class="legend-dot"></i>Planned post</span><button class="secondary" id="todayBtn" style="padding:6px 9px;font-size:10px">Today</button></div></div></section>
+<section class="card tips"><div class="card-head"><div><h2>Creator's note</h2><p>A small reminder for better campaigns</p></div><span>✧</span></div><div class="card-body"><div class="tip-item"><div class="tip-icon">♡</div><div><b>Consistency beats clutter</b><p>Choose a posting rhythm you can maintain. One thoughtful, useful post can do more than several rushed ones.</p></div></div><div class="tip-item"><div class="tip-icon">◎</div><div><b>Match content to the channel</b><p>Adapt the format and tone to the audience on each platform before publishing.</p></div></div></div></section>
 </div>
 </div>
-</div>
-</form>
-</section>
-<section id="resultSection" class="result-section">
-<div class="result-top"><div><div class="eyebrow">Draft ready for review</div><h2 id="reportTitle">Your industrial training report</h2></div><div class="result-actions"><button id="editAgain" class="btn btn-outline" type="button">← Edit details</button><button id="downloadDocx" class="btn btn-secondary" type="button">↓ Download Word</button><button id="printReport" class="btn btn-primary" type="button">Print / PDF</button></div></div>
-<div id="reportPaper" class="report-paper"></div>
-<div class="notice" style="max-width:950px;margin:18px auto">Before submitting: confirm all personal activities against your logbook, verify each citation and image licence, and follow your institution's report template and academic integrity rules.</div>
-</section>
-<footer class="footer">FieldReport Studio · Academic support for field and industrial training · Review before submission</footer>
+<div class="footer">Social Studio · Your planning data is saved in this browser on this device.</div>
 </main>
 </div>
-</div>
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-<script src="assets/js/report-studio.js?v=2"></script>
-<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
-</body>
-</html>
+<div class="modal-backdrop" id="campaignModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal">
+<div class="modal-head"><div><div class="eyebrow" style="margin-bottom:5px">PLAN SOMETHING GOOD</div><h2 id="modalTitle">Create a campaign</h2></div><button class="close" id="closeModal" aria-label="Close">×</button></div>
+<form id="campaignForm"><div class="modal-body">
+<div class="field"><label for="postTitle">Campaign / post title *</label><input id="postTitle" required maxlength="100" placeholder="e.g. New season launch"></div>
+<div class="field"><label>Choose platform(s) *</label><div class="platforms" id="platformChoices">
+<button type="button" class="platform-choice selected" data-platform="Instagram"><span>◎</span><small>Instagram</small></button><button type="button" class="platform-choice" data-platform="Facebook"><span>f</span><small>Facebook</small></button><button type="button" class="platform-choice" data-platform="TikTok"><span>♪</span><small>TikTok</small></button><button type="button" class="platform-choice" data-platform="LinkedIn"><span>in</span><small>LinkedIn</small></button><button type="button" class="platform-choice" data-platform="X"><span>𝕏</span><small>X</small></button><button type="button" class="platform-choice" data-platform="YouTube"><span>▶</span><small>YouTube</small></button>
+</div></div>
+<div class="field"><label for="caption">Caption / content idea *</label><textarea id="caption" required maxlength="3000" placeholder="What do you want your audience to know, feel or do?"></textarea><div class="helper"><span id="captionCount">0</span>/3000 characters. Keep your call to action clear.</div></div>
+<div class="form-row"><div class="field"><label for="postDate">Publishing date *</label><input id="postDate" type="date" required></div><div class="field"><label for="postTime">Publishing time *</label><input id="postTime" type="time" value="10:00" required></div></div>
+<div class="form-row"><div class="field"><label for="postStatus">Status</label><select id="postStatus"><option>Scheduled</option><option>Draft</option><option>Published</option></select></div><div class="field"><label for="campaignGoal">Campaign goal</label><select id="campaignGoal"><option>Awareness</option><option>Engagement</option><option>Traffic</option><option>Leads</option><option>Sales</option><option>Community</option></select></div></div>
+<div class="field"><label for="creativeNotes">Creative notes (optional)</label><input id="creativeNotes" maxlength="500" placeholder="Image/video idea, hashtags, link, or reminder"></div>
+<div class="helper">Important: this planner saves your schedule in this browser. It does not directly publish to social networks. Direct publishing requires platform API access and account authorization.</div>
+</div><div class="modal-foot"><button type="button" class="secondary" id="cancelModal">Cancel</button><button class="primary" type="submit">Save campaign&nbsp; →</button></div></form>
+</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+'use strict';
+const KEY='socialStudioCampaigns_v1';
+const $=id=>document.getElementById(id);
+const today=new Date();today.setHours(0,0,0,0);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let campaigns=[];try{campaigns=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(campaigns))campaigns=[];}catch(e){campaigns=[];}
+let selectedPlatforms=new Set(['Instagram']);let monthCursor=new Date(today.getFullYear(),today.getMonth(),1);let currentView='overview';let toastTimer;
+$('todayLabel').textContent=today.toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+$('postDate').min=iso(today);$('postDate').value=iso(today);
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(campaigns));return true}catch(e){notify('Could not save. Your browser storage may be full or disabled.');return false}}
+function notify(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3200)}
+function icon(p){return ({Instagram:'◎',Facebook:'f',TikTok:'♪',LinkedIn:'in',X:'𝕏',YouTube:'▶'})[p]||'•'}
+function classPlatform(p){return ({Instagram:'instagram',Facebook:'facebook',TikTok:'tiktok',LinkedIn:'linkedin',X:'tiktok',YouTube:'facebook'})[p]||''}
+function dateText(c){if(!c.date)return 'Date not set';let d=new Date(c.date+'T00:00:00');return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' · '+(c.time||'10:00')}
+function renderStats(){ $('statTotal').textContent=campaigns.length;$('statScheduled').textContent=campaigns.filter(c=>c.status==='Scheduled').length;$('statDrafts').textContent=campaigns.filter(c=>c.status==='Draft').length;$('statPlatforms').textContent=new Set(campaigns.flatMap(c=>c.platforms||[])).size}
+function renderPosts(){let status=$('statusFilter').value,platform=$('platformFilter').value;let arr=campaigns.filter(c=>(status==='all'||c.status===status)&&(platform==='all'||(c.platforms||[]).includes(platform)));if(currentView==='drafts')arr=arr.filter(c=>c.status==='Draft');if(currentView==='campaigns'){}else if(currentView==='calendar'){arr=arr.filter(c=>c.date&&c.date.startsWith(iso(monthCursor).slice(0,7)));}else if(currentView==='overview')arr=arr.filter(c=>c.status!=='Published'||c.date>=iso(today));arr.sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||(a.time||'').localeCompare(b.time||''));$('listHeading').textContent=currentView==='drafts'?'Your drafts':currentView==='calendar'?'Posts this month':currentView==='campaigns'?'All campaigns':'Upcoming campaigns';$('listSubheading').textContent=currentView==='drafts'?'Ideas you can keep refining.':currentView==='calendar'?'Posts scheduled in the month shown on your calendar.':currentView==='campaigns'?'Every campaign in your workspace.':'Your next posts, all in one place.';if(!arr.length){$('postList').innerHTML='<div class="empty"><b>No campaigns to show yet</b>Try changing the filters or create your first campaign.<br><button class="primary" id="emptyCreate" style="margin-top:14px">＋ Create campaign</button></div>';$('emptyCreate').addEventListener('click',openModal);return}
+$('postList').innerHTML=arr.map(c=>'<article class="post"><div class="platform '+classPlatform((c.platforms||[])[0])+'">'+icon((c.platforms||[])[0])+'</div><div><h3>'+esc(c.title)+'</h3><div class="post-meta"><span>'+esc((c.platforms||[]).join(', '))+'</span><span>·</span><span>'+esc(dateText(c))+'</span></div><div class="post-meta" style="margin-top:7px">'+esc((c.caption||'').slice(0,100))+(c.caption&&c.caption.length>100?'…':'')+'</div>'+(c.notes?'<div class="post-meta" style="margin-top:5px">✦ '+esc(c.notes)+'</div>':'')+'</div><div style="display:grid;gap:8px;justify-items:end"><span class="badge '+c.status.toLowerCase()+'">'+esc(c.status==='Scheduled'?'◷ Scheduled':c.status==='Published'?'✓ Published':'✎ Draft')+'</span><button class="secondary edit-btn" data-id="'+esc(c.id)+'" style="font-size:10px;padding:6px 9px">Edit</button><button class="secondary delete-btn" data-id="'+esc(c.id)+'" style="font-size:10px;padding:6px 9px">Delete</button></div></article>').join('');
+document.querySelectorAll('.edit-btn').forEach(b=>b.addEventListener('click',()=>editCampaign(b.dataset.id)));document.querySelectorAll('.delete-btn').forEach(b=>b.addEventListener('click',()=>deleteCampaign(b.dataset.id)))}
+function renderCalendar(){let y=monthCursor.getFullYear(),m=monthCursor.getMonth(),first=new Date(y,m,1),start=first.getDay(),days=new Date(y,m+1,0).getDate(),prevDays=new Date(y,m,0).getDate();$('calendarTitle').textContent=monthCursor.toLocaleDateString(undefined,{month:'long',year:'numeric'});let heads=['Su','Mo','Tu','We','Th','Fr','Sa'];let out=heads.map(d=>'<div class="day-label">'+d+'</div>').join('');for(let i=0;i<42;i++){let n=i-start+1,dt,muted=false;if(n<1){dt=new Date(y,m-1,prevDays+n);muted=true}else if(n>days){dt=new Date(y,m+1,n-days);muted=true}else dt=new Date(y,m,n);let key=iso(dt),has=campaigns.some(c=>c.date===key&&c.status!=='Draft');out+='<div class="day '+(key===iso(today)?'today ':'')+(has?'has-event ':'')+(muted?'muted':'')+'" title="'+(has?'Has planned post':'')+'">'+dt.getDate()+'</div>'} $('calendarGrid').innerHTML=out}
+function render(){renderStats();renderPosts();renderCalendar()}
+function openModal(){ $('campaignForm').reset();$('campaignForm').dataset.editId='';$('modalTitle').textContent='Create a campaign';$('postDate').value=iso(today);$('postTime').value='10:00';$('postStatus').value='Scheduled';$('captionCount').textContent='0';selectedPlatforms=new Set(['Instagram']);syncPlatforms();$('campaignModal').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>$('postTitle').focus(),80)}
+function closeModal(){ $('campaignModal').classList.remove('open');document.body.style.overflow=''}
+function syncPlatforms(){document.querySelectorAll('.platform-choice').forEach(b=>b.classList.toggle('selected',selectedPlatforms.has(b.dataset.platform)))}
+function editCampaign(id){let c=campaigns.find(x=>x.id===id);if(!c)return;openModal();$('modalTitle').textContent='Edit campaign';$('campaignForm').dataset.editId=id;$('postTitle').value=c.title;$('caption').value=c.caption;$('captionCount').textContent=c.caption.length;$('postDate').value=c.date||iso(today);$('postTime').value=c.time||'10:00';$('postStatus').value=c.status;$('campaignGoal').value=c.goal||'Awareness';$('creativeNotes').value=c.notes||'';selectedPlatforms=new Set(c.platforms||[]);syncPlatforms()}
+function deleteCampaign(id){let c=campaigns.find(x=>x.id===id);if(!c)return;if(!confirm('Delete “'+c.title+'” from your schedule?'))return;campaigns=campaigns.filter(x=>x.id!==id);persist();render();notify('Campaign deleted.')}
+document.querySelectorAll('.platform-choice').forEach(b=>b.addEventListener('click',()=>{let p=b.dataset.platform;if(selectedPlatforms.has(p))selectedPlatforms.delete(p);else selectedPlatforms.add(p);syncPlatforms()}));
+$('newCampaignBtn').addEventListener('click',openModal);$('closeModal').addEventListener('click',closeModal);$('cancelModal').addEventListener('click',closeModal);$('campaignModal').addEventListener('click',e=>{if(e.target===$('campaignModal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('caption').addEventListener('input',()=>$('captionCount').textContent=$('caption').value.length);
+$('campaignForm').addEventListener('submit',e=>{e.preventDefault();if(!selectedPlatforms.size){notify('Choose at least one platform.');return}let id=$('campaignForm').dataset.editId;let item={id:id||('c'+Date.now()+Math.random().toString(36).slice(2,6)),title:$('postTitle').value.trim(),platforms:[...selectedPlatforms],caption:$('caption').value.trim(),date:$('postDate').value,time:$('postTime').value,status:$('postStatus').value,goal:$('campaignGoal').value,notes:$('creativeNotes').value.trim(),updatedAt:new Date().toISOString()};if(!item.title||!item.caption||!item.date||!item.time){notify('Please complete all required fields.');return}if(id)campaigns=campaigns.map(c=>c.id===id?item:c);else campaigns.push(item);persist();closeModal();render();notify(id?'Campaign updated successfully.':'Campaign saved to your schedule.')});
+$('statusFilter').addEventListener('change',renderPosts);$('platformFilter').addEventListener('change',renderPosts);$('prevMonth').addEventListener('click',()=>{monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()-1,1);renderCalendar();if(currentView==='calendar')renderPosts()});$('nextMonth').addEventListener('click',()=>{monthCursor=new Date(monthCursor.getFullYear(),monthCursor.getMonth()+1,1);renderCalendar();if(currentView==='calendar')renderPosts()});$('todayBtn').addEventListener('click',()=>{monthCursor=new Date(today.getFullYear(),today.getMonth(),1);renderCalendar();if(currentView==='calendar')renderPosts()});
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{currentView=b.dataset.view;document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));$('crumbLabel').textContent=b.textContent.trim();renderPosts();if(currentView==='calendar')$('campaignCard').scrollIntoView({behavior:'smooth',block:'start'})}));
+$('clearFilterBtn').addEventListener('click',()=>{$('statusFilter').value='all';$('platformFilter').value='all';currentView='overview';document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view==='overview'));$('crumbLabel').textContent='Overview';render();notify('Filters reset.')});
+$('exportBtn').addEventListener('click',()=>{if(!campaigns.length){notify('Create a campaign before exporting your schedule.');return}let cols=['Title','Platforms','Caption','Date','Time','Status','Goal','Creative notes'];const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';let csv=[cols.map(q).join(','),...campaigns.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(c=>[c.title,(c.platforms||[]).join('; '),c.caption,c.date,c.time,c.status,c.goal,c.notes].map(q).join(','))].join('\r\n');let blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='social-studio-schedule.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);notify('Schedule exported as CSV.')});
+render();
+})();
+</script>
+</body></html>
