@@ -1,29 +1,23 @@
-name: 🚀 Deploy Social Studio to ndoa.kesug.com
-
+name: Deploy NDOA multi-page website
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   deploy:
-    name: Publish Social Studio to InfinityFree
+    name: Publish all NDOA pages to InfinityFree
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Ndoa repository
         uses: actions/checkout@v4
-
-      - name: Prepare clean public website
+      - name: Prepare full website
         run: |
           mkdir -p deploy
-          cp index.html deploy/index.html
-          printf '%s\n' 'Options -Indexes' > deploy/.htaccess
-
-      - name: Deploy using the existing Ndoa hosting credentials
+          cp -R index.html about.html services.html diagnostics.html advertising.html scheduler.html booking.html gallery.html pricing.html faq.html contact.html assets deploy/
+          printf '%s\n' 'Options -Indexes' 'DirectoryIndex index.html' > deploy/.htaccess
+      - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ftpupload.net
