@@ -196,27 +196,87 @@ if(downloadCsv)downloadCsv.addEventListener('click',()=>{
  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='NDOA-Full-Schedule-'+items[0].date+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
  $('#plannerFeedback').textContent='Full daily schedule downloaded as CSV. You can open it in Excel or Google Sheets.';
 });
-$('#downloadReport').addEventListener('click',()=>{
+const reportButton=$('#downloadReport');
+if(reportButton)reportButton.addEventListener('click',async()=>{
  if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then download the full report.';return}
- const plans=[...new Map(data.map(c=>[c.planId||c.id,c])).values()];
- const escHtml=s=>String(s??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const selected=plans[plans.length-1];
- const groups=plans.map(p=>data.filter(c=>(c.planId||c.id)===(p.planId||p.id)));
- const rec=[['Business / service',selected.businessName],['Business type',typeNames[selected.businessType]||selected.businessType],['Product / service to advertise',selected.offer],['Target customers',selected.audience],['Campaign goal',selected.goal],['Preferred channel',selected.preferredMedia||selected.media],['Schedule start',selected.date],['Monthly advertising budget','TZS '+money(selected.totalBudget)],['Recommendation / creative direction',selected.creative],['Extra notes',selected.notes||'None provided']];
- const rows=rec.map(r=>'<tr><th>'+escHtml(r[0])+'</th><td>'+escHtml(r[1])+'</td></tr>').join('');
- const schedules=groups.map((items,idx)=>{
-  const first=items[0]||{};
-  return '<section class="page"><h2>Monthly Schedule '+(idx+1)+'</h2><div class="summary"><div><small>Business</small><b>'+escHtml(first.businessName)+'</b></div><div><small>Month</small><b>'+escHtml(items.length?new Date(items[0].date+'T12:00:00').toLocaleDateString('en-GB',{month:'long',year:'numeric'}):'—')+'</b></div><div><small>Budget</small><b>TZS '+money(items.reduce((s,c)=>s+(Number(c.budget)||0),0))+'</b></div><div><small>Scheduled days</small><b>'+items.length+'</b></div></div><table><thead><tr><th>Date</th><th>Platform</th><th>Time</th><th>Detailed task / post / video idea</th><th>Budget (TZS)</th><th>Status</th></tr></thead><tbody>'+items.slice().sort((a,b)=>a.date.localeCompare(b.date)).map(c=>'<tr><td><b>'+escHtml(c.date)+'</b><br>'+escHtml(dayNames[new Date(c.date+'T12:00:00').getDay()])+'</td><td>'+escHtml(c.media)+'</td><td>'+escHtml(c.time||'18:30')+' EAT</td><td>'+escHtml(c.task||c.creative||c.offer)+'<br><small>'+escHtml(c.topic||'Daily marketing activity')+'</small></td><td>'+money(c.budget||0)+'<br>'+ (c.paid?'Paid promotion':'Organic task')+'</td><td>'+escHtml(c.status||'Planned')+'</td></tr>').join('')+'</tbody></table><p class="note">Budget is a planning allocation, not a platform quote or a guarantee of reach or results. Organic tasks have TZS 0 planned media spend.</p></section>';
- }).join('');
- const css='*{box-sizing:border-box}body{font:13px Arial,sans-serif;color:#182330;margin:0;line-height:1.5}.toolbar{background:#071522;color:white;padding:12px 4%;display:flex;justify-content:space-between;align-items:center}.toolbar button{background:#f2bf55;border:0;border-radius:7px;padding:10px 14px;font-weight:bold;cursor:pointer}.sheet{max-width:1100px;margin:24px auto;padding:32px}.brand{border-bottom:3px solid #e8b548;padding-bottom:16px;display:flex;justify-content:space-between;gap:20px}.brand h1{font-size:25px;margin:6px 0;color:#102233}.eyebrow{font-size:11px;letter-spacing:2px;font-weight:bold;color:#946414}.meta{text-align:right;color:#657487}.page{margin-top:28px}.page h2{font-size:19px;color:#102233;border-bottom:1px solid #d9e0e7;padding-bottom:8px}.details,.page table{width:100%;border-collapse:collapse}.details th,.details td,.page td,.page th{border:1px solid #d8e0e7;padding:8px;text-align:left;vertical-align:top;overflow-wrap:anywhere}.details th{background:#f4f6f8;width:28%}.page th{background:#102233;color:white;font-size:10px}.page td{font-size:10px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}.summary div{border:1px solid #d8e0e7;border-radius:7px;padding:10px}.summary small{display:block;color:#657487;text-transform:uppercase;font-size:9px}.summary b{display:block;margin-top:5px}.note{font-size:10px;background:#f6f7f8;border-left:3px solid #e8b548;padding:9px;color:#586779}.foot{margin-top:30px;border-top:1px solid #ddd;padding-top:12px;color:#657487;font-size:10px}@page{size:A4 landscape;margin:10mm}@media print{.toolbar{display:none}.sheet{max-width:none;margin:0;padding:0}.page{break-before:page}.page:first-of-type{break-before:auto}thead{display:table-header-group}tr{break-inside:avoid}.page table{table-layout:fixed}.page td,.page th{font-size:9px;padding:6px}}@media(max-width:700px){.sheet{padding:16px}.summary{grid-template-columns:repeat(2,1fr)}.brand{display:block}.meta{text-align:left}.page{overflow-x:auto}.page table{min-width:780px}}';
- const reportHtml='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NDOA Full Campaign Report</title><style>'+css+'</style></head><body><div class="toolbar"><b>NDOA · FULL CAMPAIGN REPORT</b><div><button id="makePdf" type="button">Download PDF</button> <button onclick="window.print()">Print report</button></div></div><main class="sheet"><header class="brand"><div><div class="eyebrow">NDOA · SMART ADVERTISING PLANNER</div><h1>Campaign Recommendation & Monthly Schedule</h1><p>Complete report: form details, recommendations, daily content ideas, platforms, times and budget.</p></div><div class="meta">Generated<br><b>'+escHtml(new Date().toLocaleString('en-GB'))+'</b><br>East Africa Time (EAT)</div></header><section class="page"><h2>01 · Recommendation & Form Details</h2><table class="details"><tbody>'+rows+'</tbody></table><h3>Suggested campaign direction</h3><p>'+escHtml(selected.creative||selected.task)+'</p><div class="summary"><div><small>Suggested channel</small><b>'+escHtml(selected.media)+'</b></div><div><small>Recommended time</small><b>'+escHtml(selected.time||'18:30')+' EAT</b></div><div><small>Monthly budget</small><b>TZS '+money(selected.totalBudget)+'</b></div><div><small>Scheduled days</small><b>'+groups[groups.length-1].length+'</b></div></div><p class="note">Recommendations are planning guidance, not guaranteed analytics. Actual ad costs and reach vary. The planner does not publish ads automatically.</p></section>'+schedules+'<p class="foot">NDOA Smart Advertising Planner · Keep this report for later review. Status values describe planned tasks only and do not confirm that content has been published.</p></main></main><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"><\/script><script>document.getElementById("makePdf").addEventListener("click",function(){try{if(!window.jspdf||!window.jspdf.jsPDF)throw new Error("PDF library did not load. Connect to the internet and try again.");var doc=new window.jspdf.jsPDF({orientation:"landscape",unit:"mm",format:"a4"});var margin=12;doc.setFont("helvetica","bold");doc.setFontSize(17);doc.text("NDOA Campaign Recommendation and Monthly Schedule",margin,15);doc.setFont("helvetica","normal");doc.setFontSize(8);doc.text("Generated: "+new Date().toLocaleString(),margin,21);var tables=document.querySelectorAll("table");tables.forEach(function(table,index){if(index>0)doc.addPage("a4","landscape");var head=Array.from(table.querySelectorAll("thead th")).map(function(x){return x.innerText.trim()});var body=Array.from(table.querySelectorAll("tbody tr")).map(function(tr){return Array.from(tr.querySelectorAll("th,td")).map(function(td){return td.innerText.trim()})});if(!head.length){var first=table.querySelector("tr");head=first?Array.from(first.querySelectorAll("th,td")).map(function(x){return x.innerText.trim()}):[];body=Array.from(table.querySelectorAll("tr")).slice(1).map(function(tr){return Array.from(tr.querySelectorAll("th,td")).map(function(td){return td.innerText.trim()})})}doc.autoTable({startY:index===0?27:15,head:head.length?[head]:[],body:body,theme:"grid",styles:{fontSize:7,cellPadding:2,overflow:"linebreak"},headStyles:{fillColor:[16,34,51]},margin:{left:margin,right:margin}})});doc.save("NDOA-Campaign-Report.pdf")}catch(e){alert("PDF creation failed: "+e.message+". Please use Print report as a fallback.")}});<\/script></body></html>';
- const blob=new Blob([reportHtml],{type:'text/html;charset=utf-8'});
- const url=URL.createObjectURL(blob);
- const a=document.createElement('a');a.href=url;
- a.download='NDOA-Campaign-Report-'+(selected.date||iso(new Date()))+'.html';
- a.style.display='none';document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),60000);
- $('#plannerFeedback').textContent='Full report downloaded as HTML. Open it and choose Download PDF; Print report is available as a backup.';
+ const originalText=reportButton.textContent;
+ reportButton.disabled=true;reportButton.textContent='Preparing PDF…';
+ const feedback=$('#plannerFeedback');
+ const loadScript=src=>new Promise((resolve,reject)=>{
+  const existing=Array.from(document.scripts).find(s=>s.src===src);
+  if(existing){
+   if(existing.dataset.loaded==='yes'){resolve();return}
+   existing.addEventListener('load',resolve,{once:true});
+   existing.addEventListener('error',()=>reject(new Error('Could not load PDF component.')),{once:true});
+   return;
+  }
+  const script=document.createElement('script');script.src=src;script.async=true;
+  script.onload=()=>{script.dataset.loaded='yes';resolve()};
+  script.onerror=()=>reject(new Error('Could not load the PDF library. Check your internet connection and try again.'));
+  document.head.appendChild(script);
+ });
+ try{
+  const jspdfUrl='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  const tableUrl='https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+  if(!window.jspdf||!window.jspdf.jsPDF)await loadScript(jspdfUrl);
+  if(!window.jspdf||!window.jspdf.jsPDF)throw new Error('PDF engine did not start. Please reload the page and try again.');
+  if(!window.jspdf.jsPDF.API.autoTable)await loadScript(tableUrl);
+  const plans=[...new Map(data.map(c=>[c.planId||c.id,c])).values()];
+  const selected=plans[plans.length-1];
+  const items=data.filter(c=>(c.planId||c.id)===(selected.planId||selected.id)).slice().sort((a,b)=>a.date.localeCompare(b.date));
+  if(!items.length)throw new Error('No daily schedule was found for this campaign.');
+  const doc=new window.jspdf.jsPDF({orientation:'landscape',unit:'mm',format:'a4',compress:true});
+  const margin=12;
+  doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(16,34,51);
+  doc.text('Raymond Campaign Recommendation & Schedule',margin,16);
+  doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(80,96,112);
+  doc.text('Generated: '+new Date().toLocaleString('en-GB')+' | East Africa Time (EAT)',margin,22);
+  doc.autoTable({
+   startY:27,
+   head:[['Campaign detail','Your information']],
+   body:[
+    ['Business / service',selected.businessName||'—'],
+    ['Business type',typeNames[selected.businessType]||selected.businessType||'—'],
+    ['Product / service',selected.offer||'—'],
+    ['Target customers',selected.audience||'—'],
+    ['Campaign goal',selected.goal||'—'],
+    ['Preferred channel',selected.preferredMedia||selected.media||'—'],
+    ['Schedule start',selected.date||'—'],
+    ['Monthly advertising budget','TZS '+money(selected.totalBudget)],
+    ['Creative recommendation',selected.creative||selected.task||'—'],
+    ['Extra notes',selected.notes||'None provided']
+   ],
+   theme:'grid',styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
+   headStyles:{fillColor:[16,34,51]},columnStyles:{0:{cellWidth:55},1:{cellWidth:210}},margin:{left:margin,right:margin}
+  });
+  doc.addPage('a4','landscape');
+  doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(16,34,51);
+  doc.text('Full Monthly Schedule — '+(selected.businessName||'Campaign'),margin,15);
+  doc.autoTable({
+   startY:20,
+   head:[['Date','Day','Platform','Time (EAT)','Detailed post / video task','Budget (TZS)','Status']],
+   body:items.map(c=>[
+    c.date||'—',
+    dayNames[new Date((c.date||iso(new Date()))+'T12:00:00').getDay()],
+    c.media||'—',
+    (c.time||'18:30')+' EAT',
+    c.task||c.creative||c.offer||'Daily marketing activity',
+    money(c.budget||0)+(c.paid?' (paid)':' (organic)'),
+    c.status||'Planned'
+   ]),
+   theme:'grid',styles:{fontSize:7,cellPadding:2,overflow:'linebreak',valign:'top'},
+   headStyles:{fillColor:[16,34,51]},columnStyles:{0:{cellWidth:22},1:{cellWidth:20},2:{cellWidth:36},3:{cellWidth:22},4:{cellWidth:112},5:{cellWidth:30},6:{cellWidth:25}},
+   margin:{left:margin,right:margin},rowPageBreak:'avoid'
+  });
+  const pages=doc.getNumberOfPages();
+  for(let p=1;p<=pages;p++){doc.setPage(p);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(90,100,110);doc.text('Raymond Smart Campaign Planner · Planning estimates only',margin,202);doc.text('Page '+p+' of '+pages,285,202,{align:'right'});}
+  doc.save('Raymond-Campaign-Report-'+(selected.date||iso(new Date()))+'.pdf');
+  feedback.textContent='Your complete PDF report has been generated. Check your Android Downloads folder; it includes campaign details and every scheduled day.';
+ }catch(err){
+  feedback.textContent='PDF could not be created: '+(err&&err.message?err.message:'Please check your internet connection and try again.')+' You can still use Download Schedule (Excel / CSV).';
+ }finally{
+  reportButton.disabled=false;reportButton.textContent=originalText;
+ }
 });
 const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel)calPanel.hidden=!data.length;const hint=document.createElement('p');hint.id='calendarHint';hint.className='microcopy mt-3';hint.textContent=data.length?'Your saved daily plan is shown below.':'Create a schedule to display the detailed calendar here.';$('#calendar')?.after(hint);recommendation();drawList();drawCalendar();
 })();
