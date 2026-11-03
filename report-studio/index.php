@@ -81,7 +81,7 @@
 <div class="toast-area"><div id="toast" class="toast align-items-center text-bg-dark border-0" role="alert"><div class="d-flex"><div class="toast-body" id="toastText">Ready.</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/docx/8.5.0/docx.umd.min.js"></script>
+<script src="https://unpkg.com/docx@9.15.1/dist/index.iife.js"></script>
 <script>
 $(function(){
  let step=1, photos=[], draftKey='raymondReportStudioDraftV1';
