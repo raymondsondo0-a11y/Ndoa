@@ -5,6 +5,7 @@ on:
     paths:
       - 'index.html'
       - 'scheduler.html'
+      - 'report-studio/**'
       - 'assets/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
@@ -21,6 +22,7 @@ jobs:
         run: |
           mkdir -p deploy
           cp -R index.html about.html services.html diagnostics.html advertising.html scheduler.html booking.html gallery.html pricing.html faq.html contact.html assets deploy/
+          cp -R report-studio deploy/
           printf '%s\n' 'Options -Indexes' 'DirectoryIndex index.html' > deploy/.htaccess
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
