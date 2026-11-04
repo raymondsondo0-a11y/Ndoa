@@ -16,6 +16,10 @@ A React/Vite frontend migration scaffold for the Ndoa repository. It is intentio
 - PDF text extraction with PDF.js.
 - DOCX text extraction with Mammoth.js.
 - Per-file failure handling so one bad file does not cancel the remaining uploads.
+- Deterministic reference intelligence: detects common front matter, chapter headings, practical activities, conclusions, references and appendices.
+- Editable suggested outline with section inclusion controls.
+- Downloadable JSON structure plan.
+- Basic Node test suite for the heading-analysis engine.
 - Clear notice for scanned PDFs and legacy DOC files.
 - Separate React application folder; existing PHP application remains untouched.
 
@@ -30,6 +34,7 @@ npm run dev
 Create a production build:
 ```cmd
 npm run build
+npm test
 ```
 Vite writes the deployable static site to report-studio-v2/dist/.
 
