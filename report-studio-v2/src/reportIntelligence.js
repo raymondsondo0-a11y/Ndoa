@@ -31,7 +31,7 @@ function classifyHeading(line) {
 
 function scoreHeading(line) {
   let score = 0;
-  if (isNumberedHeading(line) || /^chapter\\s+(one|two|three|four|five|six|seven|eight|nine|ten)\\b/i.test(line)) score += 3;
+  if (isNumberedHeading(line) || /^chapter\s+(one|two|three|four|five|six|seven|eight|nine|ten)\b/i.test(line)) score += 3;
   if (isKnownHeading(line)) score += 5;
   if (line.length > 110) score -= 4;
   if (/[.!?]$/.test(line)) score -= 2;
