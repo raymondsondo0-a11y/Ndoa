@@ -38,3 +38,4 @@ jobs:
           exclude: |
             **/.git*
             **/.github/**
+            **/includes/config.php
