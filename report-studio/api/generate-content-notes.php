@@ -9,8 +9,8 @@ if(!function_exists('curl_init')) out(500,['success'=>false,'message'=>'PHP cURL
 $raw=file_get_contents('php://input'); $data=json_decode($raw?:'',true);
 if(!is_array($data)) out(400,['success'=>false,'message'=>'Invalid request.']);
 $source=trim((string)($data['source']??'')); $topic=trim(substr((string)($data['topic']??''),0,220)); $course=trim(substr((string)($data['course']??''),0,180)); $level=trim(substr((string)($data['level']??''),0,100)); $voice=trim(substr((string)($data['voice']??'Clear academic English'),0,100)); $focus=trim(substr((string)($data['focus']??''),0,1200)); $seed=trim(substr((string)($data['variation']??''),0,100));
-if(mb_strlen($source,'UTF-8')<250) out(422,['success'=>false,'message'=>'Please provide at least 250 characters of original lecture notes.']);
-if(mb_strlen($source,'UTF-8')>50000) out(413,['success'=>false,'message'=>'The source notes are too long. Maximum is 50,000 characters.']);
+if(strlen($source)<250) out(422,['success'=>false,'message'=>'Please provide at least 250 characters of original lecture notes.']);
+if(strlen($source)>50000) out(413,['success'=>false,'message'=>'The source notes are too long. Maximum is 50,000 characters.']);
 $key=trim((string)getenv('OPENAI_API_KEY')); $model=trim((string)(getenv('OPENAI_MODEL')?:'gpt-4.1-mini'));
 if($key==='') out(503,['success'=>false,'message'=>'AI generation is not configured yet. The administrator must add OPENAI_API_KEY to the server environment.']);
 $ip=(string)($_SERVER['REMOTE_ADDR']??'unknown');$file=sys_get_temp_dir().'/contentnotes-'.hash('sha256',$ip).'.json';$fp=@fopen($file,'c+');
