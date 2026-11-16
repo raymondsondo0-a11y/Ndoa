@@ -70,6 +70,95 @@ textarea.form-control{min-height:84px}
  .section{padding-top:6px}
 }
 </style>
+
+<style>
+/* NDOA — Apple-inspired editorial layout: quiet, spacious, product-first */
+:root{--apple-ink:#1d1d1f;--apple-muted:#6e6e73;--apple-blue:#0071e3;--apple-line:#d2d2d7;--apple-bg:#f5f5f7}
+html,body{background:#fff!important;color:var(--apple-ink)!important;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",Arial,sans-serif!important;letter-spacing:-.012em}
+body{line-height:1.48}
+.top{display:none!important}
+header{display:block!important;position:relative!important;background:rgba(255,255,255,.86)!important;border:0!important;border-bottom:1px solid #e8e8ed!important;box-shadow:none!important;backdrop-filter:saturate(180%) blur(18px)!important}
+header .nav{min-height:48px!important;display:flex;justify-content:space-between}
+header .logo{font-size:18px!important;font-weight:700;color:#1d1d1f!important}
+header .logo span{background:#1d1d1f!important;color:white!important;border-radius:7px!important;padding:5px 8px!important}
+header .links,header .nav>.btn,header .menu{display:none!important}
+.planner-intro{width:100%!important;max-width:none!important;min-height:0!important;margin:0!important;padding:76px 20px 66px!important;border-radius:0!important;box-shadow:none!important;background:linear-gradient(180deg,#f5f5f7 0%,#fff 100%)!important;text-align:center!important;color:var(--apple-ink)!important}
+.planner-intro .wrap{max-width:980px!important}
+.planner-intro .kicker{color:var(--apple-blue)!important;font-size:13px!important;font-weight:650;letter-spacing:.01em!important;text-transform:none!important}
+.planner-intro h1{font-size:clamp(42px,7vw,76px)!important;line-height:1.02!important;letter-spacing:-.065em!important;font-weight:700!important;color:#1d1d1f!important;margin:18px auto!important}
+.planner-intro .goldtext{color:#6e6e73!important}
+.planner-intro p,.planner-intro .lead{color:#6e6e73!important;font-size:clamp(16px,2vw,20px)!important;line-height:1.45!important;max-width:720px!important;margin:18px auto 0!important}
+.suggestion-chips{display:none!important}
+.section{background:#fff!important;padding:42px 0 76px!important}
+.section>.wrap{max-width:1120px!important}
+.planner-layout{grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr)!important;gap:22px!important;align-items:start}
+.planner-panel,.panel,.recommend-box{background:#fff!important;color:var(--apple-ink)!important;border:1px solid #e5e5ea!important;border-radius:22px!important;box-shadow:0 4px 22px rgba(0,0,0,.045)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.planner-panel{padding:30px!important}
+.recommend-box{position:sticky!important;top:18px!important;padding:26px!important}
+.kicker,.recommend-box .rec-label{color:var(--apple-blue)!important;font-size:12px!important;font-weight:650!important;letter-spacing:.02em!important;text-transform:uppercase}
+.planner-panel h3,.recommend-box h3{font-size:25px!important;line-height:1.15!important;letter-spacing:-.04em!important;font-weight:700!important;color:#1d1d1f!important;margin:10px 0 8px!important}
+.muted,.microcopy,.form-text{color:var(--apple-muted)!important}
+.planner-panel>.muted{font-size:14px!important}
+.form-label{font-size:14px!important;font-weight:600!important;color:#1d1d1f!important}
+.form-control,.form-select{background:#fff!important;color:#1d1d1f!important;border:1px solid #c8c8ce!important;border-radius:12px!important;min-height:48px!important;box-shadow:none!important;font-size:15px!important}
+.form-control:focus,.form-select:focus{border-color:var(--apple-blue)!important;box-shadow:0 0 0 3px rgba(0,113,227,.14)!important}
+.form-select option{background:#fff!important;color:#1d1d1f!important}
+textarea.form-control{min-height:86px}
+.btn{border-radius:999px!important;min-height:42px;padding:10px 19px!important;font-size:14px!important;font-weight:600!important;box-shadow:none!important}
+.gold,.btn.gold{background:var(--apple-blue)!important;border:1px solid var(--apple-blue)!important;color:#fff!important}
+.outline,.btn.outline{background:#fff!important;border:1px solid #d2d2d7!important;color:#1d1d1f!important}
+.btn:hover{filter:brightness(.96)}
+.schedule-summary{background:#f5f5f7!important;color:#1d1d1f!important;border:0!important;border-radius:16px!important;box-shadow:none!important;padding:18px!important}
+.schedule-summary small{color:#6e6e73!important;letter-spacing:.04em}
+.schedule-summary strong{font-size:17px!important}
+.rec-item{border-color:#e8e8ed!important;padding:13px 0!important}
+.rec-item small{color:#6e6e73!important;font-size:10px!important;letter-spacing:.07em}
+.rec-item strong{color:#1d1d1f!important;font-size:15px!important}
+.creative-preview{border:1px solid #e5e5ea!important;border-radius:16px!important;background:#f5f5f7!important}
+.creative-preview img{height:170px!important}
+.creative-preview div{color:#6e6e73!important}
+.creative-preview b{color:#1d1d1f!important}
+.photo-upload-card{background:#f5f5f7!important;border:1px dashed #c7c7cc!important;border-radius:16px!important}
+.uploaded-photo-preview img{border-radius:12px!important}
+.saved-campaign{border-color:#e8e8ed!important}
+.saved-campaign h4,.saved-campaign p{color:#1d1d1f!important}
+.tag{background:#f5f5f7!important;border:0!important;color:#0071e3!important}
+.calendar{gap:8px!important}
+.calhead{background:transparent!important;border:0!important;color:#6e6e73!important;font-size:12px!important}
+.calcell{background:#f5f5f7!important;border:1px solid #e8e8ed!important;border-radius:13px!important;color:#1d1d1f!important;min-height:126px!important}
+.calcell.has-plan{border-color:#b7d6f7!important;box-shadow:inset 0 2px 0 #0071e3!important}
+.cal-date{background:#1d1d1f!important;color:#fff!important;border-radius:50%!important;width:27px!important;height:27px!important}
+.calendar-platform{color:#0071e3!important}
+.calendar-time{color:#287a68!important}
+.calendar-task p{color:#424245!important}
+.calendar-budget{color:#6e6e73!important}
+.report-actions{background:#f5f5f7!important;border:1px solid #e5e5ea!important;border-radius:16px!important}
+.report-actions strong{color:#1d1d1f!important}
+.notice{background:#f5f5f7!important;border:0!important;border-radius:18px!important;color:#6e6e73!important;padding:20px!important;font-size:13px!important;line-height:1.6}
+.planner-photo-strip{display:none!important}
+.foot{background:#f5f5f7!important;color:#6e6e73!important}
+.foot .footgrid{display:none!important}
+.foot .copyr{padding:22px 0!important;border-top:1px solid #e5e5ea!important}
+.wa{background:#1d1d1f!important;box-shadow:none!important;border-radius:999px!important}
+#plannerFeedback{font-size:13px!important;line-height:1.5}
+@media(max-width:900px){.planner-layout{grid-template-columns:1fr!important}.recommend-box{position:static!important}}
+@media(max-width:600px){
+ .planner-intro{padding:56px 18px 44px!important}
+ .planner-intro h1{font-size:42px!important}
+ .planner-intro p,.planner-intro .lead{font-size:16px!important}
+ .section{padding:18px 0 46px!important}
+ .planner-panel,.recommend-box{padding:20px!important;border-radius:18px!important}
+ .planner-panel h3,.recommend-box h3{font-size:22px!important}
+ .calendar{grid-template-columns:1fr!important}
+ .calcell{min-height:0!important;padding:14px!important}
+ .calhead{display:none!important}
+ .report-actions .d-flex{display:grid!important;grid-template-columns:1fr!important}
+ .report-actions button,.planner-panel .btn{width:100%!important}
+ .saved-campaign{grid-template-columns:1fr!important}
+ .uploaded-photo-preview img{width:100%!important;height:170px!important}
+}
+@media print{header,.wa{display:none!important}.planner-intro{display:none!important}.planner-panel,.recommend-box{box-shadow:none!important}}
+</style>
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
