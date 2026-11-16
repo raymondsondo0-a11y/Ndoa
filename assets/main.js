@@ -7,7 +7,7 @@ const $=s=>document.querySelector(s);
 let data=[];try{data=JSON.parse(localStorage.getItem('ndoa_campaigns')||'[]');if(!Array.isArray(data))data=[]}catch(e){data=[]}
 const today=new Date();today.setHours(0,0,0,0);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-$('#startDate').min=iso(today);$('#startDate').value=iso(today);
+$('#startDate').min=iso(today);$('#startDate').value=iso(today);\nlet selectedPhotoData='';\nconst photoInput=$('#businessPhoto'),photoPreview=$('#businessPhotoPreview'),photoThumb=$('#businessPhotoThumb'),photoName=$('#businessPhotoName');\nif(photoInput){photoInput.addEventListener('change',()=>{const file=photoInput.files&&photoInput.files[0];if(!file)return;if(!file.type.startsWith('image/')){photoInput.value='';$('#plannerFeedback').textContent='Please choose an image file.';return;}if(file.size>8*1024*1024){photoInput.value='';$('#plannerFeedback').textContent='Choose an image smaller than 8 MB.';return;}const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');const scale=Math.min(1,1400/Math.max(img.width,img.height));canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);selectedPhotoData=canvas.toDataURL('image/jpeg',0.82);photoThumb.src=selectedPhotoData;photoName.textContent=file.name+' · ready for your report';photoPreview.hidden=false;recommendation();};img.onerror=()=>{$('#plannerFeedback').textContent='This image could not be opened. Try another photo.'};img.src=reader.result;};reader.readAsDataURL(file);});}\nconst removePhoto=$('#removeBusinessPhoto');if(removePhoto)removePhoto.addEventListener('click',()=>{selectedPhotoData='';if(photoInput)photoInput.value='';if(photoPreview)photoPreview.hidden=true;recommendation();});
 let month=new Date(today.getFullYear(),today.getMonth(),1);
 const typeNames={carScanner:'Car scanner / computer diagnostics',carRepair:'Car repair / garage',carSales:'Cars for sale / car dealer',hotel:'Hotel / lodge / restaurant',fashion:'Clothes / fashion / beauty',electronics:'Electronics / phones / computers',realEstate:'Houses / rentals / real estate',education:'School / training / tuition',tourism:'Tourism / trips / transport',other:'Other business or service'};
 const mediaByType={carScanner:['Facebook','TikTok','YouTube'],carRepair:['Facebook','TikTok','YouTube'],carSales:['Facebook','TikTok','YouTube'],hotel:['Facebook','TikTok','YouTube'],fashion:['TikTok','Facebook','YouTube'],electronics:['Facebook','TikTok','YouTube'],realEstate:['Facebook','YouTube','TikTok'],education:['YouTube','Facebook','TikTok'],tourism:['TikTok','Facebook','YouTube'],other:['Facebook','TikTok','YouTube']};
@@ -88,7 +88,7 @@ function recommendation(){
    next.src=photos[index];
   },9000);
  }
- const image=$('#recImage');if(image){image.src=dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
+ const image=$('#recImage');if(image){image.src=selectedPhotoData||dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
  const caption=$('#recImageCaption');if(caption)caption.textContent='Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
 
  return {type,media,date:iso(d),time:mediaTimes[media]||'18:30',creative:creativeByType[type]};
@@ -175,7 +175,7 @@ form.addEventListener('submit',e=>{
  e.preventDefault();if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
- const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);month=new Date(f.startDate+'T12:00:00');
+ const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
  data.push(...plan);
  if(persist()){const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
@@ -187,7 +187,7 @@ if(printButton)printButton.addEventListener('click',()=>{
  const selected=plans[plans.length-1];
  const items=data.filter(c=>(c.planId||c.id)===(selected.planId||selected.id)).slice().sort((a,b)=>a.date.localeCompare(b.date));
  const escHtml=s=>String(s??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
- const photo=imageByType[selected.businessType]||imageByType.other;
+ const photo=(selected.customPhotoKey&&localStorage.getItem(selected.customPhotoKey))||imageByType[selected.businessType]||imageByType.other;
  const win=window.open('','_blank');
  if(!win){$('#plannerFeedback').textContent='Allow pop-ups for this website, then tap Print Report again.';return}
  const details=[
@@ -257,7 +257,7 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
   if(!items.length)throw new Error('No daily schedule was found for this campaign.');
   let reportBackground=null;
   try{
-   const photoUrl=imageByType[selected.businessType]||imageByType.other;
+   const photoUrl=(selected.customPhotoKey&&localStorage.getItem(selected.customPhotoKey))||imageByType[selected.businessType]||imageByType.other;
    reportBackground=await new Promise(resolve=>{
     const img=new Image();img.crossOrigin='anonymous';
     const timer=setTimeout(()=>resolve(null),7000);
