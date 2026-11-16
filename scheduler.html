@@ -29,7 +29,48 @@ header{position:relative;background:transparent;border:0;box-shadow:none;backdro
 @media(max-width:900px){.recommend-box{position:static}.planner-layout{grid-template-columns:1fr}}
 @media(max-width:600px){.wrap{width:calc(100% - 28px)}.planner-intro{width:calc(100% - 18px);min-height:390px;padding:46px 0;border-radius:27px;background-position:58% center}.planner-intro h1{font-size:42px}.planner-intro p{font-size:15px}.section{padding:10px 0 45px}.planner-panel,.recommend-box{padding:19px!important;border-radius:23px!important}.planner-panel.mt-4{margin-top:14px!important}.calendar{grid-template-columns:1fr}.calcell{min-height:0;padding:14px}.calhead{display:none}.report-actions{padding:12px}.report-actions .d-flex{display:grid!important;grid-template-columns:1fr;gap:8px!important}.report-actions button,.planner-panel .btn{width:100%}.saved-campaign{grid-template-columns:1fr}.creative-preview img{height:185px}.uploaded-photo-preview img{width:100%;height:165px}.wa{bottom:12px;right:12px}}
 @media print{body{background:#fff!important}.top,header,.planner-intro,.planner-layout,.foot,.wa,.report-actions button{display:none!important}.section{padding:0!important}.panel{box-shadow:none!important;border:0!important}}
-</style></head>
+</style>
+<style>
+/* CLEAN MODE: remove decorative noise and keep the planning workflow clear */
+.top, header, .suggestion-chips, .planner-photo-strip { display:none !important; }
+.planner-intro{
+  width:min(1120px,calc(100% - 32px)); min-height:0; margin:18px auto 14px;
+  padding:30px 0 24px; border-radius:24px;
+  background:linear-gradient(110deg,rgba(18,18,36,.82),rgba(36,31,74,.52)),url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85') center/cover;
+  box-shadow:none;
+}
+.planner-intro:after{display:none}
+.planner-intro h1{font-size:clamp(2rem,4.4vw,3.5rem);letter-spacing:-.045em;margin:8px 0 10px}
+.planner-intro p{font-size:15px;max-width:650px;margin:0;line-height:1.5}
+.planner-intro .kicker{font-size:.72rem;letter-spacing:.12em}
+.section{padding:12px 0 44px}
+.planner-layout{gap:14px!important}
+.planner-panel,.recommend-box{box-shadow:0 8px 28px rgba(40,43,75,.055)!important;border-radius:22px!important}
+.planner-panel{padding:clamp(17px,2.4vw,26px)}
+.recommend-box{padding:20px}
+.planner-panel h3,.recommend-box h3{font-size:1.22rem;margin-bottom:6px}
+.planner-panel>.muted{font-size:.88rem;margin-bottom:16px}
+.form-label{font-size:.9rem;margin-bottom:6px}
+.form-control,.form-select{min-height:45px;border-radius:12px!important}
+textarea.form-control{min-height:84px}
+.btn{padding:10px 15px;border-radius:12px}
+.creative-preview{margin:12px 0 3px}
+.creative-preview img{height:160px}
+.schedule-summary{margin:12px 0;padding:14px;border-radius:16px}
+.calendar{gap:6px}
+.calcell{min-height:112px;padding:8px;border-radius:12px}
+.report-actions{margin:12px 0;padding:10px 12px;border-radius:14px}
+.saved-campaign{padding:10px 0}
+.microcopy,.form-text{font-size:.78rem}
+@media(max-width:600px){
+ .planner-intro{width:calc(100% - 20px);padding:27px 0 22px;border-radius:20px}
+ .planner-intro h1{font-size:34px}
+ .planner-intro p{font-size:14px}
+ .planner-panel,.recommend-box{padding:16px!important;border-radius:19px!important}
+ .section{padding-top:6px}
+}
+</style>
+</head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro"><div class="wrap"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
