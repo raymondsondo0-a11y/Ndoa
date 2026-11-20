@@ -159,10 +159,35 @@ textarea.form-control{min-height:86px}
 }
 @media print{header,.wa{display:none!important}.planner-intro{display:none!important}.planner-panel,.recommend-box{box-shadow:none!important}}
 </style>
+<style>
+/* Recognisable social platform identity strip */
+.platform-showcase{padding:30px 18px 34px;background:#fff;border-top:1px solid #f0f0f2;border-bottom:1px solid #e8e8ed}
+.platform-showcase-inner{max-width:1050px;margin:0 auto;text-align:center}
+.platform-eyebrow{margin:0 0 7px;color:#0071e3;font-size:11px;font-weight:750;letter-spacing:.12em}
+.platform-showcase h2{margin:0 auto 20px;color:#1d1d1f;font-size:clamp(20px,3vw,27px);font-weight:700;letter-spacing:-.04em}
+.platform-logo-row{display:flex;justify-content:center;align-items:center;gap:clamp(12px,3vw,34px);flex-wrap:wrap}
+.platform-logo-item{display:flex;align-items:center;gap:9px;padding:9px 13px;border:1px solid #e8e8ed;border-radius:14px;background:#fff;color:#292932;font-size:14px;font-weight:650;box-shadow:0 3px 12px rgba(0,0,0,.035)}
+.platform-icon{display:grid;place-items:center;width:29px;height:29px}
+.platform-icon img{display:block;width:25px;height:25px;object-fit:contain}
+@media(max-width:520px){.platform-showcase{padding:23px 12px}.platform-logo-row{gap:8px}.platform-logo-item{padding:8px 10px;font-size:13px;gap:7px}.platform-icon{width:24px;height:24px}.platform-icon img{width:22px;height:22px}}
+</style>
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro"><div class="wrap"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
+<section class="platform-showcase" aria-label="Supported social media platforms">
+ <div class="platform-showcase-inner">
+  <p class="platform-eyebrow">ONE PLACE · YOUR SOCIAL CHANNELS</p>
+  <h2>Plan across the platforms your customers use.</h2>
+  <div class="platform-logo-row">
+   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/tiktok/111111" alt=""></span><span>TikTok</span></div>
+   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt=""></span><span>WhatsApp</span></div>
+   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt=""></span><span>Instagram</span></div>
+   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/facebook/1877F2" alt=""></span><span>Facebook</span></div>
+   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/youtube/FF0000" alt=""></span><span>YouTube</span></div>
+  </div>
+ </div>
+</section>
 <section class="section"><div class="wrap"><div class="planner-layout">
 <div class="panel planner-panel"><div class="kicker">STEP 01 · YOUR BUSINESS</div><h3>Build an advertising plan</h3><p class="muted">Change the business type any time. Recommendations update as you fill the form.</p>
 <form id="campaignForm">
