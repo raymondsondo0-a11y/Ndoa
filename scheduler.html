@@ -174,7 +174,10 @@ textarea.form-control{min-height:86px}
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
-<main><section class="planner-intro"><div class="wrap"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
+<main><section class="planner-intro" id="localBusinessHero">
+ <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=2000&q=85" alt=""></div>
+ <div class="local-scene-caption"><span>BIASHARA ZA KILA SIKU</span><strong id="localSceneLabel">Mama ntilie · anapika</strong></div>
+ <div class="wrap"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
 <section class="platform-showcase" aria-label="Supported social media platforms">
  <div class="platform-showcase-inner">
   <p class="platform-eyebrow">ONE PLACE · YOUR SOCIAL CHANNELS</p>
@@ -252,4 +255,49 @@ textarea.form-control{min-height:86px}
   if(feedback)feedback.textContent='Schedule created successfully: '+entries.length+' daily content tasks for '+name+'. Your plan has been saved in this browser. Refresh the page to see whether it remains saved.';
  });
 })();
-</script></body></html>
+</script>
+<style>
+/* Rotating Tanzanian everyday-business photography */
+#localBusinessHero{position:relative!important;isolation:isolate!important;overflow:hidden!important;background:#20242b!important;text-align:left!important;color:#fff!important;min-height:430px!important;padding:76px 20px 66px!important}
+#localBusinessHero .local-scene-backdrop{position:absolute;inset:0;z-index:-2;background:#20242b}
+#localBusinessHero .local-scene-backdrop:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,16,20,.76),rgba(12,16,20,.32) 58%,rgba(12,16,20,.12)),linear-gradient(0deg,rgba(12,16,20,.32),transparent 55%)}
+#localBusinessHero .local-scene-backdrop img{width:100%;height:100%;object-fit:cover;object-position:center 48%;display:block;opacity:1;transition:opacity .8s ease,transform 5s ease;transform:scale(1.015)}
+#localBusinessHero .local-scene-backdrop img.is-changing{opacity:.12;transform:scale(1.04)}
+#localBusinessHero .wrap{position:relative;z-index:1;max-width:1120px!important;margin-left:auto;margin-right:auto;text-align:left!important}
+#localBusinessHero .kicker{color:#fff!important;text-shadow:0 1px 8px #0008}
+#localBusinessHero h1{color:#fff!important;text-shadow:0 2px 18px #0007}
+#localBusinessHero h1 .goldtext{color:#fff!important}
+#localBusinessHero p{color:#fff!important;text-shadow:0 1px 10px #0008;margin-left:0!important}
+#localBusinessHero .local-scene-caption{position:absolute;z-index:2;right:max(22px,calc((100vw - 1120px)/2));bottom:22px;padding:10px 15px;border:1px solid #ffffff55;border-radius:14px;background:rgba(16,18,20,.48);backdrop-filter:blur(12px);color:white;display:flex;flex-direction:column;gap:2px}
+#localBusinessHero .local-scene-caption span{font-size:10px;font-weight:800;letter-spacing:.13em;opacity:.82}
+#localBusinessHero .local-scene-caption strong{font-size:14px;font-weight:700}
+@media(max-width:600px){#localBusinessHero{min-height:410px!important;padding:55px 18px 80px!important}#localBusinessHero .local-scene-backdrop img{object-position:55% center}#localBusinessHero .local-scene-caption{right:14px;bottom:12px;padding:8px 11px}#localBusinessHero .local-scene-caption strong{font-size:12px}}
+@media(prefers-reduced-motion:reduce){#localBusinessHero .local-scene-backdrop img{transition:none}}
+</style>
+<script>
+(function(){
+ const image=document.getElementById('localSceneImage');
+ const label=document.getElementById('localSceneLabel');
+ if(!image||!label)return;
+ const scenes=[
+  {name:'Mama ntilie · anapika',url:'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=2000&q=85'},
+  {name:'Bodaboda · dereva kazini',url:'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=2000&q=85'},
+  {name:'Fundi ujenzi · anajenga',url:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=2000&q=85'},
+  {name:'Mama lishe · anauza sokoni',url:'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=2000&q=85'},
+  {name:'Mkulima · mazao ya shamba',url:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=2000&q=85'}
+ ];
+ let current=0;
+ scenes.forEach((scene)=>{const preload=new Image();preload.src=scene.url;});
+ window.setInterval(()=>{
+  const next=(current+1)%scenes.length;
+  image.classList.add('is-changing');
+  window.setTimeout(()=>{
+   image.src=scenes[next].url;
+   label.textContent=scenes[next].name;
+   image.onload=()=>image.classList.remove('is-changing');
+   current=next;
+  },420);
+ },5000);
+})();
+</script>
+</body></html>
