@@ -195,6 +195,54 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 @media(max-width:600px){#localBusinessHero{min-height:340px!important;height:340px!important}#localBusinessHero+.hero-copy-section{padding:20px 14px!important}#localBusinessHero+.hero-copy-section .hero-copy-box{width:100%!important;padding:20px 17px!important}}
 </style>
 
+
+<style id="primonizer-calendar-pure-glass">
+/* Pure-glass campaign calendar: keep the calendar artwork visible underneath. */
+#calendarPanel{
+ background:rgba(255,255,255,.16)!important;
+ border:1px solid rgba(255,255,255,.48)!important;
+ border-radius:30px!important;
+ box-shadow:0 22px 65px rgba(31,38,55,.12),inset 0 1px 0 rgba(255,255,255,.7)!important;
+ -webkit-backdrop-filter:blur(28px) saturate(165%)!important;
+ backdrop-filter:blur(28px) saturate(165%)!important;
+}
+#calendarPanel h3{font-size:clamp(25px,3.5vw,38px)!important;font-weight:800!important;letter-spacing:-.045em!important;color:#17171b!important}
+#calendarPanel .kicker{font-weight:800!important;letter-spacing:.13em!important}
+#calendar{gap:10px!important;margin-top:22px!important}
+#calendar .calhead{
+ background:rgba(255,255,255,.28)!important;border:1px solid rgba(255,255,255,.48)!important;
+ color:#34343b!important;border-radius:13px!important;padding:13px 5px!important;
+ font-size:13px!important;font-weight:800!important;
+ -webkit-backdrop-filter:blur(18px)!important;backdrop-filter:blur(18px)!important;
+}
+#calendar .calcell{
+ background:linear-gradient(145deg,rgba(255,255,255,.58),rgba(255,255,255,.20))!important;
+ border:1px solid rgba(255,255,255,.72)!important;border-radius:18px!important;
+ box-shadow:0 8px 24px rgba(31,38,55,.07),inset 0 1px 0 rgba(255,255,255,.8)!important;
+ -webkit-backdrop-filter:blur(22px) saturate(155%)!important;
+ backdrop-filter:blur(22px) saturate(155%)!important;
+ color:#1d1d1f!important;min-height:160px!important;padding:13px 11px!important;
+ transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease!important;
+}
+#calendar .calcell.has-plan{border-color:rgba(255,255,255,.9)!important;box-shadow:0 10px 28px rgba(31,38,55,.09),inset 0 2px 0 rgba(255,255,255,.9)!important}
+#calendar .calcell:hover{transform:translateY(-3px);box-shadow:0 15px 32px rgba(31,38,55,.13)!important}
+#calendar .cal-date{display:inline-grid;place-items:center;min-width:31px;height:31px;padding:0 7px;border-radius:10px!important;background:rgba(255,255,255,.65)!important;color:#1d1d1f!important;font-size:14px!important;font-weight:850!important}
+#calendar .calendar-task{border-top:1px solid rgba(255,255,255,.8)!important;margin-top:10px!important;padding-top:9px!important}
+#calendar .calendar-platform{font-size:13px!important;font-weight:850!important;color:#24242a!important}
+#calendar .calendar-time{font-size:12px!important;font-weight:750!important;color:#52525b!important}
+#calendar .calendar-task p{font-size:12px!important;line-height:1.5!important;color:#34343b!important}
+#calendar .calendar-budget,#calendar .calcell small{font-size:11px!important;font-weight:750!important;color:#4b4b54!important;background:rgba(255,255,255,.42)!important;border-radius:8px!important;padding:4px 7px!important}
+#calendarHint{font-size:14px!important;font-weight:600!important;color:#4b4b54!important}
+@media(max-width:650px){
+ #calendarPanel{padding:18px!important;border-radius:23px!important}
+ #calendar{gap:8px!important}
+ #calendar .calcell{min-height:125px!important;padding:10px!important;border-radius:15px!important}
+ #calendar .calendar-task p{font-size:12px!important}
+}
+@media(max-width:420px){#calendar{grid-template-columns:1fr!important}#calendar .calcell{min-height:0!important}}
+@media(prefers-reduced-motion:reduce){#calendar .calcell{transition:none!important}}
+</style>
+
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>PRIMONIZER TANGAZA NASI BIASHARA YAKO</a><div class="language-switcher" id="languageSwitcher" role="group" aria-label="Choose language"><button type="button" class="language-choice" id="langEn" aria-pressed="true" title="Switch to English">EN</button><span aria-hidden="true"></span><button type="button" class="language-choice" id="langSw" aria-pressed="false" title="Badili kwenda Kiswahili">SW</button></div><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
