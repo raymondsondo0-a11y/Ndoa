@@ -4,9 +4,8 @@ const booking=document.querySelector('#bookingForm')||document.querySelector('#c
 if(booking)booking.addEventListener('submit',e=>{e.preventDefault();const r=document.querySelector('#result');if(r){r.hidden=false;r.textContent='Your details are filled in, but this website has no online delivery connection configured yet. Contact the business directly; your appointment is not confirmed.'}});
 const form=document.querySelector('#campaignForm'); if(!form)return;
 const $=s=>document.querySelector(s);
-let data=[];try{data=JSON.parse(localStorage.getItem('ndoa_campaigns')||'[]');if(!Array.isArray(data))data=[]}catch(e){data=[]}
- // One-time cleanup of legacy mixed campaign data from older planner versions.
- try{if(localStorage.getItem('ndoa_campaigns_schema_v2')!=='1'){data=[];localStorage.removeItem('ndoa_campaigns');localStorage.setItem('ndoa_campaigns_schema_v2','1');}}catch(e){data=[]}
+// Start every visit with an empty working plan. Old saved reports are never used as input.
+let data=[];
 let hasGeneratedPlan=false;
 const today=new Date();today.setHours(0,0,0,0);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -73,62 +72,63 @@ const weekly=[
  {day:6,media:'YouTube Shorts',time:'18:00',paid:true,topic:'Useful video / demonstration'},
  {day:0,media:'WhatsApp Status',time:'18:00',paid:false,topic:'Weekly recap and next-week prompt'}
 ];
-function dailyCreative(type,weekday,business,offer){
- const name=business||typeNames[type],service=offer||typeNames[type];
- const templates={
- carScanner:[
-  ['Facebook','Create a Facebook post explaining 3 warning signs that mean a driver should get a computer diagnosis. Use a real scanner/car photo, mention '+service+', add your location and a Call/WhatsApp action.'],
-  ['TikTok','Film a 20–35 second vertical video: show the scanner connecting to a car, the live diagnostic process and one safe, simple explanation of what a fault code means. End: “Book a car scan with '+name+'.”'],
-  ['Instagram + WhatsApp Status','Publish a simple “Did you know?” tip about why a check-engine light should be investigated. Use 3 slides: symptom, why scanning helps, how to book '+service+'.'],
-  ['Facebook','Post an FAQ: “What happens during computer diagnosis?” Show the steps (connect scanner, read codes, explain findings) and clarify that a code helps diagnosis but does not always identify a failed part by itself. Invite questions.'],
-  ['Facebook','Create a lead-generation offer for '+service+'. State what is included, service area and booking contact. Use a clear real photo; promote the post within the planned budget.'],
-  ['YouTube Shorts','Publish a 30–60 second educational video showing a car diagnostic scan: problem/symptom, scanner connection, code-reading screen with private details hidden, and the next recommended step. Add location and booking details.'],
-  ['WhatsApp Status','Share this week’s diagnostic tip or a short before/after workflow clip (with customer permission). Ask viewers to message to book; review enquiries and plan next week’s topic.']
- ],
- carRepair:[
-  ['Facebook','Post a real garage photo and explain one common symptom your garage repairs. State service area and how to request an estimate.'],
-  ['TikTok','Film a short safe workshop clip showing a repair process, tools and the customer benefit. Add captions and a booking call-to-action.'],
-  ['Instagram + WhatsApp Status','Share a maintenance tip carousel: symptom, possible causes and when to seek a mechanic.'],
-  ['Facebook','Answer a common repair FAQ and show the inspection process; avoid promising a diagnosis before inspection.'],
-  ['Facebook','Promote one specific service or inspection offer, with clear inclusions, location and contact details.'],
-  ['YouTube Shorts','Publish a short educational clip about a common vehicle symptom and how a mechanic investigates it.'],
-  ['WhatsApp Status','Recap services available and invite people to book; review messages and prepare next week’s content.']
- ],
- carSales:[
-  ['Facebook','Post a high-quality vehicle photo set with make/model, year, mileage, condition, price and contact details.'],
-  ['TikTok','Film a vertical walk-around: exterior, interior, dashboard and key features. State the model and invite serious enquiries.'],
-  ['Instagram + WhatsApp Status','Share a buying tip or feature highlight for this vehicle; include the price and enquiry method.'],
-  ['Facebook','Post answers to common buyer questions: ownership documents, inspection, condition and viewing arrangements.'],
-  ['Facebook','Promote the featured vehicle with accurate details and a viewing/inspection call-to-action.'],
-  ['YouTube Shorts','Create a concise vehicle walk-around video with key specifications and contact details.'],
-  ['WhatsApp Status','Share availability update and viewing hours; track genuine enquiries and prepare next vehicle feature.']
- ]};
- const fallback=[
-  ['Facebook','Publish a helpful post about '+service+'. Explain one customer problem, the benefit, location and a clear call-to-action.'],
-  ['TikTok','Film a 20–35 second vertical demonstration of '+service+'. Show the process/product, add captions and invite viewers to contact '+name+'.'],
-  ['Instagram + WhatsApp Status','Share 3 quick tips about '+service+' using a photo or short carousel. End with how to enquire.'],
-  ['Facebook','Answer a frequently asked customer question about '+service+'. Use a real image and invite questions in comments.'],
-  ['Facebook','Promote a specific offer for '+service+'. State what is included, who it helps, location and contact details.'],
-  ['YouTube Shorts','Publish a short tutorial, product demonstration or customer-benefit video about '+service+'. Add a title and contact details.'],
-  ['WhatsApp Status','Share a weekly recap, customer FAQ or behind-the-scenes content. Review enquiries and choose next week’s topic.']
+function dailyCreative(type,weekday,business,offer,audience,goal,notes){
+ const channel=weekly[weekday].media;
+ return buildCustomerCreative(channel,weekday,business,offer,audience,goal,notes);
+}
+function buildCustomerCreative(channel,weekday,business,offer,audience,goal,notes){
+ const product=String(offer||'').trim(),brand=String(business||'').trim(),target=String(audience||'wateja wako').trim(),details=String(notes||'').trim();
+ const objective={
+  messages:'Waombe wateja wapige simu au watume ujumbe wa WhatsApp ili kupata maelezo zaidi.',
+  visits:'Waelekeze wateja kwenye eneo la biashara na waweke wazi mahali biashara ilipo.',
+  sales:'Waelekeze wateja kuagiza au kununua bidhaa/huduma na waeleze hatua halisi ya kufanya oda.',
+  awareness:'Eleza jina la biashara na faida halisi ya bidhaa/huduma ili watu waifahamu.',
+  traffic:'Waelekeze wateja kutembelea tovuti na ukurasa husika.'
+ }[goal]||'Waelekeze wateja hatua inayofuata kwa kutumia mawasiliano uliyotoa.';
+ const extra=details?' Tumia taarifa hizi za mteja bila kubuni nyingine: '+details+'.':' Usibuni bei, punguzo, eneo, namba ya simu, ushuhuda au sifa ambazo mteja hajatoa.';
+ const dayIdeas=[
+  'Tengeneza utambulisho wa '+product+'. Onyesha bidhaa/huduma halisi, eleza inamhusu nani ('+target+') na tatizo au hitaji inalolenga.',
+  'Onyesha bidhaa/huduma ya '+product+' ikitumika au hatua halisi za kupata huduma hiyo. Tumia picha/video halisi iliyotolewa na biashara.',
+  'Tengeneza chapisho la swali na jibu kuhusu '+product+'. Tumia swali ambalo biashara inaweza kulithibitisha; usibuni majibu ya kitaalamu au madai yasiyothibitishwa.',
+  'Eleza faida moja ya '+product+' kwa '+target+'. Unganisha faida hiyo na taarifa halisi za biashara '+brand+'.',
+  'Onyesha namna mteja anavyoweza kupata au kuagiza '+product+'. Tumia bei, ofa na masharti tu kama yametolewa kwenye taarifa za ziada.',
+  'Tengeneza video fupi inayoonyesha bidhaa/huduma '+product+' na hatua ya mteja kuipata. Epuka kutumia picha za biashara nyingine.',
+  'Fanya muhtasari wa wiki kuhusu '+product+'. Jibu swali lililoulizwa na wateja kwa kutumia taarifa ulizonazo na waalike hatua inayofuata.'
  ];
- if(window.primonizerLanguage==='sw'){
-  const service=offer||swTypeNames[type]||swTypeNames.other;
-  const name=business||'biashara yako';
-  const swTasks=[
-   ['WhatsApp Status','Shiriki muhtasari wa huduma ya '+service+'. Waambie wateja jinsi ya kuwasiliana nawe kupitia WhatsApp na kagua ujumbe uliopokea.'],
-   ['Facebook','Tengeneza chapisho linaloonyesha bidhaa au huduma ya '+service+'. Eleza tatizo linalowatatiza wateja, faida ya huduma yako, eneo lako na namna ya kuwasiliana nawe.'],
-   ['TikTok','Rekodi video fupi ya sekunde 20–35 inayoonyesha '+service+' ikitumika. Ongeza maandishi mafupi kwenye video na waalike watazamaji kuwasiliana na '+name+'.'],
-   ['Instagram + WhatsApp Status','Shiriki vidokezo vitatu kuhusu '+service+' kwa kutumia picha au video fupi. Malizia kwa kueleza namna ya kupata huduma hiyo.'],
-   ['Facebook','Jibu swali ambalo wateja huuliza mara nyingi kuhusu '+service+'. Tumia picha halisi na waalike watu kuuliza maswali kwenye maoni.'],
-   ['Facebook','Tangaza ofa maalumu ya '+service+'. Eleza kinachojumuishwa, wateja wanaolengwa, eneo na mawasiliano.'],
-   ['YouTube Shorts','Chapisha video fupi ya maelekezo au maonesho ya '+service+'. Taja faida kwa mteja na weka maelezo ya mawasiliano.']
-  ];
-  const swRow=swTasks[weekday];
-  return {media:swRow[0],task:swRow[1],topic:swRow[1]};
- }
- const row=(templates[type]||fallback)[weekday===0?6:weekday-1];
- return {media:row[0],task:row[1],topic:row[1]};
+ const idea=dayIdeas[weekday]||dayIdeas[0];
+ const task=idea+extra+' '+objective;
+ const channelText={
+  'Facebook':'Chapisho la Facebook: '+task+' Tumia picha halisi na maandishi yanayosomeka.',
+  'TikTok':'Video ya TikTok ya sekunde 20–35: '+task+' Onyesha bidhaa/huduma mapema na weka captions.',
+  'Instagram':'Instagram Reel au carousel: '+task+' Tumia picha/video halisi na caption fupi.',
+  'Instagram + WhatsApp Status':'Chapisha carousel ya Instagram na toleo fupi la WhatsApp Status: '+task,
+  'WhatsApp Status':'WhatsApp Status: '+task+' Gawa ujumbe katika status fupi zinazoeleweka.',
+  'YouTube Shorts':'YouTube Short ya sekunde 30–60: '+task+' Weka kichwa kinachoeleweka na captions.',
+  'YouTube':'Video ya YouTube: '+task+' Weka kichwa kinachoeleza bidhaa/huduma na maelezo ya mawasiliano yaliyotolewa.',
+  'Google Business Profile':'Sasisha Google Business Profile: '+task+' Tumia eneo na saa za kazi tu kama zimetolewa.',
+  'Website':'Sasisha ukurasa wa tovuti kuhusu '+product+': '+task,
+  'LinkedIn':'Chapisho la LinkedIn kuhusu '+product+': '+task+' Tumia lugha ya kitaalamu na ushahidi uliotolewa.',
+  'Radio':'Andaa script fupi ya redio kuhusu '+product+': '+task+' Taja mawasiliano tu kama yametolewa.',
+  'Outdoor posters':'Tengeneza ujumbe mfupi wa bango kuhusu '+product+': '+task+' Tumia kichwa kifupi na mawasiliano yaliyothibitishwa.',
+  'Multi-platform':'Tengeneza maudhui yanayolingana na '+product+' kwa majukwaa uliyochagua. Badilisha ukubwa na muundo kulingana na kila jukwaa.'
+ };
+ const enChannel={
+  'Facebook':'Facebook post: '+task+' Use the customer’s actual photo and readable copy.',
+  'TikTok':'20–35 second TikTok video: '+task+' Show the product/service immediately and add captions.',
+  'Instagram':'Instagram Reel or carousel: '+task+' Use real business media and a concise caption.',
+  'Instagram + WhatsApp Status':'Instagram carousel plus a shorter WhatsApp Status version: '+task,
+  'WhatsApp Status':'WhatsApp Status: '+task+' Split the message into short, clear status frames.',
+  'YouTube Shorts':'30–60 second YouTube Short: '+task+' Add a clear title and captions.',
+  'YouTube':'YouTube video: '+task+' Use a title that describes the actual product/service.',
+  'Google Business Profile':'Google Business Profile update: '+task+' Use location and opening hours only if supplied.',
+  'Website':'Website page update about '+product+': '+task,
+  'LinkedIn':'LinkedIn post about '+product+': '+task+' Use verified business details only.',
+  'Radio':'Prepare a short radio script about '+product+': '+task+' Include contact details only if supplied.',
+  'Outdoor posters':'Create a concise poster message about '+product+': '+task+' Use only verified contact information.',
+  'Multi-platform':'Create platform-appropriate versions of content about '+product+' for the platforms the customer selected.'
+ };
+ const sw=window.primonizerLanguage==='sw';
+ return {media:channel,task:(sw?channelText:enChannel)[channel]||((sw?'Chapisha kuhusu ':'Publish content about ')+product+': '+task),topic:product};
 }
 function selectedChannelCreative(channel,weekday,business,offer){
  const name=business||'your business',service=offer||'your product or service';
@@ -154,9 +154,9 @@ function selectedChannelCreative(channel,weekday,business,offer){
  if(channel==='Outdoor posters')return {media:channel,task:'Prepare a poster or banner message: '+task+' Use one strong image, short headline, location and contact details.'};
  return {media:channel,task:task};
 }
-function buildMonthlyPlan(start,budget,type,business,offer,notes,goal,preferredMedia){
+function buildMonthlyPlan(start,budget,type,business,offer,notes,goal,preferredMedia,audience){
  const first=new Date(start+'T12:00:00'),last=new Date(first.getFullYear(),first.getMonth()+1,0,12),days=[],planId='plan-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
- for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],specific=preferredMedia&&preferredMedia!=='auto'?selectedChannelCreative(preferredMedia,d.getDay(),business,offer):dailyCreative(type,d.getDay(),business,offer);const item={...base,media:specific.media,task:specific.task,topic:specific.topic||specific.task};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:'',goal,notes,creative:specific.task,status:'Planned'});}
+ for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],channel=preferredMedia&&preferredMedia!=='auto'?preferredMedia:base.media,specific=buildCustomerCreative(channel,d.getDay(),business,offer,audience||'',goal,notes);const item={...base,media:specific.media,task:specific.task,topic:specific.topic||specific.task};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:arguments[8]||'',goal,notes,creative:specific.task,status:'Planned'});}
  const paid=days.filter(x=>x.paid),base=paid.length?Math.floor(budget/paid.length):0,extra=budget-base*paid.length;let n=0;
  days.forEach(x=>{x.totalBudget=budget;x.budget=x.paid?(base+(n++===0?extra:0)):0;x.planId=planId;x.id=planId+'-'+x.date;x.frequency='Daily Monday–Sunday monthly plan';});
  return days;
@@ -184,7 +184,7 @@ form.addEventListener('submit',e=>{
  e.preventDefault();if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
- const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
+ const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia,f.audience);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
  data=plan;hasGeneratedPlan=true;
  if(persist()){const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;recommendation();$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
