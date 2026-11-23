@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url><loc>https://ndoa.kesug.com/</loc></url>
-<url><loc>https://ndoa.kesug.com/report-studio/</loc></url>
-<url><loc>https://ndoa.kesug.com/report-studio/content-notes.php</loc></url>
+  <url><loc>https://ndoa.kesug.com/</loc></url>
+  <url><loc>https://ndoa.kesug.com/about.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/services.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/advertising.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/scheduler.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/diagnostics.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/booking.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/gallery.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/pricing.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/faq.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/contact.html</loc></url>
+  <url><loc>https://ndoa.kesug.com/privacy.html</loc></url>
 </urlset>
