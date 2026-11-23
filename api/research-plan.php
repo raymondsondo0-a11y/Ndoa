@@ -95,8 +95,9 @@ $tz=new DateTimeZone('Africa/Dar_es_Salaam'); $date=DateTimeImmutable::createFro
 if (!$date||($errors!==false&&($errors['warning_count']||$errors['error_count']))||$date->format('Y-m-d')!==$start) reply(422,['success'=>false,'message'=>'Choose a valid campaign start date.']);
 $last=$date->modify('last day of this month'); $dates=[];
 for($d=$date;$d<=$last;$d=$d->modify('+1 day')) $dates[]=$d->format('Y-m-d');
-$context=$type.' '.$offer.' Tanzania';
-if ($notes!=='') $context.=' '.$notes;
+$localHint='';
+if (preg_match('/\\b(Dar es Salaam|Dodoma|Mbeya|Arusha|Mwanza|Morogoro|Zanzibar|Tanga|Iringa|Kigoma|Tabora|Singida|Shinyanga|Mtwara|Lindi|Njombe|Ruvuma|Kilimanjaro)\\b/i',$notes,$m)) $localHint=$m[1];
+$context=$type.' '.$offer.' Tanzania'.($localHint!==''?' '.$localHint:'');
 $queries=[
  $context.' customers market demand competitors',
  $type.' '.$offer.' Tanzania business services prices customer reviews',
