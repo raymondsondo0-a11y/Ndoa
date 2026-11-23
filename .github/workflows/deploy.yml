@@ -35,7 +35,7 @@ jobs:
           import os, json
           key = json.dumps(os.environ["OPENAI_API_KEY"])
           with open("deploy/api/config.local.php", "w", encoding="utf-8") as f:
-              f.write("<?php\\nreturn ['OPENAI_API_KEY' => " + key + ", 'OPENAI_MODEL' => 'gpt-4.1-mini'];\\n")
+              f.write("<?php\nreturn ['OPENAI_API_KEY' => " + key + ", 'OPENAI_MODEL' => 'gpt-4.1-mini'];\n")
           PY
           else
             echo "OPENAI_API_KEY is not configured; the AI endpoint will show a setup message."
