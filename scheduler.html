@@ -328,9 +328,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <div class="panel planner-panel mt-4" id="calendarPanel" hidden><div class="d-flex justify-content-between align-items-center flex-wrap gap-3"><div><div class="kicker">STEP 03 · CALENDAR</div><h3 id="monthLabel" class="mb-0">Campaign calendar</h3></div><div class="d-flex gap-2 flex-wrap"><button class="btn outline" id="prevMonth" type="button">← Previous</button> <button class="btn outline" id="nextMonth" type="button">Next →</button></div></div><div class="report-actions" aria-label="Download and print your schedule"><strong>YOUR REPORT IS READY HERE</strong><div class="d-flex gap-2 flex-wrap"><button class="btn gold" type="button" id="downloadReportQuick">Download Full Report / PDF ↓</button><button class="btn outline" type="button" id="printReportQuick">Print Report / Save as PDF ⎙</button><button class="btn outline" type="button" id="downloadCsvQuick">Download CSV ↓</button><button class="btn outline" type="button" id="downloadXlsx">Download Excel ↓</button><button class="btn outline" type="button" id="downloadHtml">Download HTML ↓</button><button class="btn outline" type="button" id="downloadJson">Download JSON ↓</button><button class="btn outline" type="button" id="shareSchedule">Share schedule ↗</button></div></div><div id="calendar" class="calendar"></div></div>
 </div></section></main>
 <footer class="foot"><div class="wrap"><div class="footgrid"><div><a class="logo" href="index.html"><span>R</span>Raymond</a><p class="muted">Personalised advertising plans and campaign schedules for every kind of business.</p></div><div><h4>Explore</h4><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a></div><div><h4>Tools</h4><a href="scheduler.html">Raymond campaign planner</a><a href="booking.html">Appointment booking</a><a href="pricing.html">Pricing & quotes</a></div><div><h4>Help</h4><a href="faq.html">FAQs</a><a href="https://wa.me/255742653891" target="_blank" rel="noopener">Tuandikie WhatsApp</a></div></div><div class="copyr">© <span data-year></span> Raymond Auto & Digital Studio</div></div></footer><a class="wa" href="https://wa.me/255742653891" target="_blank" rel="noopener">✆ Tuandikie WhatsApp</a>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script><script src="assets/jquery-enhancements.js?v=daily-calendar-20261019"></script><script src="assets/main.js?v=ai-campaign-planner-20261123"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script><script src="assets/jquery-enhancements.js?v=daily-calendar-20261019"></script><script src="assets/main.js?v=research-planner-20261123"></script>
 <script>
-/* Never substitute a sample/template calendar when the AI script is unavailable. */
+/* Never substitute a sample/template calendar when the planner script is unavailable. */
 (function(){
  const form=document.getElementById('campaignForm');
  if(!form)return;
@@ -338,7 +338,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
   if(window.__ndoaSchedulerHandled)return;
   event.preventDefault();
   const feedback=document.getElementById('plannerFeedback');
-  if(feedback)feedback.textContent='The Research planner did not load. Refresh this page and try again; no sample schedule has been created.';
+  if(feedback)feedback.textContent='The research planner did not load. Refresh this page and try again; no sample schedule has been created.';
  });
 })();
 </script>
