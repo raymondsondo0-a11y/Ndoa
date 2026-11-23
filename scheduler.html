@@ -199,7 +199,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>PRIMONIZER TANGAZA NASI BIASHARA YAKO</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro" id="localBusinessHero" aria-label="Rotating business photographs">
- <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1800&q=85" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
+ <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
 </section>
 <div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
 <section class="platform-showcase" aria-label="Supported social media platforms">
@@ -309,16 +309,17 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
  let back=document.getElementById('localSceneImageNext');
  if(!front||!back)return;
  const scenes=[
-  'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1800&q=85', // Mama ntilie / food preparation
-  'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1800&q=85', // Bodaboda / motorcycle rider
-  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=85', // Fundi ujenzi / construction worker
-  'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=85', // Mama anayeuza sokoni / fresh produce
-  'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85', // Mkulima / shamba
-  'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1800&q=85', // Fundi / workshop craft
-  'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1800&q=85', // Fundi cherehani / tailor
-  'https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1800&q=85', // Duka / small trader
-  'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85', // Mfanyabiashara mkubwa / office business
-  'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1800&q=85' // Garage / service business
+  'https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg', // Mama lishe / street food vendors in Tanzania
+  'https://commons.wikimedia.org/wiki/Special:FilePath/Bodaboda%20drivers%20on%20daily%20commute%20to%20seek%20clients.jpg', // Bodaboda riders at work in Tanzania
+  'https://www.unesco.org/sites/default/files/styles/paragraph_medium_desktop/article/2025-01/bear-tanzania-02.jpg.webp?itok=HXdSkr6e', // Tanzanian carpentry workshop
+  'https://cashessentials.org/app/uploads/2022/06/iStock-1200487501-2.jpg', // Street market traders and produce
+  'https://cdn.allafrica.com/download/pic/main/main/csiid/00650057%3Abf4faf4fa4728348a7f2d1d842a00344%3Aarc614x376%3Aw1200.jpg', // Tanzanian farmer in a maize field
+  'https://images.ctfassets.net/v1fsq8y1pr0o/7hNt5KkCx7hd9ST48QWiJv/99bdd81f6f1102bc004a274522012e85/CC-TZ040200158-15-2202.jpg', // Welding workshop in Tanzania
+  'https://www.ametikool.ee/sites/ametikool.ee/files/2023-12/whatsapp_image_2023-12-11_at_19.19.39.jpeg', // Tailoring / sewing workshop in Tanzania
+  'https://blog.hopeinternational.org/wp-content/uploads/2023/09/Esther-Thomas-2-scaled.jpg', // Small family market stall
+  'https://www.mwananchi.co.tz/resource/image/4813394/landscape_ratio3x2/1620/1080/67c8b624e8f85258b3a3e3ac97fe13d2/ZA/bodaboda-pic.jpg', // Everyday boda-boda traffic in Dar es Salaam
+  'https://images.squarespace-cdn.com/content/v1/5e95d9b13e6b2f7f177b574b/1587743498385-EJCR3Z89ABXD28LQ1ZNC/4.%2BBoat%2Bbuilders%2C%2BZanzibar.jpg' // Traditional Tanzanian craftsman at work
+
  ];
  let current=0;
  scenes.forEach(url=>{const preload=new Image();preload.src=url;});
