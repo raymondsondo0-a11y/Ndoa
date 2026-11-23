@@ -161,6 +161,21 @@ function dailyCreative(type,weekday,business,offer){
   ['YouTube Shorts','Publish a short tutorial, product demonstration or customer-benefit video about '+service+'. Add a title and contact details.'],
   ['WhatsApp Status','Share a weekly recap, customer FAQ or behind-the-scenes content. Review enquiries and choose next week’s topic.']
  ];
+ if(window.primonizerLanguage==='sw'){
+  const service=offer||swTypeNames[type]||swTypeNames.other;
+  const name=business||'biashara yako';
+  const swTasks=[
+   ['WhatsApp Status','Shiriki muhtasari wa huduma ya '+service+'. Waambie wateja jinsi ya kuwasiliana nawe kupitia WhatsApp na kagua ujumbe uliopokea.'],
+   ['Facebook','Tengeneza chapisho linaloonyesha bidhaa au huduma ya '+service+'. Eleza tatizo linalowatatiza wateja, faida ya huduma yako, eneo lako na namna ya kuwasiliana nawe.'],
+   ['TikTok','Rekodi video fupi ya sekunde 20–35 inayoonyesha '+service+' ikitumika. Ongeza maandishi mafupi kwenye video na waalike watazamaji kuwasiliana na '+name+'.'],
+   ['Instagram + WhatsApp Status','Shiriki vidokezo vitatu kuhusu '+service+' kwa kutumia picha au video fupi. Malizia kwa kueleza namna ya kupata huduma hiyo.'],
+   ['Facebook','Jibu swali ambalo wateja huuliza mara nyingi kuhusu '+service+'. Tumia picha halisi na waalike watu kuuliza maswali kwenye maoni.'],
+   ['Facebook','Tangaza ofa maalumu ya '+service+'. Eleza kinachojumuishwa, wateja wanaolengwa, eneo na mawasiliano.'],
+   ['YouTube Shorts','Chapisha video fupi ya maelekezo au maonesho ya '+service+'. Taja faida kwa mteja na weka maelezo ya mawasiliano.']
+  ];
+  const swRow=swTasks[weekday];
+  return {media:swRow[0],task:swRow[1],topic:swRow[1]};
+ }
  const row=(templates[type]||fallback)[weekday===0?6:weekday-1];
  return {media:row[0],task:row[1],topic:row[1]};
 }
@@ -177,9 +192,9 @@ function drawList(){
 }
 function drawCalendar(){
  const cal=$('#calendar'),y=month.getFullYear(),mo=month.getMonth(),start=new Date(y,mo,1).getDay(),days=new Date(y,mo+1,0).getDate();
- $('#monthLabel').textContent=month.toLocaleDateString('en-GB',{month:'long',year:'numeric'})+' — Daily content calendar';
+ const sw=window.primonizerLanguage==='sw';$('#monthLabel').textContent=month.toLocaleDateString(sw?'sw-TZ':'en-GB',{month:'long',year:'numeric'})+' — '+(sw?'Kalenda ya maudhui ya kila siku':'Daily content calendar');
  const monthData=data.filter(c=>(c.date||'').slice(0,7)===y+'-'+String(mo+1).padStart(2,'0'));
- let h=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(x=>'<div class="calhead">'+x+'</div>').join('');
+ let h=(sw?['Jumapili','Jumatatu','Jumanne','Jumatano','Alhamisi','Ijumaa','Jumamosi']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']).map(x=>'<div class="calhead">'+x+'</div>').join('');
  for(let i=0;i<start;i++)h+='<div class="calcell cal-empty"></div>';
  for(let day=1;day<=days;day++){
   const key=y+'-'+String(mo+1).padStart(2,'0')+'-'+String(day).padStart(2,'0'),items=monthData.filter(c=>c.date===key);
