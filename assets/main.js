@@ -14,6 +14,18 @@ if(photoInput){photoInput.addEventListener('change',()=>{const file=photoInput.f
 const removePhoto=$('#removeBusinessPhoto');if(removePhoto)removePhoto.addEventListener('click',()=>{selectedPhotoData='';if(photoInput)photoInput.value='';if(photoPreview)photoPreview.hidden=true;recommendation();});
 let month=new Date(today.getFullYear(),today.getMonth(),1);
 const typeNames={carScanner:'Car scanner / computer diagnostics',carRepair:'Car repair / garage',carSales:'Cars for sale / car dealer',hotel:'Hotel / lodge / restaurant',fashion:'Clothes / fashion / beauty',electronics:'Electronics / phones / computers',realEstate:'Houses / rentals / real estate',education:'School / training / tuition',tourism:'Tourism / trips / transport',other:'Other business or service'};
+const swTypeNames={carScanner:'Kifaa cha kupima hitilafu za magari',carRepair:'Matengenezo ya magari / gereji',carSales:'Magari ya kuuza / dalali wa magari',hotel:'Hoteli / nyumba ya kulala wageni / mgahawa',fashion:'Nguo / mitindo / urembo',electronics:'Vifaa vya kielektroniki / simu / kompyuta',realEstate:'Nyumba / upangishaji / viwanja na ardhi',education:'Shule / mafunzo / masomo ya ziada',tourism:'Utalii / safari / usafiri',other:'Biashara au huduma nyingine'};
+const swCreativeByType={
+carScanner:'Rekodi video fupi halisi ya kifaa cha kupima hitilafu kikiwa kimeunganishwa kwenye gari. Eleza hitilafu kinazoweza kusaidia kuchunguza, kisha waalike madereva kuweka miadi ya uchunguzi.',
+carRepair:'Onyesha kazi halisi ya gereji au ukaguzi wa gari. Eleza faida kwa mteja na waalike watu kuomba makadirio ya gharama.',
+carSales:'Tumia picha au video safi za gari, bei, sifa muhimu na hali yake. Malizia kwa kuwaelekeza wateja jinsi ya kuuliza au kupanga kuliona.',
+hotel:'Onyesha picha au video halisi za hoteli, eneo lake, huduma au ofa maalumu. Waelekeze watazamaji jinsi ya kuweka nafasi au kuwasiliana.',
+fashion:'Tengeneza video fupi au mfululizo wa picha zinazoonyesha bidhaa, bei, saizi au rangi na namna ya kuagiza.',
+electronics:'Onyesha kifaa kikifanya kazi. Taja sifa zake, bei na namna wateja wanavyoweza kuagiza.',
+realEstate:'Onyesha picha au video za nyumba au kiwanja, eneo, bei au kodi, sifa kuu na namna ya kupanga kutembelea.',
+education:'Eleza kozi au mafunzo, ujuzi ambao mwanafunzi atapata, tarehe za kuanza na namna ya kujiandikisha.',
+tourism:'Onyesha mandhari au shughuli za safari, tarehe, huduma zinazojumuishwa na namna ya kuweka nafasi.',
+other:'Onyesha bidhaa au huduma ikitumika, eleza faida moja muhimu na toa maelekezo ya wazi ya kuwasiliana.'};
 const mediaByType={carScanner:['Facebook','TikTok','YouTube'],carRepair:['Facebook','TikTok','YouTube'],carSales:['Facebook','TikTok','YouTube'],hotel:['Facebook','TikTok','YouTube'],fashion:['TikTok','Facebook','YouTube'],electronics:['Facebook','TikTok','YouTube'],realEstate:['Facebook','YouTube','TikTok'],education:['YouTube','Facebook','TikTok'],tourism:['TikTok','Facebook','YouTube'],other:['Facebook','TikTok','YouTube']};
 const imageByType={carScanner:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1000&q=85',carRepair:'https://images.unsplash.com/photo-1632823471565-1ecdf5c6f1b4?auto=format&fit=crop&w=1000&q=85',carSales:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=85',hotel:'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85',fashion:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1000&q=85',electronics:'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85',realEstate:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85',education:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1000&q=85',tourism:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=85',other:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85'};
 const creativeByType={carScanner:'Film a short real clip of the scanner connected to a car; explain the warning/fault it can help investigate and invite drivers to book a scan.',carRepair:'Show a real repair or diagnostic check, explain the customer benefit and invite people to request a quote.',carSales:'Use clear car photos/video, price, key specifications, condition and a direct enquiry action.',hotel:'Show attractive real photos/video, location, experience or offer and a simple booking/contact action.',fashion:'Use a vertical video or carousel showing the product, price, sizes/colours and ordering method.',electronics:'Demonstrate the product working, list specifications, price and how customers can order.',realEstate:'Show property photos/video, area, price/rent, main features and a viewing/contact action.',education:'Highlight the course, outcome, intake dates and how to register.',tourism:'Show the experience, trip date, inclusions and how to reserve a place.',other:'Show the product/service in use, explain one clear benefit and include one direct call to action.'};
@@ -24,13 +36,14 @@ function recommendation(){
  const type=$('#businessType').value,preferred=$('#preferredMedia').value,media=preferred==='auto'?mediaByType[type][0]:preferred;
  const d=$('#startDate').value?new Date($('#startDate').value+'T12:00:00'):new Date();
  const offer=$('#offer').value.trim(),business=$('#businessName').value.trim(),budget=$('#budget').value;
- $('#recWhat').textContent=(business||typeNames[type])+' — '+(offer||typeNames[type]);
- $('#recMedia').textContent=preferred==='auto'?'Weekly mix: Facebook, TikTok and YouTube; organic WhatsApp/content on other days':media;
- $('#recDate').textContent=dayNames[d.getDay()]+', '+d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
- $('#recTime').textContent=(mediaTimes[media]||'18:30')+' EAT (UTC+3)';
- $('#recBudget').textContent=budget!==''?'TZS '+money(budget)+' monthly total':'Enter your monthly budget';
- $('#recCreative').textContent=creativeByType[type];
- $('#recSummary').textContent='Plan one practical task for every day Monday–Sunday. Paid promotions rotate between Facebook, TikTok and YouTube; organic tasks fill the other days. The full monthly budget you enter is divided across planned paid promotion dates.';
+ const sw=window.primonizerLanguage==='sw',typeLabel=sw?(swTypeNames[type]||swTypeNames.other):typeNames[type];
+ $('#recWhat').textContent=(business||typeLabel)+' — '+(offer||typeLabel);
+ $('#recMedia').textContent=preferred==='auto'?(sw?'Mchanganyiko wa wiki: Facebook, TikTok na YouTube; machapisho ya kawaida kupitia WhatsApp siku nyingine.':'Weekly mix: Facebook, TikTok and YouTube; organic WhatsApp/content on other days'):media;
+ $('#recDate').textContent=d.toLocaleDateString(sw?'sw-TZ':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ $('#recTime').textContent=(mediaTimes[media]||'18:30')+(sw?' EAT (UTC+3)':' EAT (UTC+3)');
+ $('#recBudget').textContent=budget!==''?'TZS '+money(budget)+(sw?' kwa mwezi':' monthly total'):(sw?'Ingiza bajeti yako ya mwezi':'Enter your monthly budget');
+ $('#recCreative').textContent=sw?(swCreativeByType[type]||swCreativeByType.other):creativeByType[type];
+ $('#recSummary').textContent=sw?'Panga jukumu moja la matangazo kwa kila siku kuanzia Jumatatu hadi Jumapili. Matangazo ya kulipia hubadilishana kati ya Facebook, TikTok na YouTube; machapisho ya kawaida yanatumika siku nyingine. Bajeti yote ya mwezi unayoingiza itagawanywa kwenye siku zilizopangwa za matangazo ya kulipia.':'Plan one practical task for every day Monday–Sunday. Paid promotions rotate between Facebook, TikTok and YouTube; organic tasks fill the other days. The full monthly budget you enter is divided across planned paid promotion dates.';
  const offerText=$('#offer').value.trim();
  const photoTerms=({carScanner:'car diagnostics mechanic workshop',carRepair:'auto repair garage mechanic',carSales:'modern car dealership',hotel:'beautiful hotel interior',fashion:'fashion clothing boutique',electronics:'electronics computer technology',realEstate:'modern house real estate',education:'students classroom learning',tourism:'Tanzania safari travel landscape',other:'small business product marketing'})[type]||'business marketing';
  const keywords=(photoTerms+' '+offerText).toLowerCase().replace(/[^a-z0-9\\s-]/g,' ').split(/\\s+/).filter(w=>w.length>2).slice(0,8).join(',');
@@ -93,11 +106,12 @@ function recommendation(){
   },9000);
  }
  const image=$('#recImage');if(image){image.src=selectedPhotoData||dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
- const caption=$('#recImageCaption');if(caption)caption.textContent='Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
+ const caption=$('#recImageCaption');if(caption)caption.textContent=window.primonizerLanguage==='sw'?'Picha imechaguliwa kulingana na '+(offerText||((swTypeNames[type])||swTypeNames.other))+'. Huduma ya picha za mtandaoni isipopatikana, tutaonyesha picha nyingine inayohusiana na biashara yako.':'Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
 
  return {type,media,date:iso(d),time:mediaTimes[media]||'18:30',creative:creativeByType[type]};
 }
 form.querySelectorAll('input,select,textarea').forEach(el=>{el.addEventListener('input',recommendation);el.addEventListener('change',recommendation)});
+document.addEventListener('primonizer:languagechange',()=>{recommendation();drawList();drawCalendar();});
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const weekly=[
  {day:1,media:'Facebook',time:'19:00',paid:true,topic:'Problem / service awareness'},
