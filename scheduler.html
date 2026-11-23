@@ -201,7 +201,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <main><section class="planner-intro" id="localBusinessHero" aria-label="Rotating business photographs">
  <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
 </section>
-<div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
+<div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="d-flex justify-content-end mb-3"><div class="btn-group" role="group" aria-label="Chagua lugha"><button type="button" class="btn btn-sm btn-light border language-choice" id="langSw" aria-pressed="false">🇹🇿 Kiswahili</button><button type="button" class="btn btn-sm btn-outline-light language-choice" id="langEn" aria-pressed="true">🇬🇧 English</button></div></div><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
 <section class="platform-showcase" aria-label="Supported social media platforms">
  <div class="platform-showcase-inner">
   <p class="platform-eyebrow">ONE PLACE · YOUR SOCIAL CHANNELS</p>
@@ -346,4 +346,179 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
  },3200);
 })();
 </script>
+
+<style>
+.language-choice{font-weight:750!important;min-height:38px!important;border-radius:9px!important;padding:7px 13px!important}
+.language-choice.active{background:#7257f5!important;color:#fff!important;border-color:#7257f5!important}
+#langSw,#langEn{font-size:13px!important}
+@media(max-width:600px){.hero-copy-box>.d-flex{justify-content:flex-start!important}}
+</style>
+<script>
+(function(){
+ const translations={
+ "NDOA / SOCIAL MEDIA STUDIO":"NDOA / STUDIO YA MITANDAO YA KIJAMII",
+ "Know what to advertise.":"Jua cha kutangaza.",
+ "Know when and where.":"Jua wakati na mahali pa kutangaza.",
+ "Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.":"Eleza biashara yako na bajeti yako ya mwezi. Mfumo utakutengenezea mpango wa matangazo wa kila siku kuanzia Jumatatu hadi Jumapili, ukipanga matangazo ya kulipia Facebook, TikTok na YouTube pamoja na machapisho ya kawaida.",
+ "ONE PLACE · YOUR SOCIAL CHANNELS":"SEHEMU MOJA · MITANDAO YAKO YA KIJAMII",
+ "Plan across the platforms your customers use.":"Panga matangazo kwenye mitandao inayotumiwa na wateja wako.",
+ "STEP 01 · YOUR BUSINESS":"HATUA YA 01 · BIASHARA YAKO",
+ "Build an advertising plan":"Tengeneza mpango wa matangazo",
+ "Change the business type any time. Recommendations update as you fill the form.":"Unaweza kubadilisha aina ya biashara wakati wowote. Mapendekezo hubadilika unapojaza fomu.",
+ "What are you advertising? *":"Unatangaza nini? *",
+ "Car scanner / computer diagnostics":"Kifaa cha kupima hitilafu za magari",
+ "Car repair / garage":"Matengenezo ya magari / gereji",
+ "Cars for sale / car dealer":"Magari ya kuuza / dalali wa magari",
+ "Hotel / lodge / restaurant":"Hoteli / nyumba ya kulala wageni / mgahawa",
+ "Clothes / fashion / beauty":"Nguo / mitindo / urembo",
+ "Electronics / phones / computers":"Vifaa vya kielektroniki / simu / kompyuta",
+ "Houses / rentals / real estate":"Nyumba / upangishaji / viwanja na ardhi",
+ "School / training / tuition":"Shule / mafunzo / tuition",
+ "Tourism / trips / transport":"Utalii / safari / usafiri",
+ "Other business or service":"Biashara au huduma nyingine",
+ "Business / service name *":"Jina la biashara / huduma *",
+ "What exactly do you want customers to buy? *":"Unataka wateja wanunue huduma au bidhaa gani hasa? *",
+ "Be specific so the suggested advert is useful.":"Eleza kwa uwazi ili pendekezo la tangazo liwe na manufaa.",
+ "Target customers":"Walengwa wa tangazo",
+ "Nearby customers":"Wateja wa karibu",
+ "Customers across Tanzania":"Wateja kutoka maeneo mbalimbali Tanzania",
+ "Young people":"Vijana",
+ "Families":"Familia",
+ "Businesses":"Biashara",
+ "Car owners and drivers":"Wamiliki wa magari na madereva",
+ "Tourists and travellers":"Watalii na wasafiri",
+ "Main goal":"Lengo kuu",
+ "Get calls / WhatsApp messages":"Kupata simu / ujumbe wa WhatsApp",
+ "Bring customers to my location":"Kuwaleta wateja eneo la biashara",
+ "Make sales / get orders":"Kuongeza mauzo / kupata oda",
+ "Make more people know my brand":"Kuitambulisha biashara yangu kwa watu wengi",
+ "Get people to my website":"Kuwaleta watu kwenye tovuti yangu",
+ "Where can you advertise?":"Unataka kutangaza wapi?",
+ "Recommend the best channel":"Nipendekezee mtandao bora",
+ "My website":"Tovuti yangu",
+ "Several platforms":"Mitandao kadhaa",
+ "Start from":"Anza tarehe",
+ "The planner will suggest a suitable day from this date.":"Mfumo utapendekeza siku zinazofaa kuanzia tarehe hii.",
+ "Advertising cost / budget (TZS) *":"Gharama / bajeti ya matangazo (TZS) *",
+ "Enter your maximum monthly ad spend. The planner divides it across paid promotion days.":"Weka kiwango cha juu cha bajeti ya matangazo kwa mwezi. Mfumo utaigawa kwenye siku za matangazo ya kulipia.",
+ "Planning period":"Kipindi cha kupanga",
+ "Full month · Monday to Sunday":"Mwezi mzima · Jumatatu hadi Jumapili",
+ "Every calendar day gets a practical task.":"Kila siku ya kalenda itakuwa na jukumu la matangazo.",
+ "Business background picture / advert photo":"Picha ya biashara / picha ya tangazo",
+ "Upload the actual product, shop, service or business photo. It will appear in your schedule report and PDF. Images are kept in this browser only.":"Pakia picha halisi ya bidhaa, duka, huduma au biashara yako. Itaonekana kwenye ripoti na PDF ya ratiba yako. Picha zitahifadhiwa kwenye kivinjari hiki pekee.",
+ "Remove photo":"Ondoa picha",
+ "Extra notes (optional)":"Maelezo ya ziada (si lazima)",
+ "Create Schedule ↗":"Tengeneza Ratiba ↗",
+ "Clear form":"Futa fomu",
+ "Smart recommendation · updates live":"Pendekezo la busara · hubadilika moja kwa moja",
+ "Your suggested campaign":"Mpango wako wa matangazo unaopendekezwa",
+ "Your ready-to-use schedule":"Ratiba yako iliyo tayari kutumika",
+ "Choose your business to generate a suggested day, time and media channel.":"Chagua aina ya biashara ili kupata siku, muda na mtandao unaopendekezwa.",
+ "WHAT TO ADVERTISE":"CHA KUTANGAZA",
+ "Your selected product or service":"Bidhaa au huduma uliyochagua",
+ "BEST-FIT MEDIA (SUGGESTION)":"MTANDAO UNAOPENDEKEZWA",
+ "RECOMMENDED DAY":"SIKU INAYOPENDEKEZWA",
+ "Choose your start date":"Chagua tarehe ya kuanza",
+ "RECOMMENDED TIME · EAST AFRICA TIME":"MUDA UNAOPENDEKEZWA · SAA ZA AFRIKA MASHARIKI",
+ "ADVERTISING COST YOU ENTERED":"BAJETI ULIYOINGIZA",
+ "CREATIVE IDEA":"WAZO LA UBUNIFU WA TANGAZO",
+ "Show the service clearly, state its benefit and give one action to take.":"Onyesha huduma vizuri, eleza faida yake na toa maelekezo ya hatua ya kuchukua.",
+ "Visual direction":"Mwonekano wa picha ya tangazo",
+ "Use a clear real photo or video of the service.":"Tumia picha au video halisi inayoonyesha huduma vizuri.",
+ "These are planning suggestions, not guaranteed audience analytics. Media prices and actual post reach vary; confirm paid ad charges with the platform or publisher.":"Haya ni mapendekezo ya kupanga matangazo, si takwimu za uhakika za hadhira. Bei na idadi ya watu watakaoona tangazo hutofautiana; hakikisha gharama za matangazo na mtandao husika.",
+ "STEP 02 · YOUR PLAN":"HATUA YA 02 · MPANGO WAKO",
+ "Saved campaigns":"Mipango iliyohifadhiwa",
+ "Saved on this browser/device. Download a complete printable report with recommendations and every scheduled day.":"Imehifadhiwa kwenye kivinjari/kifaa hiki. Pakua ripoti kamili yenye mapendekezo na ratiba ya kila siku.",
+ "Download Full Report / PDF ↓":"Pakua Ripoti Kamili / PDF ↓",
+ "Print Report / Save as PDF ⎙":"Chapisha Ripoti / Hifadhi kama PDF ⎙",
+ "Download Schedule (Excel / CSV) ↓":"Pakua Ratiba (Excel / CSV) ↓",
+ "No plans saved yet.":"Bado hakuna mipango iliyohifadhiwa.",
+ "STEP 03 · CALENDAR":"HATUA YA 03 · KALENDA",
+ "Campaign calendar":"Kalenda ya matangazo",
+ "Previous":"Iliyotangulia",
+ "Next":"Ifuatayo",
+ "YOUR REPORT IS READY HERE":"RIPOTI YAKO IPO HAPA",
+ "Weekly rhythm: Monday WhatsApp Status/content; Tuesday Facebook paid promotion; Wednesday TikTok paid promotion; Thursday answer questions and follow up; Friday Facebook paid promotion; Saturday YouTube video/promotion; Sunday organic recap and review. Paid spending is divided across the month’s Facebook/TikTok/YouTube promotion days; organic tasks are assigned TZS 0 media spend. Important: Facebook, TikTok and YouTube do not have one fixed monthly advertising price. Their minimums, auction costs, audience, duration and reach vary. This planner treats your entered TZS amount as the maximum monthly budget, not a guaranteed platform price or guaranteed result. It saves in this browser and does not auto-publish ads or send reminders while the site is closed.":"Mpangilio wa wiki: Jumatatu WhatsApp Status/maudhui; Jumanne matangazo ya kulipia Facebook; Jumatano matangazo ya kulipia TikTok; Alhamisi jibu maswali na fuatilia wateja; Ijumaa matangazo ya kulipia Facebook; Jumamosi video/matangazo ya YouTube; Jumapili tathmini ya machapisho. Bajeti ya matangazo ya kulipia hugawanywa kwenye siku zilizopangwa; machapisho ya kawaida yana TZS 0 ya gharama ya matangazo. Muhimu: Facebook, TikTok na YouTube hazina bei moja ya kudumu kwa mwezi. Gharama hutegemea zabuni, hadhira, muda na ufikiaji. Mfumo huu huhifadhi mpango kwenye kivinjari hiki na hauchapishi matangazo moja kwa moja.",
+ "Automotive diagnostic enquiries and digital advertising planning.":"Huduma za uchunguzi wa magari na upangaji wa matangazo ya kidijitali.",
+ "Explore":"Gundua",
+ "Tools":"Zana",
+ "Help":"Msaada",
+ "Home":"Mwanzo",
+ "About":"Kuhusu",
+ "Services":"Huduma",
+ "Car Diagnostics":"Uchunguzi wa Magari",
+ "Digital Ads":"Matangazo ya Kidijitali",
+ "Campaign Planner":"Mpangaji wa Matangazo",
+ "Book a Visit":"Weka Miadi",
+ "Gallery":"Picha",
+ "Pricing":"Bei",
+ "FAQ":"Maswali Yanayoulizwa Mara kwa Mara",
+ "Contact":"Wasiliana Nasi",
+ "Contact us":"Wasiliana nasi",
+ "Book a visit ↗":"Weka Miadi ↗",
+ "Raymond campaign planner":"Mpangaji wa Matangazo wa Raymond",
+ "Appointment booking":"Kuweka Miadi",
+ "Pricing & quotes":"Bei na Makadirio",
+ "FAQs":"Maswali Yanayoulizwa Mara kwa Mara",
+ "Contact us":"Wasiliana nasi",
+ "Print Report":"Chapisha Ripoti",
+ "Delete plan":"Futa mpango",
+ "Planned":"Imepangwa",
+ "Paid promotion":"Tangazo la kulipia",
+ "Organic task":"Chapisho la kawaida",
+ "Task:":"Jukumu:",
+ "Ad budget:":"Bajeti ya tangazo:",
+ "Organic:":"Chapisho la kawaida:",
+ "Daily content calendar":"Kalenda ya maudhui ya kila siku",
+ "Create a schedule to display your detailed daily marketing calendar here.":"Tengeneza ratiba ili kuona kalenda yako ya matangazo ya kila siku hapa.",
+ "This calendar shows ":"Kalenda hii inaonyesha ",
+ " daily tasks. Select any date card to read the post/video idea and its platform.":" majukumu ya kila siku. Chagua tarehe ili kuona wazo la chapisho/video na mtandao wake.",
+ "Please choose an image file.":"Tafadhali chagua faili la picha.",
+ "Choose an image smaller than 8 MB.":"Chagua picha yenye ukubwa chini ya MB 8.",
+ "This image could not be opened. Try another photo.":"Picha hii haikuweza kufunguliwa. Jaribu picha nyingine.",
+ "Please enter a valid start date and monthly budget.":"Tafadhali weka tarehe sahihi ya kuanza na bajeti ya mwezi.",
+ "Please choose a valid start date.":"Tafadhali chagua tarehe sahihi ya kuanza.",
+ "Enter a valid monthly budget in TZS.":"Weka bajeti sahihi ya mwezi kwa TZS.",
+ "Create a schedule first, then print the full report.":"Tengeneza ratiba kwanza, kisha chapisha ripoti kamili.",
+ "Allow pop-ups for this website, then tap Print Report again.":"Ruhusu madirisha ibukizi kwenye tovuti hii, kisha bonyeza Chapisha Ripoti tena.",
+ "Delete plan":"Futa mpango"
+ };
+ const reverse={};Object.keys(translations).forEach(k=>{reverse[translations[k]]=k;});
+ const ignored=new Set(['SCRIPT','STYLE','NOSCRIPT']);
+ function translate(lang){
+  document.documentElement.lang=lang==='sw'?'sw':'en';
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  nodes.forEach(node=>{
+   const p=node.parentElement;if(!p||ignored.has(p.tagName)||p.closest('#languageSwitcher'))return;
+   const raw=node.nodeValue,trim=raw.trim();if(!trim)return;
+   const dict=lang==='sw'?translations:reverse;
+   if(dict[trim])node.nodeValue=raw.replace(trim,dict[trim]);
+  });
+  document.querySelectorAll('[placeholder]').forEach(el=>{
+   const dict=lang==='sw'?translations:reverse;if(dict[el.placeholder])el.placeholder=dict[el.placeholder];
+  });
+  document.querySelectorAll('[aria-label]').forEach(el=>{
+   const dict=lang==='sw'?translations:reverse;if(dict[el.getAttribute('aria-label')])el.setAttribute('aria-label',dict[el.getAttribute('aria-label')]);
+  });
+  const sw=document.getElementById('langSw'),en=document.getElementById('langEn');
+  if(sw&&en){sw.classList.toggle('active',lang==='sw');en.classList.toggle('active',lang==='en');sw.setAttribute('aria-pressed',String(lang==='sw'));en.setAttribute('aria-pressed',String(lang==='en'));}
+  try{localStorage.setItem('primonizer_language',lang);}catch(e){}
+  window.primonizerLanguage=lang;
+ }
+ document.addEventListener('click',e=>{
+  if(e.target.closest('#langSw'))translate('sw');
+  if(e.target.closest('#langEn'))translate('en');
+ });
+ let initial='en';try{initial=localStorage.getItem('primonizer_language')||'en';}catch(e){}
+ translate(initial);
+ // Translate newly generated labels and feedback after the planner updates its content.
+ const observer=new MutationObserver(records=>{
+  const lang=window.primonizerLanguage||'en';if(lang==='en')return;
+  observer.disconnect();translate(lang);observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+ });
+ observer.observe(document.body,{childList:true,subtree:true,characterData:true});
+})();
+</script>
+
 </body></html>
