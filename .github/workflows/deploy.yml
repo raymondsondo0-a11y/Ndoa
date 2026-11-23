@@ -19,6 +19,14 @@ jobs:
     steps:
       - name: Checkout Ndoa repository
         uses: actions/checkout@v4
+      - name: Set up PHP for API validation
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Validate campaign planner PHP API
+        run: php -l api/plan-campaign.php
+      - name: Validate scheduler JavaScript
+        run: node --check assets/main.js
       - name: Prepare full website
         run: |
           mkdir -p deploy
