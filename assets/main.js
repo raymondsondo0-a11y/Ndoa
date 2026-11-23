@@ -128,9 +128,33 @@ function dailyCreative(type,weekday,business,offer){
  const row=(templates[type]||fallback)[weekday===0?6:weekday-1];
  return {media:row[0],task:row[1],topic:row[1]};
 }
-function buildMonthlyPlan(start,budget,type,business,offer,notes,goal){
+function selectedChannelCreative(channel,weekday,business,offer){
+ const name=business||'your business',service=offer||'your product or service';
+ const ideas=[
+  'Introduce '+service+' and the customer problem it solves. Show the real product or service in action and finish with a clear enquiry call-to-action.',
+  'Demonstrate how '+service+' works in a short step-by-step clip. Keep the explanation simple and show the result or customer benefit.',
+  'Answer one common customer question about '+service+'. Use clear captions, a practical example and invite viewers to ask a follow-up question.',
+  'Share three useful tips related to '+service+'. Make each tip short, specific and easy for the target customer to remember.',
+  'Show a real behind-the-scenes view of '+name+' delivering '+service+'. Use genuine photos or footage and avoid unsupported claims.',
+  'Present a specific offer for '+service+'. Explain exactly what is included, who it is for, the location and how to contact you.',
+  'Share a short weekly recap of '+service+': highlight the main benefit, answer one FAQ and invite interested customers to enquire.'
+ ];
+ const dayIndex=weekday===0?6:weekday-1,task=ideas[dayIndex];
+ if(channel==='TikTok')return {media:channel,task:'Create a vertical TikTok video (20–35 seconds): '+task+' Add readable captions and a strong opening hook.'};
+ if(channel==='YouTube'||channel==='YouTube Shorts')return {media:'YouTube Shorts',task:'Create a YouTube Short (30–60 seconds): '+task+' Use a clear title, captions and contact details.'};
+ if(channel==='Facebook')return {media:channel,task:'Create a Facebook post or short video: '+task+' Include your location and preferred contact method.'};
+ if(channel==='Instagram')return {media:channel,task:'Create an Instagram Reel or carousel: '+task+' Use a strong cover image, concise caption and enquiry call-to-action.'};
+ if(channel==='WhatsApp Status')return {media:channel,task:'Create a WhatsApp Status update: '+task+' Keep the message brief and include your contact details.'};
+ if(channel==='Google Business Profile')return {media:channel,task:'Publish a Google Business Profile update: '+task+' Add accurate business hours, location and contact details.'};
+ if(channel==='Website')return {media:channel,task:'Publish a website update or landing-page section: '+task+' Include a clear enquiry or purchase action.'};
+ if(channel==='LinkedIn')return {media:channel,task:'Publish a LinkedIn post: '+task+' Focus on professional value, proof and a clear business enquiry action.'};
+ if(channel==='Radio')return {media:channel,task:'Prepare a short radio advert script: '+task+' State the business name, location and phone number clearly.'};
+ if(channel==='Outdoor posters')return {media:channel,task:'Prepare a poster or banner message: '+task+' Use one strong image, short headline, location and contact details.'};
+ return {media:channel,task:task};
+}
+function buildMonthlyPlan(start,budget,type,business,offer,notes,goal,preferredMedia){
  const first=new Date(start+'T12:00:00'),last=new Date(first.getFullYear(),first.getMonth()+1,0,12),days=[];
- for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],specific=dailyCreative(type,d.getDay(),business,offer);const item={...base,media:specific.media,task:specific.task,topic:specific.topic};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:'',goal,notes,creative:specific.task,status:'Planned'});}
+ for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],specific=preferredMedia&&preferredMedia!=='auto'?selectedChannelCreative(preferredMedia,d.getDay(),business,offer):dailyCreative(type,d.getDay(),business,offer);const item={...base,media:specific.media,task:specific.task,topic:specific.topic||specific.task};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:'',goal,notes,creative:specific.task,status:'Planned'});}
  const paid=days.filter(x=>x.paid),base=paid.length?Math.floor(budget/paid.length):0,extra=budget-base*paid.length;let n=0;
  days.forEach(x=>{x.totalBudget=budget;x.budget=x.paid?(base+(n++===0?extra:0)):0;x.planId='plan-'+Date.now();x.id=x.planId+'-'+x.date;x.frequency='Daily Monday–Sunday monthly plan';});
  return days;
@@ -142,7 +166,7 @@ function drawList(){
 function drawCalendar(){
  const cal=$('#calendar'),y=month.getFullYear(),mo=month.getMonth(),start=new Date(y,mo,1).getDay(),days=new Date(y,mo+1,0).getDate();
  const sw=window.primonizerLanguage==='sw';$('#monthLabel').textContent=month.toLocaleDateString(sw?'sw-TZ':'en-GB',{month:'long',year:'numeric'})+' — '+(sw?'Kalenda ya maudhui ya kila siku':'Daily content calendar');
- const monthData=data.filter(c=>(c.date||'').slice(0,7)===y+'-'+String(mo+1).padStart(2,'0'));
+ const latestPlanId=data[data.length-1]?.planId;const currentPlan=latestPlanId?data.filter(c=>c.planId===latestPlanId):data;const monthData=currentPlan.filter(c=>(c.date||'').slice(0,7)===y+'-'+String(mo+1).padStart(2,'0'));
  let h=(sw?['Jumapili','Jumatatu','Jumanne','Jumatano','Alhamisi','Ijumaa','Jumamosi']:['Sun','Mon','Tue','Wed','Thu','Fri','Sat']).map(x=>'<div class="calhead">'+x+'</div>').join('');
  for(let i=0;i<start;i++)h+='<div class="calcell cal-empty"></div>';
  for(let day=1;day<=days;day++){
@@ -158,7 +182,7 @@ form.addEventListener('submit',e=>{
  e.preventDefault();if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
- const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
+ const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
  data.push(...plan);hasGeneratedPlan=true;
  if(persist()){const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;recommendation();$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
