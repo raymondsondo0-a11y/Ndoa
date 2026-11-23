@@ -321,57 +321,24 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <div class="row g-3 mt-1"><div class="col-md-6"><label class="form-label" for="budget">Advertising cost / budget (TZS) *</label><div class="price-field"><span>TZS</span><input class="form-control" type="number" min="0" step="1000" id="budget" name="budget" required placeholder="Enter your amount"></div><div class="form-text">Enter your maximum monthly ad spend. The planner divides it across paid promotion days.</div></div><div class="col-md-6"><label class="form-label" for="frequency">Planning period</label><select class="form-select" id="frequency" name="frequency"><option value="monthly">Full month · Monday to Sunday</option></select><div class="form-text">Every calendar day gets a practical task.</div></div></div>
 <div class="mb-3 photo-upload-card"><label class="form-label" for="businessPhoto">Business background picture / advert photo</label><input class="form-control" id="businessPhoto" type="file" accept="image/*"><div class="form-text">Upload the actual product, shop, service or business photo. It will appear in your schedule report and PDF. Images are kept in this browser only.</div><div class="uploaded-photo-preview" id="businessPhotoPreview" hidden><img id="businessPhotoThumb" alt="Selected business photo"><span id="businessPhotoName"></span><button type="button" class="btn btn-sm btn-outline-secondary" id="removeBusinessPhoto">Remove photo</button></div></div>
 <div class="mt-3"><label class="form-label" for="notes">Extra notes (optional)</label><textarea class="form-control" id="notes" name="notes" rows="2" placeholder="Location, phone number to display, special offer…"></textarea></div>
-<div class="d-flex gap-2 flex-wrap mt-4"><button class="btn gold" type="submit">Create Schedule ↗</button><button class="btn outline" type="button" id="resetPlanner">Clear form</button></div><p id="plannerFeedback" class="microcopy mt-3 mb-0" aria-live="polite"></p></form></div>
+<div class="d-flex gap-2 flex-wrap mt-4"><button class="btn gold" type="submit">Generate AI Schedule ↗</button><button class="btn outline" type="button" id="resetPlanner">Clear form</button></div><p class="form-text mt-3 mb-1">AI builds each day from the business, product, audience, goal, platform and budget you enter. It does not use old campaign reports or claim access to live social-media analytics.</p><p id="plannerFeedback" class="microcopy mt-3 mb-0" aria-live="polite"></p></form></div>
 <aside class="recommend-box" id="generatedRecommendation" aria-live="polite" hidden><div class="rec-label">Smart recommendation · updates live</div><h3 class="mt-2">Your suggested campaign</h3><div class="schedule-summary"><small>Your ready-to-use schedule</small><strong id="recSummary">Choose your business to generate a suggested day, time and media channel.</strong></div><div class="rec-item"><small>WHAT TO ADVERTISE</small><strong id="recWhat">Your selected product or service</strong></div><div class="rec-item"><small>BEST-FIT MEDIA (SUGGESTION)</small><strong id="recMedia">WhatsApp Status + Facebook</strong></div><div class="rec-item"><small>RECOMMENDED DAY</small><strong id="recDate">Choose your start date</strong></div><div class="rec-item"><small>RECOMMENDED TIME · EAST AFRICA TIME</small><strong id="recTime">18:30 EAT</strong></div><div class="rec-item"><small>ADVERTISING COST YOU ENTERED</small><strong id="recBudget">TZS 0</strong></div><div class="rec-item"><small>CREATIVE IDEA</small><strong id="recCreative">Show the service clearly, state its benefit and give one action to take.</strong></div><div class="creative-preview"><img id="recImage" src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1000&q=85" alt="Car computer diagnostics advertising visual"><div><b>Visual direction</b><span id="recImageCaption">Use a clear real photo or video of the service.</span></div></div><p class="microcopy mt-3 mb-0">These are planning suggestions, not guaranteed audience analytics. Media prices and actual post reach vary; confirm paid ad charges with the platform or publisher.</p></aside>
 </div>
 <div class="panel planner-panel mt-4" id="savedCampaignPanel" hidden><div class="d-flex justify-content-between align-items-center gap-3 flex-wrap"><div><div class="kicker">STEP 02 · YOUR PLAN</div><h3 class="mb-1">Saved campaigns</h3><p class="muted mb-0">Saved on this browser/device. Download a complete printable report with recommendations and every scheduled day.</p></div><div class="d-flex gap-2 flex-wrap"><button class="btn gold" type="button" id="downloadReport">Download Full Report / PDF ↓</button><button class="btn outline" type="button" id="printReport">Print Report / Save as PDF ⎙</button><button class="btn outline" type="button" id="downloadCsv">Download Schedule (Excel / CSV) ↓</button></div></div><div id="campaignList" class="mt-3"><p class="empty-state">No plans saved yet.</p></div></div>
 <div class="panel planner-panel mt-4" id="calendarPanel" hidden><div class="d-flex justify-content-between align-items-center flex-wrap gap-3"><div><div class="kicker">STEP 03 · CALENDAR</div><h3 id="monthLabel" class="mb-0">Campaign calendar</h3></div><div class="d-flex gap-2 flex-wrap"><button class="btn outline" id="prevMonth" type="button">← Previous</button> <button class="btn outline" id="nextMonth" type="button">Next →</button></div></div><div class="report-actions" aria-label="Download and print your schedule"><strong>YOUR REPORT IS READY HERE</strong><div class="d-flex gap-2 flex-wrap"><button class="btn gold" type="button" id="downloadReportQuick">Download Full Report / PDF ↓</button><button class="btn outline" type="button" id="printReportQuick">Print Report / Save as PDF ⎙</button><button class="btn outline" type="button" id="downloadCsvQuick">Download CSV ↓</button><button class="btn outline" type="button" id="downloadXlsx">Download Excel ↓</button><button class="btn outline" type="button" id="downloadHtml">Download HTML ↓</button><button class="btn outline" type="button" id="downloadJson">Download JSON ↓</button><button class="btn outline" type="button" id="shareSchedule">Share schedule ↗</button></div></div><div id="calendar" class="calendar"></div></div>
 </div></section></main>
 <footer class="foot"><div class="wrap"><div class="footgrid"><div><a class="logo" href="index.html"><span>R</span>Raymond</a><p class="muted">Personalised advertising plans and campaign schedules for every kind of business.</p></div><div><h4>Explore</h4><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a></div><div><h4>Tools</h4><a href="scheduler.html">Raymond campaign planner</a><a href="booking.html">Appointment booking</a><a href="pricing.html">Pricing & quotes</a></div><div><h4>Help</h4><a href="faq.html">FAQs</a><a href="https://wa.me/255742653891" target="_blank" rel="noopener">Tuandikie WhatsApp</a></div></div><div class="copyr">© <span data-year></span> Raymond Auto & Digital Studio</div></div></footer><a class="wa" href="https://wa.me/255742653891" target="_blank" rel="noopener">✆ Tuandikie WhatsApp</a>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script><script src="assets/jquery-enhancements.js?v=daily-calendar-20261019"></script><script src="assets/main.js?v=scheduler-fix-20261116"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script><script src="assets/jquery-enhancements.js?v=daily-calendar-20261019"></script><script src="assets/main.js?v=ai-campaign-planner-20261123"></script>
 <script>
-/* Resilient local fallback: still creates a usable schedule if the external planner script fails to load. */
+/* Never substitute a sample/template calendar when the AI script is unavailable. */
 (function(){
  const form=document.getElementById('campaignForm');
  if(!form)return;
  form.addEventListener('submit',function(event){
   if(window.__ndoaSchedulerHandled)return;
   event.preventDefault();
-  if(!form.reportValidity())return;
-  const value=id=>(document.getElementById(id)?.value||'').trim();
-  const start=value('startDate'),budget=Number(value('budget'));
   const feedback=document.getElementById('plannerFeedback');
-  if(!start||!Number.isFinite(budget)||budget<0){if(feedback)feedback.textContent='Please enter a valid start date and monthly budget.';return;}
-  const first=new Date(start+'T12:00:00');
-  if(Number.isNaN(first.getTime())){if(feedback)feedback.textContent='Please choose a valid start date.';return;}
-  const end=new Date(first.getFullYear(),first.getMonth()+1,0,12);
-  const name=value('businessName'),offer=value('offer'),type=value('businessType'),goal=value('goal'),audience=value('audience'),channel=value('preferredMedia'),notes=value('notes');
-  const entries=[];
-  const channels=['Facebook','TikTok','YouTube'];
-  const ideas=[
-   'Publish a clear product or service photo with its main benefit and contact details.',
-   'Create a short vertical video showing the product or service in action.',
-   'Share a customer question and answer it with a useful visual post.',
-   'Post a short demonstration, tip or behind-the-scenes clip.'
-  ];
-  for(let d=new Date(first),n=0;d<=end;d.setDate(d.getDate()+1),n++){
-   const date=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-   const paid=n%7===0;
-   entries.push({id:'fallback-'+Date.now()+'-'+n,planId:'fallback-'+Date.now(),date,businessName:name,offer,businessType:type,goal,audience,preferredMedia:channel,media:channel&&channel!=='auto'?channel:channels[n%3],time:'18:30',task:ideas[n%ideas.length]+' Focus: '+offer,status:'Planned',paid,budget:paid?Math.round(budget/Math.max(1,Math.ceil(entries.length/7))):0,totalBudget:budget,notes});
-  }
-  try{
-   const old=JSON.parse(localStorage.getItem('ndoa_campaigns')||'[]');
-   const safe=Array.isArray(old)?old:[];
-   localStorage.setItem('ndoa_campaigns',JSON.stringify(safe.concat(entries)));
-  }catch(err){if(feedback)feedback.textContent='Schedule created for this session, but browser storage is unavailable.';}
-  const calendar=document.getElementById('calendar');
-  if(calendar){
-   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-   calendar.innerHTML=entries.map((x,i)=>'<div class="calcell has-plan"><b class="cal-date">'+(i+1)+'</b><article class="calendar-task"><span class="calendar-platform">'+esc(x.media)+'</span><span class="calendar-time">18:30 EAT</span><p>'+esc(x.task)+'</p><small class="calendar-budget">'+(x.paid?'Paid promotion':'Organic task')+'</small></article></div>').join('');
-   const panel=calendar.closest('.planner-panel');if(panel)panel.hidden=false;
-   calendar.scrollIntoView({behavior:'smooth',block:'start'});
-  }
-  if(feedback)feedback.textContent='Schedule created successfully: '+entries.length+' daily content tasks for '+name+'. Your plan has been saved in this browser. Refresh the page to see whether it remains saved.';
+  if(feedback)feedback.textContent='The AI planner did not load. Refresh this page and try again; no sample schedule has been created.';
  });
 })();
 </script>
@@ -588,6 +555,7 @@ header .nav{position:relative;gap:14px!important}
  "Remove photo":"Ondoa picha",
  "Extra notes (optional)":"Maelezo ya ziada (si lazima)",
  "Create Schedule ↗":"Tengeneza Ratiba ↗",
+ "Generate AI Schedule ↗":"Tengeneza Ratiba kwa AI ↗",
  "Clear form":"Futa fomu",
  "Smart recommendation · updates live":"Pendekezo la busara · hubadilika moja kwa moja",
  "Your suggested campaign":"Mpango wako wa matangazo unaopendekezwa",
