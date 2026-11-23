@@ -3,6 +3,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '*.html'
       - 'index.html'
       - 'scheduler.html'
       - 'privacy.html'
