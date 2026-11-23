@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /report-studio/
 Sitemap: https://ndoa.kesug.com/sitemap.xml
