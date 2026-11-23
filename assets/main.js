@@ -37,16 +37,16 @@ const money=n=>new Intl.NumberFormat('en-TZ',{maximumFractionDigits:0}).format(N
 const mediaTimes={'Facebook':'19:00','TikTok':'19:30','YouTube':'18:00','WhatsApp Status':'07:30'};
 function recommendation(){
  if(!hasGeneratedPlan)return;
- const type=$('#businessType').value,preferred=$('#preferredMedia').value,media=preferred==='auto'?mediaByType[type][0]:preferred;
+ const type=$('#businessType').value.trim(),preferred=$('#preferredMedia').value,media=preferred==='auto'?(mediaByType[type]?.[0]||mediaByType.other[0]):preferred;
  const d=$('#startDate').value?new Date($('#startDate').value+'T12:00:00'):new Date();
  const offer=$('#offer').value.trim(),business=$('#businessName').value.trim(),budget=$('#budget').value;
- const sw=window.primonizerLanguage==='sw',typeLabel=sw?(swTypeNames[type]||swTypeNames.other):typeNames[type];
+ const sw=window.primonizerLanguage==='sw',typeLabel=type|| (sw?swTypeNames.other:typeNames.other);
  $('#recWhat').textContent=(business||typeLabel)+' — '+(offer||typeLabel);
  $('#recMedia').textContent=preferred==='auto'?(sw?'Mchanganyiko wa wiki: Facebook, TikTok na YouTube; machapisho ya kawaida kupitia WhatsApp siku nyingine.':'Weekly mix: Facebook, TikTok and YouTube; organic WhatsApp/content on other days'):media;
  $('#recDate').textContent=d.toLocaleDateString(sw?'sw-TZ':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
  $('#recTime').textContent=(mediaTimes[media]||'18:30')+(sw?' EAT (UTC+3)':' EAT (UTC+3)');
  $('#recBudget').textContent=budget!==''?'TZS '+money(budget)+(sw?' kwa mwezi':' monthly total'):(sw?'Ingiza bajeti yako ya mwezi':'Enter your monthly budget');
- $('#recCreative').textContent=sw?(swCreativeByType[type]||swCreativeByType.other):creativeByType[type];
+ $('#recCreative').textContent=(sw?(swCreativeByType[type]||swCreativeByType.other):(creativeByType[type]||creativeByType.other)).replace(/your product or service/gi,offer||type).replace(/your business/gi,business||type);
  $('#recSummary').textContent=sw?'Panga jukumu moja la matangazo kwa kila siku kuanzia Jumatatu hadi Jumapili. Matangazo ya kulipia hubadilishana kati ya Facebook, TikTok na YouTube; machapisho ya kawaida yanatumika siku nyingine. Bajeti yote ya mwezi unayoingiza itagawanywa kwenye siku zilizopangwa za matangazo ya kulipia.':'Plan one practical task for every day Monday–Sunday. Paid promotions rotate between Facebook, TikTok and YouTube; organic tasks fill the other days. The full monthly budget you enter is divided across planned paid promotion dates.';
  const offerText=$('#offer').value.trim();
  const photoTerms=({carScanner:'car diagnostics mechanic workshop',carRepair:'auto repair garage mechanic',carSales:'modern car dealership',hotel:'beautiful hotel interior',fashion:'fashion clothing boutique',electronics:'electronics computer technology',realEstate:'modern house real estate',education:'students classroom learning',tourism:'Tanzania safari travel landscape',other:'small business product marketing'})[type]||'business marketing';
@@ -183,7 +183,6 @@ form.addEventListener('submit',e=>{
  window.__ndoaSchedulerHandled=true;
  e.preventDefault();if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
- if(f.businessType==='hotel'&&/(gari|magari|car|cars|vehicle|vehicles)/i.test(f.offer)){const msg='Umechagua Hoteli / nyumba ya kulala wageni / mgahawa, lakini bidhaa uliyoandika ni gari. Chagua aina sahihi ya biashara ya magari (kuuza magari au gereji) kabla ya kutengeneza ratiba.';$('#plannerFeedback').textContent=msg;$('#businessType').focus();return;}
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
  const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
