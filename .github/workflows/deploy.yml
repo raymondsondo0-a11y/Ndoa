@@ -19,12 +19,12 @@ jobs:
     steps:
       - name: Checkout Ndoa repository
         uses: actions/checkout@v4
-      - name: Set up PHP for API validation
+      - name: Set up PHP for planner validation
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-      - name: Validate campaign planner PHP API
-        run: php -l api/plan-campaign.php
+      - name: Validate research planner PHP
+        run: php -l api/research-plan.php
       - name: Validate scheduler JavaScript
         run: node --check assets/main.js
       - name: Prepare full website
@@ -34,20 +34,6 @@ jobs:
           cp -R report-studio deploy/
           cp -R api deploy/
           printf '%s\n' 'Options -Indexes' 'DirectoryIndex index.html' > deploy/.htaccess
-      - name: Add private AI configuration when the repository secret exists
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          if [ -n "$OPENAI_API_KEY" ]; then
-            python3 - <<'PY'
-          import os, json
-          key = json.dumps(os.environ["OPENAI_API_KEY"])
-          with open("deploy/api/config.local.php", "w", encoding="utf-8") as f:
-              f.write("<?php\nreturn ['OPENAI_API_KEY' => " + key + ", 'OPENAI_MODEL' => 'gpt-4.1-mini'];\n")
-          PY
-          else
-            echo "OPENAI_API_KEY is not configured; the AI endpoint will show a setup message."
-          fi
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
