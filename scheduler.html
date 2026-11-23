@@ -946,4 +946,31 @@ textarea.form-control{min-height:112px!important;line-height:1.6!important}
 
 </style>
 
+
+<script id="primonizer-scroll-position-restore">
+/* Keep the visitor at the same page position after a manual refresh. */
+(function(){
+  const key='primonizer_scroll_'+location.pathname+location.search;
+  let saveTimer;
+  function savePosition(){
+    try{sessionStorage.setItem(key,String(window.scrollY||window.pageYOffset||0));}catch(e){}
+  }
+  window.addEventListener('scroll',function(){
+    clearTimeout(saveTimer);
+    saveTimer=setTimeout(savePosition,80);
+  },{passive:true});
+  window.addEventListener('pagehide',savePosition);
+  window.addEventListener('beforeunload',savePosition);
+  try{history.scrollRestoration='manual';}catch(e){}
+  function restorePosition(){
+    let saved=0;
+    try{saved=Number(sessionStorage.getItem(key)||0);}catch(e){}
+    if(!Number.isFinite(saved)||saved<0)return;
+    const restore=()=>window.scrollTo(0,saved);
+    requestAnimationFrame(()=>{restore();setTimeout(restore,120);setTimeout(restore,450);setTimeout(restore,1000);});
+  }
+  if(document.readyState==='complete')restorePosition();
+  else window.addEventListener('load',restorePosition,{once:true});
+})();
+</script>
 </body></html>
