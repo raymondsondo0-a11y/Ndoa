@@ -95,10 +95,10 @@ form.addEventListener('submit',async e=>{
    const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;
    recommendation();drawCalendar();
    const paidTotal=data.reduce((sum,x)=>sum+(Number(x.budget)||0),0),unused=Math.max(0,budget-paidTotal);
-   feedback.textContent=(window.primonizerLanguage==='sw'?'Ratiba imetengenezwa na AI kwa siku ':'AI generated your schedule for ')+data.length+(window.primonizerLanguage==='sw'?' siku. Bajeti iliyopangwa kwa matangazo ya kulipia: TZS ':' days. Budget allocated to paid promotion: TZS ')+money(paidTotal)+(unused>0?(window.primonizerLanguage==='sw'?'. Bajeti ambayo haijatumika: TZS ':'. Unallocated budget: TZS ')+money(unused):'')+'. '+(window.primonizerLanguage==='sw'?'Kila jukumu limetokana na taarifa ulizoweka.':'Every task is based on the details you supplied.');
+   feedback.textContent=(window.primonizerLanguage==='sw'?'Ratiba imetengenezwa kwa siku ':'Your research-based schedule is ready for ')+data.length+(window.primonizerLanguage==='sw'?' siku. Bajeti iliyopangwa kwa matangazo ya kulipia: TZS ':' days. Budget allocated to paid promotion: TZS ')+money(paidTotal)+(unused>0?(window.primonizerLanguage==='sw'?'. Bajeti ambayo haijatumika: TZS ':'. Unallocated budget: TZS ')+money(unused):'')+'. '+(window.primonizerLanguage==='sw'?'Kila jukumu limetokana na taarifa ulizoweka.':'Every task is based on the details you supplied.');
   }else{feedback.textContent='Schedule created, but this browser could not save it. Export it before leaving this page.';}
  }catch(error){
-  feedback.textContent=(window.primonizerLanguage==='sw'?'AI haikuweza kutengeneza ratiba: ':'AI could not create the schedule: ')+(error.message||'Unknown error')+' '+(window.primonizerLanguage==='sw'?'Tafadhali jaribu tena baadaye.':'Please try again later.');
+  feedback.textContent=(window.primonizerLanguage==='sw'?'Mfumo haukuweza kutengeneza ratiba: ':'The planner could not create the schedule: ')+(error.message||'Unknown error')+' '+(window.primonizerLanguage==='sw'?'Tafadhali jaribu tena baadaye.':'Please try again later.');
  }finally{
   if(submitButton){submitButton.disabled=false;submitButton.textContent=originalLabel;}
  }
