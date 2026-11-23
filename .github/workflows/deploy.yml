@@ -16,6 +16,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: primonizer-infinityfree-deploy
+  cancel-in-progress: true
 jobs:
   deploy:
     name: Publish all NDOA pages to InfinityFree
