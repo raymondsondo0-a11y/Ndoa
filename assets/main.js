@@ -208,7 +208,7 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
   }
   const margin=12;
   doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(16,34,51);
-  doc.text('Raymond Campaign Recommendation & Schedule',margin,16);
+  doc.text('PRIMONIZER Campaign Research & Schedule',margin,16);
   doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(80,96,112);
   doc.text('Generated: '+new Date().toLocaleString('en-GB')+' | East Africa Time (EAT)',margin,22);
   doc.autoTable({
@@ -223,12 +223,19 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
     ['Preferred channel',selected.preferredMedia||selected.media||'—'],
     ['Schedule start',selected.date||'—'],
     ['Monthly advertising budget','TZS '+money(selected.totalBudget)],
+    ['Strategy summary',selected.strategy||'—'],
     ['Creative recommendation',selected.creative||selected.task||'—'],
     ['Extra notes',selected.notes||'None provided']
    ],
    theme:'grid',styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
    headStyles:{fillColor:[16,34,51]},columnStyles:{0:{cellWidth:55},1:{cellWidth:210}},margin:{left:margin,right:margin}
   });
+  const research=selected.research||{};
+  if((research.sources||[]).length){
+   doc.autoTable({startY:doc.lastAutoTable.finalY+8,head:[['Online research source','Search result summary']],body:research.sources.map(s=>[s.title+'\\n'+s.url,s.snippet||'No description returned']),theme:'grid',styles:{fontSize:7,cellPadding:2,overflow:'linebreak'},headStyles:{fillColor:[55,75,95]},columnStyles:{0:{cellWidth:95},1:{cellWidth:170}},margin:{left:margin,right:margin}});
+  } else {
+   doc.setFont('helvetica','normal');doc.setFontSize(8);doc.text('Online research results were unavailable for this request. This plan uses customer inputs and planning rules.',margin,doc.lastAutoTable.finalY+8);
+  }
   doc.addPage('a4','landscape');
   doc.setFont('helvetica','bold');doc.setFontSize(15);doc.setTextColor(16,34,51);
   doc.text('Full Monthly Schedule — '+(selected.businessName||'Campaign'),margin,15);
