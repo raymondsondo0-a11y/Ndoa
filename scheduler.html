@@ -173,16 +173,20 @@ textarea.form-control{min-height:86px}
 </style>
 
 <style>
-/* HERO: keep the rotating photo in its own row, with the black copy box below it. */
+/* HERO: the five rotating business photos are the ONLY hero background. */
 html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}
 html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
-#localBusinessHero{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:18px!important;min-height:0!important;height:auto!important;padding:26px 18px 30px!important;background:#fff!important;overflow:visible!important}
-#localBusinessHero .local-scene-backdrop{position:relative!important;inset:auto!important;z-index:0!important;display:block!important;width:min(1120px,100%)!important;height:clamp(190px,30vw,330px)!important;margin:0 auto!important;overflow:hidden!important}
-#localBusinessHero .local-scene-backdrop img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+#localBusinessHero{position:relative!important;display:flex!important;align-items:center!important;min-height:470px!important;height:auto!important;padding:60px 22px!important;margin:0!important;overflow:hidden!important;background:transparent!important;box-shadow:none!important;border:0!important;border-radius:0!important}
+#localBusinessHero:before,#localBusinessHero:after{content:none!important;display:none!important;background:none!important}
+#localBusinessHero .local-scene-backdrop{position:absolute!important;inset:0!important;z-index:0!important;display:block!important;width:100%!important;height:100%!important;margin:0!important;overflow:hidden!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
+#localBusinessHero .local-scene-backdrop:before,#localBusinessHero .local-scene-backdrop:after{content:none!important;display:none!important}
+#localBusinessHero .local-scene-backdrop img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;opacity:1!important;transition:opacity .8s ease!important}
+#localBusinessHero .local-scene-backdrop img.is-changing{opacity:0!important}
 #localBusinessHero>.wrap{position:relative!important;z-index:1!important;width:min(1120px,100%)!important;max-width:1120px!important;margin:0 auto!important;padding:0!important}
-#localBusinessHero .hero-copy-box{width:100%!important;max-width:none!important;margin:0!important;background:#000!important;color:#fff!important;border-radius:12px!important}
+#localBusinessHero .hero-copy-box{display:block!important;width:fit-content!important;max-width:min(850px,100%)!important;margin:0!important;padding:26px 30px!important;background:#000!important;color:#fff!important;border:0!important;border-radius:12px!important;box-shadow:none!important}
 #localBusinessHero .hero-copy-box *{color:#fff!important}
-@media(max-width:600px){#localBusinessHero{padding:16px 12px 24px!important;gap:12px!important}#localBusinessHero .local-scene-backdrop{height:210px!important}#localBusinessHero .hero-copy-box{padding:20px 17px!important}}
+#localBusinessHero .suggestion-chips{display:none!important}
+@media(max-width:600px){#localBusinessHero{min-height:440px!important;padding:36px 14px!important}#localBusinessHero .hero-copy-box{width:100%!important;padding:20px 17px!important}}
 </style>
 
 </head>
