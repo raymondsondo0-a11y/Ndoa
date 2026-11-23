@@ -46,7 +46,7 @@ jobs:
             Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
             Header always set Strict-Transport-Security "max-age=31536000"
           </IfModule>
-          <FilesMatch "(^\\.|\\.(env|ini|log|sql|bak|dist|example)$)">
+          <FilesMatch "(^\.|\.(env|ini|log|sql|bak|dist|example)$)">
             Require all denied
           </FilesMatch>
           HTACCESS
