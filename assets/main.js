@@ -16,24 +16,9 @@ if(photoInput){photoInput.addEventListener('change',()=>{const file=photoInput.f
 const removePhoto=$('#removeBusinessPhoto');if(removePhoto)removePhoto.addEventListener('click',()=>{selectedPhotoData='';if(photoInput)photoInput.value='';if(photoPreview)photoPreview.hidden=true;recommendation();});
 let month=new Date(today.getFullYear(),today.getMonth(),1);
 const typeNames={carScanner:'Car scanner / computer diagnostics',carRepair:'Car repair / garage',carSales:'Cars for sale / car dealer',hotel:'Hotel / lodge / restaurant',fashion:'Clothes / fashion / beauty',electronics:'Electronics / phones / computers',realEstate:'Houses / rentals / real estate',education:'School / training / tuition',tourism:'Tourism / trips / transport',other:'Other business or service'};
-const swTypeNames={carScanner:'Kifaa cha kupima hitilafu za magari',carRepair:'Matengenezo ya magari / gereji',carSales:'Magari ya kuuza / dalali wa magari',hotel:'Hoteli / nyumba ya kulala wageni / mgahawa',fashion:'Nguo / mitindo / urembo',electronics:'Vifaa vya kielektroniki / simu / kompyuta',realEstate:'Nyumba / upangishaji / viwanja na ardhi',education:'Shule / mafunzo / masomo ya ziada',tourism:'Utalii / safari / usafiri',other:'Biashara au huduma nyingine'};
-const swCreativeByType={
-carScanner:'Rekodi video fupi halisi ya kifaa cha kupima hitilafu kikiwa kimeunganishwa kwenye gari. Eleza hitilafu kinazoweza kusaidia kuchunguza, kisha waalike madereva kuweka miadi ya uchunguzi.',
-carRepair:'Onyesha kazi halisi ya gereji au ukaguzi wa gari. Eleza faida kwa mteja na waalike watu kuomba makadirio ya gharama.',
-carSales:'Tumia picha au video safi za gari, bei, sifa muhimu na hali yake. Malizia kwa kuwaelekeza wateja jinsi ya kuuliza au kupanga kuliona.',
-hotel:'Onyesha picha au video halisi za hoteli, eneo lake, huduma au ofa maalumu. Waelekeze watazamaji jinsi ya kuweka nafasi au kuwasiliana.',
-fashion:'Tengeneza video fupi au mfululizo wa picha zinazoonyesha bidhaa, bei, saizi au rangi na namna ya kuagiza.',
-electronics:'Onyesha kifaa kikifanya kazi. Taja sifa zake, bei na namna wateja wanavyoweza kuagiza.',
-realEstate:'Onyesha picha au video za nyumba au kiwanja, eneo, bei au kodi, sifa kuu na namna ya kupanga kutembelea.',
-education:'Eleza kozi au mafunzo, ujuzi ambao mwanafunzi atapata, tarehe za kuanza na namna ya kujiandikisha.',
-tourism:'Onyesha mandhari au shughuli za safari, tarehe, huduma zinazojumuishwa na namna ya kuweka nafasi.',
-other:'Onyesha bidhaa au huduma ikitumika, eleza faida moja muhimu na toa maelekezo ya wazi ya kuwasiliana.'};
-const mediaByType={carScanner:['Facebook','TikTok','YouTube'],carRepair:['Facebook','TikTok','YouTube'],carSales:['Facebook','TikTok','YouTube'],hotel:['Facebook','TikTok','YouTube'],fashion:['TikTok','Facebook','YouTube'],electronics:['Facebook','TikTok','YouTube'],realEstate:['Facebook','YouTube','TikTok'],education:['YouTube','Facebook','TikTok'],tourism:['TikTok','Facebook','YouTube'],other:['Facebook','TikTok','YouTube']};
 const imageByType={carScanner:'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1000&q=85',carRepair:'https://images.unsplash.com/photo-1632823471565-1ecdf5c6f1b4?auto=format&fit=crop&w=1000&q=85',carSales:'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1000&q=85',hotel:'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85',fashion:'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1000&q=85',electronics:'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=85',realEstate:'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=85',education:'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1000&q=85',tourism:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=85',other:'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=85'};
-const creativeByType={carScanner:'Film a short real clip of the scanner connected to a car; explain the warning/fault it can help investigate and invite drivers to book a scan.',carRepair:'Show a real repair or diagnostic check, explain the customer benefit and invite people to request a quote.',carSales:'Use clear car photos/video, price, key specifications, condition and a direct enquiry action.',hotel:'Show attractive real photos/video, location, experience or offer and a simple booking/contact action.',fashion:'Use a vertical video or carousel showing the product, price, sizes/colours and ordering method.',electronics:'Demonstrate the product working, list specifications, price and how customers can order.',realEstate:'Show property photos/video, area, price/rent, main features and a viewing/contact action.',education:'Highlight the course, outcome, intake dates and how to register.',tourism:'Show the experience, trip date, inclusions and how to reserve a place.',other:'Show the product/service in use, explain one clear benefit and include one direct call to action.'};
 const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 const money=n=>new Intl.NumberFormat('en-TZ',{maximumFractionDigits:0}).format(Number(n)||0);
-const mediaTimes={'Facebook':'19:00','TikTok':'19:30','YouTube':'18:00','WhatsApp Status':'07:30'};
 function recommendation(){
  if(!hasGeneratedPlan||!data.length)return;
  const first=data[0],channels=[...new Set(data.map(x=>x.media).filter(Boolean))];
@@ -55,15 +40,6 @@ form.querySelectorAll('input,select,textarea').forEach(el=>{
 });
 document.addEventListener('primonizer:languagechange',()=>{recommendation();drawList();drawCalendar();});
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const weekly=[
- {day:1,media:'Facebook',time:'19:00',paid:true,topic:'Problem / service awareness'},
- {day:2,media:'TikTok',time:'19:30',paid:true,topic:'Short demonstration video'},
- {day:3,media:'Instagram + WhatsApp Status',time:'12:30',paid:false,topic:'Tips / educational post'},
- {day:4,media:'Facebook',time:'19:00',paid:false,topic:'FAQ and customer trust'},
- {day:5,media:'Facebook',time:'19:00',paid:true,topic:'Offer / lead generation'},
- {day:6,media:'YouTube Shorts',time:'18:00',paid:true,topic:'Useful video / demonstration'},
- {day:0,media:'WhatsApp Status',time:'18:00',paid:false,topic:'Weekly recap and next-week prompt'}
-];
 function drawList(){
  const list=$('#campaignList');
  list.innerHTML=data.length?data.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(c=>'<article class="saved-campaign"><div><h4>'+esc(c.businessName||c.name||'Untitled campaign')+' · '+esc(c.date||'')+'</h4><p><strong>Task:</strong> '+esc(c.task||c.offer||c.name||'Promote product/service')+'</p><p>📣 '+esc(c.media||c.platform||'Media not selected')+' · ⏰ '+esc(c.time||'18:30')+' EAT</p><p>💰 '+(c.paid?'Paid promotion budget: TZS '+money(c.budget):'Organic task: TZS 0 planned')+'</p><p>'+esc(c.creative||c.notes||'')+'</p><span class="tag">'+esc(c.status||'Planned')+'</span></div><div><button class="btn-danger-soft" type="button" data-delete="'+esc(c.id)+'">Delete plan</button></div></article>').join(''):'<p class="empty-state">No plans saved yet. Fill the form and save a monthly plan.</p>';
@@ -289,7 +265,7 @@ function latestCampaign(){
 }
 function reportHtml(items){
  const c=items[0]||{},safe=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
- const rows=items.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(dayNames[new Date(x.date+'T12:00:00').getDay()])+'</td><td>'+safe(x.media)+'</td><td>'+safe(x.time)+' EAT</td><td>'+safe(x.task)+'</td><td>'+safe(x.paid?'Paid':'Organic')+'</td><td>'+money(x.budget||0)+'</td></tr>').join('');
+ const rows=items.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(dayNames[new Date(x.date+'T12:00:00').getDay()])+'</td><td>'+safe(x.media)+'</td><td>'+safe(x.time)+' EAT</td><td>'+safe(x.task)+'<br><strong>Caption:</strong> '+safe(x.caption||'')+'</td><td>'+safe(x.paid?'Paid':'Organic')+'</td><td>'+money(x.budget||0)+'</td></tr>').join('');
  return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(c.businessName)+' campaign schedule</title><style>body{font:16px Arial,sans-serif;margin:28px;color:#20242b}h1{font-size:28px}p{line-height:1.5}.meta{background:#f1f2f4;padding:16px;border-radius:12px}table{width:100%;border-collapse:collapse;margin-top:22px}th,td{border:1px solid #d6d8dc;padding:9px;text-align:left;vertical-align:top}th{background:#eceef1}@media print{body{margin:12mm}tr{break-inside:avoid}}</style><h1>'+safe(c.businessName||'Campaign')+' — Advertising schedule</h1><div class="meta"><p><b>Product/service:</b> '+safe(c.offer)+'</p><p><b>Monthly budget:</b> TZS '+money(c.totalBudget)+'</p><p><b>Campaign goal:</b> '+safe(c.goal)+'</p><p><b>Audience:</b> '+safe(c.audience)+'</p><p><b>Generated:</b> '+new Date().toLocaleString()+'</p></div><table><thead><tr><th>Date</th><th>Day</th><th>Platform</th><th>Time</th><th>Task</th><th>Type</th><th>Budget (TZS)</th></tr></thead><tbody>'+rows+'</tbody></table><p>Shared campaign document. No Primonizer account is required to open this file.</p></html>';
 }
 function downloadBlob(blob,name){
@@ -300,7 +276,7 @@ if(xlsxButton)xlsxButton.addEventListener('click',async()=>{
  const {items,selected}=latestCampaign();if(!items.length){$('#plannerFeedback').textContent='Create your schedule first.';return;}
  try{
   if(!window.XLSX){await new Promise((resolve,reject)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';sc.onload=resolve;sc.onerror=()=>reject(new Error('Excel library could not load'));document.head.appendChild(sc);});}
-  const rows=items.map(x=>({Date:x.date,Day:dayNames[new Date(x.date+'T12:00:00').getDay()],Business:x.businessName,Product_Service:x.offer,Platform:x.media,Time_EAT:x.time,Task:x.task,Promotion:x.paid?'Paid':'Organic',Budget_TZS:x.budget||0,Status:x.status||'Planned'}));
+  const rows=items.map(x=>({Date:x.date,Day:dayNames[new Date(x.date+'T12:00:00').getDay()],Business:x.businessName,Product_Service:x.offer,Platform:x.media,Time_EAT:x.time,Format:x.format||'',Task:x.task,Caption:x.caption||'',Objective:x.objective||'',Promotion:x.paid?'Paid':'Organic',Budget_TZS:x.budget||0,Status:x.status||'Planned'}));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Campaign Schedule');XLSX.writeFile(wb,'Primonizer-'+(selected.date||'schedule')+'.xlsx');
   $('#plannerFeedback').textContent='Excel workbook downloaded. Anyone can open and share it without a Primonizer account.';
  }catch(err){$('#plannerFeedback').textContent='Excel export failed: '+err.message+'. CSV is also available.';}
