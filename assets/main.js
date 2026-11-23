@@ -339,7 +339,7 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
   reportButton.disabled=false;reportButton.textContent=originalText;
  }
 });
-const calPanel=$('#calendarPanel');if(calPanel)calPanel.hidden=!data.length;const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=!data.length;const hint=document.createElement('p');hint.id='calendarHint';hint.className='microcopy mt-3';hint.textContent=data.length?'Your saved daily plan is shown below.':'Create a schedule to display the detailed calendar here.';$('#calendar')?.after(hint);recommendation();drawList();drawCalendar();
+hasGeneratedPlan=data.length>0;const calPanel=$('#calendarPanel');if(calPanel)calPanel.hidden=!data.length;const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=!data.length;const recPanel=$('#generatedRecommendation');if(recPanel)recPanel.hidden=!data.length;const hint=document.createElement('p');hint.id='calendarHint';hint.className='microcopy mt-3';hint.textContent=data.length?'Your saved daily plan is shown below.':'Create a schedule to display the detailed calendar here.';$('#calendar')?.after(hint);recommendation();drawList();drawCalendar();
 
 /* Portable exports: recipients do not need a Primonizer account. */
 function latestCampaign(){
