@@ -308,21 +308,33 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
  let front=document.getElementById('localSceneImage');
  let back=document.getElementById('localSceneImageNext');
  if(!front||!back)return;
- const scenes=[
-  'https://static.wixstatic.com/media/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_85/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg', // Hotel in Tanzania
-  'https://image-cdn-homes.beforward.jp/images/agent-user/151/property/85063/1005681375_582661_20260318061038.jpg', // House for sale in Tanzania
-  'https://image-cdn-homes.beforward.jp/images/agent-user/577/property/66702/IMG-20251118-WA0370_432263_20251119155417.jpg', // Land plot in Tanzania
-  'https://www.thecitizen.co.tz/resource/image/5200556/landscape_ratio3x2/1620/1080/31b25ed8df22e215b57553488c4ef8ad/El/digital-pic.jpg', // Tanzanian shop owner using a phone
-  'https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg', // Local food business
-  'https://www.unesco.org/sites/default/files/styles/paragraph_medium_desktop/article/2025-01/bear-tanzania-02.jpg.webp?itok=HXdSkr6e', // Tanzanian carpentry workshop
-  'https://cashessentials.org/app/uploads/2022/06/iStock-1200487501-2.jpg', // Local market and produce
-  'https://cdn.allafrica.com/download/pic/main/main/csiid/00650057%3Abf4faf4fa4728348a7f2d1d842a00344%3Aarc614x376%3Aw1200.jpg', // Farmer and agriculture
-  'https://images.ctfassets.net/v1fsq8y1pr0o/7hNt5KkCx7hd9ST48QWiJv/99bdd81f6f1102bc004a274522012e85/CC-TZ040200158-15-2202.jpg', // Welding and fabrication business
-  'https://www.ametikool.ee/sites/ametikool.ee/files/2023-12/whatsapp_image_2023-12-11_at_19.19.39.jpeg', // Tailoring business
-  'https://www.mwananchi.co.tz/resource/image/4813394/landscape_ratio3x2/1620/1080/67c8b624e8f85258b3a3e3ac97fe13d2/ZA/bodaboda-pic.jpg', // Boda-boda transport business
-  'https://images.squarespace-cdn.com/content/v1/5e95d9b13e6b2f7f177b574b/1587743498385-EJCR3Z89ABXD28LQ1ZNC/4.%2BBoat%2Bbuilders%2C%2BZanzibar.jpg', // Zanzibar craft and boat building
-  'https://kupatana.com/api/v1/filestorage/image/large/8d1597502036e615e928728db6e08b96.jpeg' // Residential property listing
+ const businessScenes=[
+  'https://static.wixstatic.com/media/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_85/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg',
+  'https://image-cdn-homes.beforward.jp/images/agent-user/151/property/85063/1005681375_582661_20260318061038.jpg',
+  'https://image-cdn-homes.beforward.jp/images/agent-user/577/property/66702/IMG-20251118-WA0370_432263_20251119155417.jpg',
+  'https://www.thecitizen.co.tz/resource/image/5200556/landscape_ratio3x2/1620/1080/31b25ed8df22e215b57553488c4ef8ad/El/digital-pic.jpg',
+  'https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg',
+  'https://www.unesco.org/sites/default/files/styles/paragraph_medium_desktop/article/2025-01/bear-tanzania-02.jpg.webp?itok=HXdSkr6e',
+  'https://cashessentials.org/app/uploads/2022/06/iStock-1200487501-2.jpg',
+  'https://cdn.allafrica.com/download/pic/main/main/csiid/00650057%3Abf4faf4fa4728348a7f2d1d842a00344%3Aarc614x376%3Aw1200.jpg',
+  'https://images.ctfassets.net/v1fsq8y1pr0o/7hNt5KkCx7hd9ST48QWiJv/99bdd81f6f1102bc004a274522012e85/CC-TZ040200158-15-2202.jpg',
+  'https://www.ametikool.ee/sites/ametikool.ee/files/2023-12/whatsapp_image_2023-12-11_at_19.19.39.jpeg',
+  'https://www.mwananchi.co.tz/resource/image/4813394/landscape_ratio3x2/1620/1080/67c8b624e8f85258b3a3e3ac97fe13d2/ZA/bodaboda-pic.jpg',
+  'https://images.squarespace-cdn.com/content/v1/5e95d9b13e6b2f7f177b574b/1587743498385-EJCR3Z89ABXD28LQ1ZNC/4.%2BBoat%2Bbuilders%2C%2BZanzibar.jpg',
+  'https://kupatana.com/api/v1/filestorage/image/large/8d1597502036e615e928728db6e08b96.jpeg'
  ];
+ // Dedicated platform-logo slides make the supported advertising channels immediately visible.
+ const platformSlides=[
+  ['WhatsApp','#25D366','WhatsApp','Chat with customers and receive enquiries'],
+  ['TikTok','#111111','TikTok','Create short videos that showcase your business'],
+  ['YouTube','#FF0033','YouTube','Promote videos, products and services'],
+  ['Instagram','#E4405F','Instagram','Share photos, reels and business stories'],
+  ['Facebook','#1877F2','Facebook','Reach local customers and promote offers']
+ ].map(([name,color,word,tagline])=>{
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101d32"/><stop offset="1" stop-color="#283c5c"/></linearGradient><radialGradient id="glow"><stop stop-color="'+color+'" stop-opacity=".34"/><stop offset="1" stop-color="'+color+'" stop-opacity="0"/></radialGradient></defs><rect width="1600" height="900" fill="url(#bg)"/><circle cx="800" cy="370" r="470" fill="url(#glow)"/><rect x="430" y="170" width="740" height="430" rx="54" fill="#fff" fill-opacity=".09" stroke="#fff" stroke-opacity=".23" stroke-width="3"/><circle cx="800" cy="365" r="125" fill="'+color+'"/><text x="800" y="405" font-family="Arial,sans-serif" font-size="112" font-weight="bold" fill="#fff" text-anchor="middle">'+(name==='WhatsApp'?'☎':name==='TikTok'?'♪':name==='YouTube'?'▶':name==='Instagram'?'◎':'f')+'</text><text x="800" y="690" font-family="Arial,sans-serif" font-size="78" font-weight="bold" fill="#fff" text-anchor="middle">'+word+'</text><text x="800" y="755" font-family="Arial,sans-serif" font-size="29" fill="#e8eef8" text-anchor="middle">'+tagline+'</text><text x="800" y="835" font-family="Arial,sans-serif" font-size="23" font-weight="bold" letter-spacing="7" fill="'+color+'" text-anchor="middle">PRIMONIZER · TANGAZA NASI</text></svg>';
+  return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+ });
+ const scenes=businessScenes.concat(platformSlides);
  let current=0;
  scenes.forEach(url=>{const preload=new Image();preload.src=url;});
  window.setInterval(()=>{
