@@ -3,12 +3,39 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: same-origin');
+header('X-Frame-Options: DENY');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
 
 function reply(int $status, array $payload): never {
     http_response_code($status);
     echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
+
+function enforceRateLimit(): void {
+    $ip = (string)($_SERVER['REMOTE_ADDR'] ?? 'unknown');
+    $key = hash('sha256', $ip);
+    $file = rtrim(sys_get_temp_dir(), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.'primonizer-rate-'.$key.'.json';
+    $now = time(); $limit = 30; $window = 600;
+    $handle = @fopen($file, 'c+');
+    if ($handle && flock($handle, LOCK_EX)) {
+        $raw = stream_get_contents($handle); $state = is_string($raw) ? json_decode($raw, true) : null;
+        if (!is_array($state) || !isset($state['start'],$state['count']) || $now-(int)$state['start'] >= $window) $state=['start'=>$now,'count'=>0];
+        $state['count']=(int)$state['count']+1; ftruncate($handle,0); rewind($handle); fwrite($handle,json_encode($state)); fflush($handle); flock($handle,LOCK_UN); fclose($handle);
+        if ($state['count'] > $limit) { header('Retry-After: '.max(1,$window-($now-(int)$state['start']))); reply(429,['success'=>false,'message'=>'Too many requests. Please wait a few minutes and try again.']); }
+        return;
+    }
+    if (is_resource($handle)) fclose($handle);
+    if (session_status() !== PHP_SESSION_ACTIVE) @session_start();
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        $state=$_SESSION['primonizer_rate']??['start'=>$now,'count'=>0];
+        if (!is_array($state)||$now-(int)($state['start']??0)>=$window) $state=['start'=>$now,'count'=>0];
+        $state['count']++; $_SESSION['primonizer_rate']=$state;
+        if ($state['count']>$limit) reply(429,['success'=>false,'message'=>'Too many requests. Please wait a few minutes and try again.']);
+    }
+}
+
 function cleanText(mixed $value, int $limit): string {
     if (!is_string($value) && !is_numeric($value)) return '';
     $value = trim((string)$value);
@@ -76,6 +103,13 @@ function buildCaption(string $language, string $business, string $offer, string 
 }
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'POST') reply(405, ['success'=>false,'message'=>'Use POST to create a research-based campaign plan.']);
 if (!function_exists('curl_init')) reply(503, ['success'=>false,'message'=>'This hosting account needs PHP cURL enabled for public web research.']);
+$origin = (string)($_SERVER['HTTP_ORIGIN'] ?? '');
+if ($origin !== '') {
+    $originHost = strtolower((string)parse_url($origin, PHP_URL_HOST));
+    $requestHost = strtolower((string)($_SERVER['HTTP_HOST'] ?? ''));
+    if ($originHost === '' || $requestHost === '' || !hash_equals($requestHost, $originHost)) reply(403,['success'=>false,'message'=>'Cross-site requests are not accepted.']);
+}
+enforceRateLimit();
 $raw = file_get_contents('php://input');
 if ($raw === false || strlen($raw) > 30000) reply(413, ['success'=>false,'message'=>'The campaign request is too large.']);
 $r = json_decode($raw, true);
@@ -97,10 +131,10 @@ $last=$date->modify('last day of this month'); $dates=[];
 for($d=$date;$d<=$last;$d=$d->modify('+1 day')) $dates[]=$d->format('Y-m-d');
 $localHint='';
 if (preg_match('/\\b(Dar es Salaam|Dodoma|Mbeya|Arusha|Mwanza|Morogoro|Zanzibar|Tanga|Iringa|Kigoma|Tabora|Singida|Shinyanga|Mtwara|Lindi|Njombe|Ruvuma|Kilimanjaro)\\b/i',$notes,$m)) $localHint=$m[1];
-$context=$type.' '.$offer.' Tanzania'.($localHint!==''?' '.$localHint:'');
+$context=$type.' Tanzania'.($localHint!==''?' '.$localHint:'');
 $queries=[
  $context.' customers market demand competitors',
- $type.' '.$offer.' Tanzania business services prices customer reviews',
+ $type.' Tanzania business services and customer market information',
  $type.' marketing channels customers Tanzania social media'
 ];
 $research=[];
