@@ -30,3 +30,11 @@ GitHub Actions deploys to `/ndoa.kesug.com/htdocs/`. A push to `main` triggers d
 - Images are illustrative. Check each source page and licence and replace images that do not accurately represent the workplace/process.
 - Word export includes text and image source links but does not embed remote images. Insert approved figures into Word if required.
 - Report generation requires working API keys and compatible hosting. The interface can load without API keys, but generation will display a configuration message until they are set.
+
+
+## PRIMONIZER AI Campaign Planner
+- The campaign scheduler sends only the current customer's business type, business name, product/service, audience, goal, selected channel, start date, budget and notes to the server-side AI endpoint at `api/plan-campaign.php`.
+- OpenAI creates a fresh day-by-day schedule and draft captions. The API validates the dates, selected channel and paid-budget allocation before returning the plan.
+- The planner does not use previous campaign reports, does not add a database, and does not claim access to live Meta, TikTok or YouTube analytics.
+- Add an `OPENAI_API_KEY` repository secret in GitHub (Settings → Secrets and variables → Actions). The deployment workflow writes it into a private PHP configuration file on the server; `api/.htaccess` blocks direct web access to that file. Never commit a real key.
+- The AI campaign planner uses the OpenAI `gpt-4.1-mini` model by default. AI generation requires a working API key, PHP cURL, outbound HTTPS access and the hosting provider's PHP support.
