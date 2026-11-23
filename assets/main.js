@@ -5,6 +5,7 @@ if(booking)booking.addEventListener('submit',e=>{e.preventDefault();const r=docu
 const form=document.querySelector('#campaignForm'); if(!form)return;
 const $=s=>document.querySelector(s);
 let data=[];try{data=JSON.parse(localStorage.getItem('ndoa_campaigns')||'[]');if(!Array.isArray(data))data=[]}catch(e){data=[]}
+let hasGeneratedPlan=false;
 const today=new Date();today.setHours(0,0,0,0);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 $('#startDate').min=iso(today);$('#startDate').value=iso(today);
@@ -33,6 +34,7 @@ const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 const money=n=>new Intl.NumberFormat('en-TZ',{maximumFractionDigits:0}).format(Number(n)||0);
 const mediaTimes={'Facebook':'19:00','TikTok':'19:30','YouTube':'18:00','WhatsApp Status':'07:30'};
 function recommendation(){
+ if(!hasGeneratedPlan)return;
  const type=$('#businessType').value,preferred=$('#preferredMedia').value,media=preferred==='auto'?mediaByType[type][0]:preferred;
  const d=$('#startDate').value?new Date($('#startDate').value+'T12:00:00'):new Date();
  const offer=$('#offer').value.trim(),business=$('#businessName').value.trim(),budget=$('#budget').value;
@@ -54,7 +56,10 @@ function recommendation(){
 
  return {type,media,date:iso(d),time:mediaTimes[media]||'18:30',creative:creativeByType[type]};
 }
-form.querySelectorAll('input,select,textarea').forEach(el=>{el.addEventListener('input',recommendation);el.addEventListener('change',recommendation)});
+form.querySelectorAll('input,select,textarea').forEach(el=>{
+ el.addEventListener('input',()=>{hasGeneratedPlan=false;const box=$('#generatedRecommendation'),cal=$('#calendarPanel'),saved=$('#savedCampaignPanel');if(box)box.hidden=true;if(cal)cal.hidden=true;if(saved)saved.hidden=true;});
+ el.addEventListener('change',()=>{hasGeneratedPlan=false;const box=$('#generatedRecommendation'),cal=$('#calendarPanel'),saved=$('#savedCampaignPanel');if(box)box.hidden=true;if(cal)cal.hidden=true;if(saved)saved.hidden=true;});
+});
 document.addEventListener('primonizer:languagechange',()=>{recommendation();drawList();drawCalendar();});
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const weekly=[
@@ -155,8 +160,8 @@ form.addEventListener('submit',e=>{
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
  const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
- data.push(...plan);
- if(persist()){const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
+ data.push(...plan);hasGeneratedPlan=true;
+ if(persist()){const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;recommendation();$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
 });
 const printButton=$('#printReport');
 if(printButton)printButton.addEventListener('click',()=>{
@@ -191,7 +196,7 @@ const quickCsv=$('#downloadCsvQuick');if(quickCsv)quickCsv.addEventListener('cli
 $('#campaignList').addEventListener('click',e=>{const b=e.target.closest('[data-delete]');if(b){const item=data.find(c=>c.id===b.dataset.delete);if(item&&item.planId)data=data.filter(c=>c.planId!==item.planId);else data=data.filter(c=>c.id!==b.dataset.delete);persist();$('#plannerFeedback').textContent='Entire monthly plan deleted.'}});
 $('#prevMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()-1);drawCalendar()});
 $('#nextMonth').addEventListener('click',()=>{month.setMonth(month.getMonth()+1);drawCalendar()});
-$('#resetPlanner').addEventListener('click',()=>{form.reset();$('#startDate').value=iso(today);$('#plannerFeedback').textContent='Form cleared. Choose your business and budget to generate a new weekly plan.';recommendation()});
+$('#resetPlanner').addEventListener('click',()=>{form.reset();$('#startDate').value=iso(today);hasGeneratedPlan=false;['generatedRecommendation','savedCampaignPanel','calendarPanel'].forEach(id=>{const el=$('#'+id);if(el)el.hidden=true;});$('#plannerFeedback').textContent='Form cleared. Enter your requirements to generate a new plan.';});
 const downloadCsv=$('#downloadCsv');
 if(downloadCsv)downloadCsv.addEventListener('click',()=>{
  if(!data.length){$('#plannerFeedback').textContent='Create a schedule first, then download the full schedule.';return;}
@@ -311,4 +316,43 @@ if(reportButton)reportButton.addEventListener('click',async()=>{
  }
 });
 const calPanel=$('#calendar')?.closest('.planner-panel');if(calPanel)calPanel.hidden=!data.length;const hint=document.createElement('p');hint.id='calendarHint';hint.className='microcopy mt-3';hint.textContent=data.length?'Your saved daily plan is shown below.':'Create a schedule to display the detailed calendar here.';$('#calendar')?.after(hint);recommendation();drawList();drawCalendar();
+
+/* Portable exports: recipients do not need a Primonizer account. */
+function latestCampaign(){
+ const id=data[data.length-1]?.planId;
+ const items=data.filter(x=>x.planId===id).slice().sort((a,b)=>a.date.localeCompare(b.date));
+ return {items,selected:items[0]||null};
+}
+function reportHtml(items){
+ const c=items[0]||{},safe=v=>String(v??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+ const rows=items.map(x=>'<tr><td>'+safe(x.date)+'</td><td>'+safe(dayNames[new Date(x.date+'T12:00:00').getDay()])+'</td><td>'+safe(x.media)+'</td><td>'+safe(x.time)+' EAT</td><td>'+safe(x.task)+'</td><td>'+safe(x.paid?'Paid':'Organic')+'</td><td>'+money(x.budget||0)+'</td></tr>').join('');
+ return '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+safe(c.businessName)+' campaign schedule</title><style>body{font:16px Arial,sans-serif;margin:28px;color:#20242b}h1{font-size:28px}p{line-height:1.5}.meta{background:#f1f2f4;padding:16px;border-radius:12px}table{width:100%;border-collapse:collapse;margin-top:22px}th,td{border:1px solid #d6d8dc;padding:9px;text-align:left;vertical-align:top}th{background:#eceef1}@media print{body{margin:12mm}tr{break-inside:avoid}}</style><h1>'+safe(c.businessName||'Campaign')+' — Advertising schedule</h1><div class="meta"><p><b>Product/service:</b> '+safe(c.offer)+'</p><p><b>Monthly budget:</b> TZS '+money(c.totalBudget)+'</p><p><b>Campaign goal:</b> '+safe(c.goal)+'</p><p><b>Audience:</b> '+safe(c.audience)+'</p><p><b>Generated:</b> '+new Date().toLocaleString()+'</p></div><table><thead><tr><th>Date</th><th>Day</th><th>Platform</th><th>Time</th><th>Task</th><th>Type</th><th>Budget (TZS)</th></tr></thead><tbody>'+rows+'</tbody></table><p>Shared campaign document. No Primonizer account is required to open this file.</p></html>';
+}
+function downloadBlob(blob,name){
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+const xlsxButton=$('#downloadXlsx');
+if(xlsxButton)xlsxButton.addEventListener('click',async()=>{
+ const {items,selected}=latestCampaign();if(!items.length){$('#plannerFeedback').textContent='Create your schedule first.';return;}
+ try{
+  if(!window.XLSX){await new Promise((resolve,reject)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';sc.onload=resolve;sc.onerror=()=>reject(new Error('Excel library could not load'));document.head.appendChild(sc);});}
+  const rows=items.map(x=>({Date:x.date,Day:dayNames[new Date(x.date+'T12:00:00').getDay()],Business:x.businessName,Product_Service:x.offer,Platform:x.media,Time_EAT:x.time,Task:x.task,Promotion:x.paid?'Paid':'Organic',Budget_TZS:x.budget||0,Status:x.status||'Planned'}));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),'Campaign Schedule');XLSX.writeFile(wb,'Primonizer-'+(selected.date||'schedule')+'.xlsx');
+  $('#plannerFeedback').textContent='Excel workbook downloaded. Anyone can open and share it without a Primonizer account.';
+ }catch(err){$('#plannerFeedback').textContent='Excel export failed: '+err.message+'. CSV is also available.';}
+});
+const htmlButton=$('#downloadHtml');
+if(htmlButton)htmlButton.addEventListener('click',()=>{const {items,selected}=latestCampaign();if(!items.length){$('#plannerFeedback').textContent='Create your schedule first.';return;}downloadBlob(new Blob([reportHtml(items)],{type:'text/html;charset=utf-8'}),'Primonizer-'+(selected.date||'schedule')+'.html');$('#plannerFeedback').textContent='Standalone HTML report downloaded. It can be opened by anyone without an account.';});
+const jsonButton=$('#downloadJson');
+if(jsonButton)jsonButton.addEventListener('click',()=>{const {items,selected}=latestCampaign();if(!items.length){$('#plannerFeedback').textContent='Create your schedule first.';return;}downloadBlob(new Blob([JSON.stringify({campaign:items[0],schedule:items,generatedAt:new Date().toISOString()},null,2)],{type:'application/json'}),'Primonizer-'+(selected.date||'schedule')+'.json');$('#plannerFeedback').textContent='JSON data downloaded for sharing or importing into other tools.';});
+const shareButton=$('#shareSchedule');
+if(shareButton)shareButton.addEventListener('click',async()=>{
+ const {items,selected}=latestCampaign();if(!items.length){$('#plannerFeedback').textContent='Create your schedule first.';return;}
+ const file=new File([reportHtml(items)],'Primonizer-'+(selected.date||'schedule')+'.html',{type:'text/html'});
+ try{
+  if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({title:(selected.businessName||'Campaign')+' schedule',text:'Campaign schedule — open the attached file. No account is needed.',files:[file]});$('#plannerFeedback').textContent='Share sheet opened. Choose WhatsApp, email, Bluetooth or another app.';}
+  else{downloadBlob(file,'Primonizer-'+(selected.date||'schedule')+'.html');$('#plannerFeedback').textContent='This browser cannot share files directly. The standalone report was downloaded; attach it to WhatsApp, email or any other app. The recipient needs no account.';}
+ }catch(err){if(err.name!=='AbortError')$('#plannerFeedback').textContent='Sharing was unavailable. Download the HTML report and attach it to your preferred app.';}
+});
+
 })();
