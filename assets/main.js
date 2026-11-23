@@ -48,63 +48,7 @@ function recommendation(){
  const photoTerms=({carScanner:'car diagnostics mechanic workshop',carRepair:'auto repair garage mechanic',carSales:'modern car dealership',hotel:'beautiful hotel interior',fashion:'fashion clothing boutique',electronics:'electronics computer technology',realEstate:'modern house real estate',education:'students classroom learning',tourism:'Tanzania safari travel landscape',other:'small business product marketing'})[type]||'business marketing';
  const keywords=(photoTerms+' '+offerText).toLowerCase().replace(/[^a-z0-9\\s-]/g,' ').split(/\\s+/).filter(w=>w.length>2).slice(0,8).join(',');
  const dynamicPhoto='https://loremflickr.com/1600/900/'+encodeURIComponent(keywords||photoTerms);
- const hero=document.querySelector('.planner-intro');
- // Slow, gentle cross-fade slideshow across the full page and the planner hero.
- if(hero && !document.body.dataset.raymondSlideshow){
-  const photos=[
-   'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1632823471565-1ecdf5c6f1b4?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1507136566006-cfc505b114fc?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2000&q=90',
-   'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=90'
-  ];
-  document.body.dataset.raymondSlideshow='active';
-  const makeLayer=(className)=>{
-   const layer=document.createElement('div');
-   layer.className=className;
-   layer.setAttribute('aria-hidden','true');
-   layer.style.cssText='position:fixed;inset:0;pointer-events:none;background-size:cover;background-position:center;background-repeat:no-repeat;opacity:0;transition:opacity 3.5s ease-in-out;will-change:opacity;';
-   return layer;
-  };
-  const pageA=makeLayer('raymond-page-bg raymond-bg-a');
-  const pageB=makeLayer('raymond-page-bg raymond-bg-b');
-  pageA.style.zIndex='-2';pageB.style.zIndex='-2';
-  document.body.prepend(pageB);document.body.prepend(pageA);
-  const heroA=makeLayer('raymond-hero-bg raymond-hero-a');
-  const heroB=makeLayer('raymond-hero-bg raymond-hero-b');
-  heroA.style.cssText+='position:absolute;inset:0;z-index:0;border-radius:inherit;';
-  heroB.style.cssText+='position:absolute;inset:0;z-index:0;border-radius:inherit;';
-  hero.style.position='relative';hero.style.isolation='isolate';hero.style.overflow='hidden';
-  hero.prepend(heroB);hero.prepend(heroA);
-  Array.from(hero.children).forEach(el=>{
-   if(el!==heroA&&el!==heroB){el.style.position='relative';el.style.zIndex='1';}
-  });
-  document.body.style.backgroundColor='transparent';
-  let index=0,showA=true;
-  const firstImage=new Image();
-  firstImage.onload=()=>{pageA.style.backgroundImage='linear-gradient(120deg,rgba(4,12,22,.38),rgba(5,17,29,.16)),url("'+photos[0]+'")';pageA.style.opacity='1';heroA.style.backgroundImage='linear-gradient(100deg,rgba(4,12,22,.32),rgba(5,17,29,.10)),url("'+photos[0]+'")';heroA.style.opacity='1';};
-  firstImage.src=photos[0];
-  photos.slice(1).forEach(src=>{const img=new Image();img.src=src;});
-  window.setInterval(()=>{
-   index=(index+1)%photos.length;
-   const next=new Image();
-   next.onload=()=>{
-    const pageFront=showA?pageB:pageA,pageBack=showA?pageA:pageB;
-    const heroFront=showA?heroB:heroA,heroBack=showA?heroA:heroB;
-    const image='linear-gradient(120deg,rgba(4,12,22,.38),rgba(5,17,29,.16)),url("'+photos[index]+'")';
-    pageFront.style.backgroundImage=image;heroFront.style.backgroundImage='linear-gradient(100deg,rgba(4,12,22,.32),rgba(5,17,29,.10)),url("'+photos[index]+'")';
-    pageFront.style.opacity='1';heroFront.style.opacity='1';pageBack.style.opacity='0';heroBack.style.opacity='0';showA=!showA;
-   };
-   next.src=photos[index];
-  },9000);
- }
+ // Keep the scheduler page calm; the dedicated business-photo hero owns the slideshow.
  const image=$('#recImage');if(image){image.src=selectedPhotoData||dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
  const caption=$('#recImageCaption');if(caption)caption.textContent=window.primonizerLanguage==='sw'?'Picha imechaguliwa kulingana na '+(offerText||((swTypeNames[type])||swTypeNames.other))+'. Huduma ya picha za mtandaoni isipopatikana, tutaonyesha picha nyingine inayohusiana na biashara yako.':'Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
 
