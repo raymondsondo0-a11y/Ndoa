@@ -35,27 +35,19 @@ const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Sat
 const money=n=>new Intl.NumberFormat('en-TZ',{maximumFractionDigits:0}).format(Number(n)||0);
 const mediaTimes={'Facebook':'19:00','TikTok':'19:30','YouTube':'18:00','WhatsApp Status':'07:30'};
 function recommendation(){
- if(!hasGeneratedPlan)return;
- const type=$('#businessType').value.trim(),preferred=$('#preferredMedia').value,media=preferred==='auto'?(mediaByType[type]?.[0]||mediaByType.other[0]):preferred;
- const d=$('#startDate').value?new Date($('#startDate').value+'T12:00:00'):new Date();
- const offer=$('#offer').value.trim(),business=$('#businessName').value.trim(),budget=$('#budget').value;
- const sw=window.primonizerLanguage==='sw',typeLabel=type|| (sw?swTypeNames.other:typeNames.other);
- $('#recWhat').textContent=(business||typeLabel)+' — '+(offer||typeLabel);
- $('#recMedia').textContent=preferred==='auto'?(sw?'Mchanganyiko wa wiki: Facebook, TikTok na YouTube; machapisho ya kawaida kupitia WhatsApp siku nyingine.':'Weekly mix: Facebook, TikTok and YouTube; organic WhatsApp/content on other days'):media;
- $('#recDate').textContent=d.toLocaleDateString(sw?'sw-TZ':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
- $('#recTime').textContent=(mediaTimes[media]||'18:30')+(sw?' EAT (UTC+3)':' EAT (UTC+3)');
- $('#recBudget').textContent=budget!==''?'TZS '+money(budget)+(sw?' kwa mwezi':' monthly total'):(sw?'Ingiza bajeti yako ya mwezi':'Enter your monthly budget');
- $('#recCreative').textContent=(sw?'Tumia taarifa halisi ulizoingiza kuhusu '+(offer||type)+', walengwa '+($('#audience').value||'uliowachagua')+' na lengo la kampeni.':'Build the advert using the exact product/service "'+(offer||type)+'", the selected audience "'+($('#audience').value||'your customers')+'", and the campaign goal.');
- $('#recSummary').textContent=sw?'Panga jukumu moja la matangazo kwa kila siku kuanzia Jumatatu hadi Jumapili. Matangazo ya kulipia hubadilishana kati ya Facebook, TikTok na YouTube; machapisho ya kawaida yanatumika siku nyingine. Bajeti yote ya mwezi unayoingiza itagawanywa kwenye siku zilizopangwa za matangazo ya kulipia.':'Plan one practical task for every day Monday–Sunday. Paid promotions rotate between Facebook, TikTok and YouTube; organic tasks fill the other days. The full monthly budget you enter is divided across planned paid promotion dates.';
- const offerText=$('#offer').value.trim();
- const photoTerms=({carScanner:'car diagnostics mechanic workshop',carRepair:'auto repair garage mechanic',carSales:'modern car dealership',hotel:'beautiful hotel interior',fashion:'fashion clothing boutique',electronics:'electronics computer technology',realEstate:'modern house real estate',education:'students classroom learning',tourism:'Tanzania safari travel landscape',other:'small business product marketing'})[type]||'business marketing';
- const keywords=(photoTerms+' '+offerText).toLowerCase().replace(/[^a-z0-9\\s-]/g,' ').split(/\\s+/).filter(w=>w.length>2).slice(0,8).join(',');
- const dynamicPhoto='https://loremflickr.com/1600/900/'+encodeURIComponent(keywords||photoTerms);
- // Keep the scheduler page calm; the dedicated business-photo hero owns the slideshow.
- const image=$('#recImage');if(image){image.src=selectedPhotoData||dynamicPhoto;image.alt='Online image selected for '+typeNames[type]+': '+(offerText||typeNames[type]);image.onerror=()=>{image.onerror=null;image.src=imageByType[type]||imageByType.other;};}
- const caption=$('#recImageCaption');if(caption)caption.textContent=window.primonizerLanguage==='sw'?'Picha imechaguliwa kulingana na '+(offerText||((swTypeNames[type])||swTypeNames.other))+'. Huduma ya picha za mtandaoni isipopatikana, tutaonyesha picha nyingine inayohusiana na biashara yako.':'Image direction personalised to '+(offerText||typeNames[type])+'. If the online image service is unavailable, a matching business image will be shown.';
-
- return {type,media,date:iso(d),time:mediaTimes[media]||'18:30',creative:creativeByType[type]};
+ if(!hasGeneratedPlan||!data.length)return;
+ const first=data[0],channels=[...new Set(data.map(x=>x.media).filter(Boolean))];
+ const sw=window.primonizerLanguage==='sw';
+ $('#recWhat').textContent=(first.businessName||first.businessType||'Business')+' — '+(first.offer||'Product / service');
+ $('#recMedia').textContent=channels.join(' · ');
+ $('#recDate').textContent=new Date(first.date+'T12:00:00').toLocaleDateString(sw?'sw-TZ':'en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+ $('#recTime').textContent=(first.time||'18:00')+' EAT (UTC+3)';
+ const paidTotal=data.reduce((sum,x)=>sum+(Number(x.budget)||0),0);
+ $('#recBudget').textContent='TZS '+money(first.totalBudget||0)+' total · TZS '+money(paidTotal)+' allocated to paid promotion';
+ $('#recCreative').textContent=first.aiStrategy||first.task||'AI-generated campaign strategy';
+ $('#recSummary').textContent=first.aiSummary||'AI created this schedule from the business details entered in the form.';
+ const image=$('#recImage');if(image){image.src=selectedPhotoData||imageByType.other;image.alt='Customer-provided business image or general campaign visual';}
+ const caption=$('#recImageCaption');if(caption)caption.textContent=sw?'Mpango huu umetengenezwa na AI kwa kutumia taarifa ulizoingiza.':'This plan was generated by AI from the details you entered.';
 }
 form.querySelectorAll('input,select,textarea').forEach(el=>{
  el.addEventListener('input',()=>{hasGeneratedPlan=false;const box=$('#generatedRecommendation'),cal=$('#calendarPanel'),saved=$('#savedCampaignPanel');if(box)box.hidden=true;if(cal)cal.hidden=true;if(saved)saved.hidden=true;});
@@ -72,95 +64,6 @@ const weekly=[
  {day:6,media:'YouTube Shorts',time:'18:00',paid:true,topic:'Useful video / demonstration'},
  {day:0,media:'WhatsApp Status',time:'18:00',paid:false,topic:'Weekly recap and next-week prompt'}
 ];
-function dailyCreative(type,weekday,business,offer,audience,goal,notes){
- const channel=weekly[weekday].media;
- return buildCustomerCreative(channel,weekday,business,offer,audience,goal,notes);
-}
-function buildCustomerCreative(channel,weekday,business,offer,audience,goal,notes){
- const product=String(offer||'').trim(),brand=String(business||'').trim(),target=String(audience||'wateja wako').trim(),details=String(notes||'').trim();
- const objective={
-  messages:'Waombe wateja wapige simu au watume ujumbe wa WhatsApp ili kupata maelezo zaidi.',
-  visits:'Waelekeze wateja kwenye eneo la biashara na waweke wazi mahali biashara ilipo.',
-  sales:'Waelekeze wateja kuagiza au kununua bidhaa/huduma na waeleze hatua halisi ya kufanya oda.',
-  awareness:'Eleza jina la biashara na faida halisi ya bidhaa/huduma ili watu waifahamu.',
-  traffic:'Waelekeze wateja kutembelea tovuti na ukurasa husika.'
- }[goal]||'Waelekeze wateja hatua inayofuata kwa kutumia mawasiliano uliyotoa.';
- const extra=details?' Tumia taarifa hizi za mteja bila kubuni nyingine: '+details+'.':' Usibuni bei, punguzo, eneo, namba ya simu, ushuhuda au sifa ambazo mteja hajatoa.';
- const dayIdeas=[
-  'Tengeneza utambulisho wa '+product+'. Onyesha bidhaa/huduma halisi, eleza inamhusu nani ('+target+') na tatizo au hitaji inalolenga.',
-  'Onyesha bidhaa/huduma ya '+product+' ikitumika au hatua halisi za kupata huduma hiyo. Tumia picha/video halisi iliyotolewa na biashara.',
-  'Tengeneza chapisho la swali na jibu kuhusu '+product+'. Tumia swali ambalo biashara inaweza kulithibitisha; usibuni majibu ya kitaalamu au madai yasiyothibitishwa.',
-  'Eleza faida moja ya '+product+' kwa '+target+'. Unganisha faida hiyo na taarifa halisi za biashara '+brand+'.',
-  'Onyesha namna mteja anavyoweza kupata au kuagiza '+product+'. Tumia bei, ofa na masharti tu kama yametolewa kwenye taarifa za ziada.',
-  'Tengeneza video fupi inayoonyesha bidhaa/huduma '+product+' na hatua ya mteja kuipata. Epuka kutumia picha za biashara nyingine.',
-  'Fanya muhtasari wa wiki kuhusu '+product+'. Jibu swali lililoulizwa na wateja kwa kutumia taarifa ulizonazo na waalike hatua inayofuata.'
- ];
- const idea=dayIdeas[weekday]||dayIdeas[0];
- const task=idea+extra+' '+objective;
- const channelText={
-  'Facebook':'Chapisho la Facebook: '+task+' Tumia picha halisi na maandishi yanayosomeka.',
-  'TikTok':'Video ya TikTok ya sekunde 20–35: '+task+' Onyesha bidhaa/huduma mapema na weka captions.',
-  'Instagram':'Instagram Reel au carousel: '+task+' Tumia picha/video halisi na caption fupi.',
-  'Instagram + WhatsApp Status':'Chapisha carousel ya Instagram na toleo fupi la WhatsApp Status: '+task,
-  'WhatsApp Status':'WhatsApp Status: '+task+' Gawa ujumbe katika status fupi zinazoeleweka.',
-  'YouTube Shorts':'YouTube Short ya sekunde 30–60: '+task+' Weka kichwa kinachoeleweka na captions.',
-  'YouTube':'Video ya YouTube: '+task+' Weka kichwa kinachoeleza bidhaa/huduma na maelezo ya mawasiliano yaliyotolewa.',
-  'Google Business Profile':'Sasisha Google Business Profile: '+task+' Tumia eneo na saa za kazi tu kama zimetolewa.',
-  'Website':'Sasisha ukurasa wa tovuti kuhusu '+product+': '+task,
-  'LinkedIn':'Chapisho la LinkedIn kuhusu '+product+': '+task+' Tumia lugha ya kitaalamu na ushahidi uliotolewa.',
-  'Radio':'Andaa script fupi ya redio kuhusu '+product+': '+task+' Taja mawasiliano tu kama yametolewa.',
-  'Outdoor posters':'Tengeneza ujumbe mfupi wa bango kuhusu '+product+': '+task+' Tumia kichwa kifupi na mawasiliano yaliyothibitishwa.',
-  'Multi-platform':'Tengeneza maudhui yanayolingana na '+product+' kwa majukwaa uliyochagua. Badilisha ukubwa na muundo kulingana na kila jukwaa.'
- };
- const enChannel={
-  'Facebook':'Facebook post: '+task+' Use the customer’s actual photo and readable copy.',
-  'TikTok':'20–35 second TikTok video: '+task+' Show the product/service immediately and add captions.',
-  'Instagram':'Instagram Reel or carousel: '+task+' Use real business media and a concise caption.',
-  'Instagram + WhatsApp Status':'Instagram carousel plus a shorter WhatsApp Status version: '+task,
-  'WhatsApp Status':'WhatsApp Status: '+task+' Split the message into short, clear status frames.',
-  'YouTube Shorts':'30–60 second YouTube Short: '+task+' Add a clear title and captions.',
-  'YouTube':'YouTube video: '+task+' Use a title that describes the actual product/service.',
-  'Google Business Profile':'Google Business Profile update: '+task+' Use location and opening hours only if supplied.',
-  'Website':'Website page update about '+product+': '+task,
-  'LinkedIn':'LinkedIn post about '+product+': '+task+' Use verified business details only.',
-  'Radio':'Prepare a short radio script about '+product+': '+task+' Include contact details only if supplied.',
-  'Outdoor posters':'Create a concise poster message about '+product+': '+task+' Use only verified contact information.',
-  'Multi-platform':'Create platform-appropriate versions of content about '+product+' for the platforms the customer selected.'
- };
- const sw=window.primonizerLanguage==='sw';
- return {media:channel,task:(sw?channelText:enChannel)[channel]||((sw?'Chapisha kuhusu ':'Publish content about ')+product+': '+task),topic:product};
-}
-function selectedChannelCreative(channel,weekday,business,offer){
- const name=business||'your business',service=offer||'your product or service';
- const ideas=[
-  'Introduce '+service+' and the customer problem it solves. Show the real product or service in action and finish with a clear enquiry call-to-action.',
-  'Demonstrate how '+service+' works in a short step-by-step clip. Keep the explanation simple and show the result or customer benefit.',
-  'Answer one common customer question about '+service+'. Use clear captions, a practical example and invite viewers to ask a follow-up question.',
-  'Share three useful tips related to '+service+'. Make each tip short, specific and easy for the target customer to remember.',
-  'Show a real behind-the-scenes view of '+name+' delivering '+service+'. Use genuine photos or footage and avoid unsupported claims.',
-  'Present a specific offer for '+service+'. Explain exactly what is included, who it is for, the location and how to contact you.',
-  'Share a short weekly recap of '+service+': highlight the main benefit, answer one FAQ and invite interested customers to enquire.'
- ];
- const dayIndex=weekday===0?6:weekday-1,task=ideas[dayIndex];
- if(channel==='TikTok')return {media:channel,task:'Create a vertical TikTok video (20–35 seconds): '+task+' Add readable captions and a strong opening hook.'};
- if(channel==='YouTube'||channel==='YouTube Shorts')return {media:'YouTube Shorts',task:'Create a YouTube Short (30–60 seconds): '+task+' Use a clear title, captions and contact details.'};
- if(channel==='Facebook')return {media:channel,task:'Create a Facebook post or short video: '+task+' Include your location and preferred contact method.'};
- if(channel==='Instagram')return {media:channel,task:'Create an Instagram Reel or carousel: '+task+' Use a strong cover image, concise caption and enquiry call-to-action.'};
- if(channel==='WhatsApp Status')return {media:channel,task:'Create a WhatsApp Status update: '+task+' Keep the message brief and include your contact details.'};
- if(channel==='Google Business Profile')return {media:channel,task:'Publish a Google Business Profile update: '+task+' Add accurate business hours, location and contact details.'};
- if(channel==='Website')return {media:channel,task:'Publish a website update or landing-page section: '+task+' Include a clear enquiry or purchase action.'};
- if(channel==='LinkedIn')return {media:channel,task:'Publish a LinkedIn post: '+task+' Focus on professional value, proof and a clear business enquiry action.'};
- if(channel==='Radio')return {media:channel,task:'Prepare a short radio advert script: '+task+' State the business name, location and phone number clearly.'};
- if(channel==='Outdoor posters')return {media:channel,task:'Prepare a poster or banner message: '+task+' Use one strong image, short headline, location and contact details.'};
- return {media:channel,task:task};
-}
-function buildMonthlyPlan(start,budget,type,business,offer,notes,goal,preferredMedia,audience){
- const first=new Date(start+'T12:00:00'),last=new Date(first.getFullYear(),first.getMonth()+1,0,12),days=[],planId='plan-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
- for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],channel=preferredMedia&&preferredMedia!=='auto'?preferredMedia:base.media,specific=buildCustomerCreative(channel,d.getDay(),business,offer,audience||'',goal,notes);const item={...base,media:specific.media,task:specific.task,topic:specific.topic||specific.task};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:audience||'',goal,notes,creative:specific.task,status:'Planned'});}
- const paid=days.filter(x=>x.paid),base=paid.length?Math.floor(budget/paid.length):0,extra=budget-base*paid.length;let n=0;
- days.forEach(x=>{x.totalBudget=budget;x.budget=x.paid?(base+(n++===0?extra:0)):0;x.planId=planId;x.id=planId+'-'+x.date;x.frequency='Daily Monday–Sunday monthly plan';});
- return days;
-}
 function drawList(){
  const list=$('#campaignList');
  list.innerHTML=data.length?data.slice().sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(c=>'<article class="saved-campaign"><div><h4>'+esc(c.businessName||c.name||'Untitled campaign')+' · '+esc(c.date||'')+'</h4><p><strong>Task:</strong> '+esc(c.task||c.offer||c.name||'Promote product/service')+'</p><p>📣 '+esc(c.media||c.platform||'Media not selected')+' · ⏰ '+esc(c.time||'18:30')+' EAT</p><p>💰 '+(c.paid?'Paid promotion budget: TZS '+money(c.budget):'Organic task: TZS 0 planned')+'</p><p>'+esc(c.creative||c.notes||'')+'</p><span class="tag">'+esc(c.status||'Planned')+'</span></div><div><button class="btn-danger-soft" type="button" data-delete="'+esc(c.id)+'">Delete plan</button></div></article>').join(''):'<p class="empty-state">No plans saved yet. Fill the form and save a monthly plan.</p>';
@@ -179,15 +82,50 @@ function drawCalendar(){
  const note=$('#calendarHint');if(note)note.textContent=monthData.length?'This calendar shows '+monthData.length+' daily tasks. Select any date card to read the post/video idea and its platform.':'Create a schedule to display your detailed daily marketing calendar here.';
 }
 function persist(){try{localStorage.setItem('ndoa_campaigns',JSON.stringify(data));drawList();drawCalendar();return true}catch(e){$('#plannerFeedback').textContent='Browser storage is unavailable or full. Export your plans or enable site storage and try again.';return false}}
-form.addEventListener('submit',e=>{
+form.addEventListener('submit',async e=>{
  window.__ndoaSchedulerHandled=true;
- e.preventDefault();if(!form.reportValidity())return;
+ e.preventDefault();
+ if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
- if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
- const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia,f.audience);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
- plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
- data=plan;hasGeneratedPlan=true;
- if(persist()){const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;recommendation();$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
+ const feedback=$('#plannerFeedback'),submitButton=form.querySelector('[type="submit"]');
+ if(!Number.isFinite(budget)||budget<0){feedback.textContent='Enter a valid monthly budget in TZS.';return;}
+ const originalLabel=submitButton?submitButton.textContent:'';
+ if(submitButton){submitButton.disabled=true;submitButton.textContent=window.primonizerLanguage==='sw'?'AI inatengeneza ratiba...':'AI is building your schedule...';}
+ feedback.textContent=window.primonizerLanguage==='sw'?'AI inachambua biashara, bajeti na walengwa wako. Tafadhali subiri...':'AI is analysing your business, budget and target customers. Please wait...';
+ ['generatedRecommendation','savedCampaignPanel','calendarPanel'].forEach(id=>{const el=$('#'+id);if(el)el.hidden=true;});
+ try{
+  const response=await fetch('api/plan-campaign.php',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({
+   businessType:f.businessType,businessName:f.businessName,offer:f.offer,audience:f.audience,goal:f.goal,
+   preferredMedia:f.preferredMedia,startDate:f.startDate,budget:budget,notes:f.notes||'',
+   language:window.primonizerLanguage==='sw'?'Swahili':'English'
+  })});
+  let result={};try{result=await response.json();}catch(parseError){throw new Error('The AI service returned an unreadable response. Please try again.');}
+  if(!response.ok||!result.success)throw new Error(result.message||'AI campaign planning failed. Please try again.');
+  const planId='ai-plan-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),aiPlan=result.plan;
+  if(!aiPlan||!Array.isArray(aiPlan.days)||!aiPlan.days.length)throw new Error('AI did not return a complete daily schedule. Please try again.');
+  data=aiPlan.days.map(day=>({
+   ...day,id:planId+'-'+day.date,planId,status:'Planned',
+   businessType:f.businessType,businessName:f.businessName,offer:f.offer,audience:f.audience,
+   goal:f.goal,notes:f.notes||'',preferredMedia:f.preferredMedia,
+   media:day.channel||day.media,creative:day.task,totalBudget:budget,
+   aiSummary:aiPlan.summary||'',aiStrategy:aiPlan.strategy||'',
+   budget:Number(day.budget)||0,paid:!!day.paid
+  }));
+  if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+planId,selectedPhotoData);data.forEach(x=>x.customPhotoKey='ndoa_photo_'+planId);}catch(photoError){feedback.textContent='AI schedule is ready. The selected photo could not be saved in this browser.';}}
+  month=new Date(f.startDate+'T12:00:00');hasGeneratedPlan=true;
+  if(persist()){
+   const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}
+   const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;
+   const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;
+   recommendation();drawCalendar();
+   const paidTotal=data.reduce((sum,x)=>sum+(Number(x.budget)||0),0),unused=Math.max(0,budget-paidTotal);
+   feedback.textContent=(window.primonizerLanguage==='sw'?'Ratiba imetengenezwa na AI kwa siku ':'AI generated your schedule for ')+data.length+(window.primonizerLanguage==='sw'?' siku. Bajeti iliyopangwa kwa matangazo ya kulipia: TZS ':' days. Budget allocated to paid promotion: TZS ')+money(paidTotal)+(unused>0?(window.primonizerLanguage==='sw'?'. Bajeti ambayo haijatumika: TZS ':'. Unallocated budget: TZS ')+money(unused):'')+'. '+(window.primonizerLanguage==='sw'?'Kila jukumu limetokana na taarifa ulizoweka.':'Every task is based on the details you supplied.');
+  }else{feedback.textContent='AI schedule created, but this browser could not save it. Export it before leaving this page.';}
+ }catch(error){
+  feedback.textContent=(window.primonizerLanguage==='sw'?'AI haikuweza kutengeneza ratiba: ':'AI could not create the schedule: ')+(error.message||'Unknown error')+' '+(window.primonizerLanguage==='sw'?'Tafadhali jaribu tena baadaye.':'Please try again later.');
+ }finally{
+  if(submitButton){submitButton.disabled=false;submitButton.textContent=originalLabel;}
+ }
 });
 const printButton=$('#printReport');
 if(printButton)printButton.addEventListener('click',()=>{
