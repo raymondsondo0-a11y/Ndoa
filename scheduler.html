@@ -180,8 +180,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 #localBusinessHero:before,#localBusinessHero:after{content:none!important;display:none!important;background:none!important}
 #localBusinessHero .local-scene-backdrop{position:absolute!important;inset:0!important;z-index:0!important;display:block!important;width:100%!important;height:100%!important;margin:0!important;overflow:hidden!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
 #localBusinessHero .local-scene-backdrop:before,#localBusinessHero .local-scene-backdrop:after{content:none!important;display:none!important}
-#localBusinessHero .local-scene-backdrop img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;opacity:1!important;transition:opacity .8s ease!important}
-#localBusinessHero .local-scene-backdrop img.is-changing{opacity:0!important}
+#localBusinessHero .local-scene-backdrop img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;opacity:0!important;transition:opacity 2.2s ease-in-out!important;will-change:opacity}
+#localBusinessHero .local-scene-backdrop img.scene-visible{opacity:1!important}
+#localBusinessHero .local-scene-backdrop img.scene-hidden{opacity:0!important}
 #localBusinessHero>.wrap{position:relative!important;z-index:1!important;width:min(1120px,100%)!important;max-width:1120px!important;margin:0 auto!important;padding:0!important}
 #localBusinessHero .hero-copy-box{display:block!important;width:fit-content!important;max-width:min(850px,100%)!important;margin:0!important;padding:26px 30px!important;background:#000!important;color:#fff!important;border:0!important;border-radius:12px!important;box-shadow:none!important}
 #localBusinessHero .hero-copy-box *{color:#fff!important}
@@ -193,7 +194,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro" id="localBusinessHero">
- <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" src="https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg" alt=""></div>
+ <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
 
  <div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
 <section class="platform-showcase" aria-label="Supported social media platforms">
@@ -297,8 +298,9 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 </style>
 <script>
 (function(){
- const image=document.getElementById('localSceneImage');
- if(!image)return;
+ let front=document.getElementById('localSceneImage');
+ let back=document.getElementById('localSceneImageNext');
+ if(!front||!back)return;
  const scenes=[
   'https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg',
   'https://www.thecitizen.co.tz/resource/image/5154910/landscape_ratio16x9/1600/900/6c8f8e8c2e98726ee4fec6f1c9c66e65/AB/bodaboda-pic.jpg',
@@ -309,15 +311,18 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
  let current=0;
  scenes.forEach(url=>{const preload=new Image();preload.src=url;});
  window.setInterval(()=>{
-  current=(current+1)%scenes.length;
-  image.classList.add('is-changing');
-  const nextImage=new Image();
-  nextImage.onload=()=>{
-   image.src=scenes[current];
-   image.classList.remove('is-changing');
+  const nextIndex=(current+1)%scenes.length;
+  const preload=new Image();
+  preload.onload=()=>{
+   back.src=scenes[nextIndex];
+   back.classList.remove('scene-hidden');
+   back.classList.add('scene-visible');
+   front.classList.remove('scene-visible');
+   front.classList.add('scene-hidden');
+   const previous=front;front=back;back=previous;current=nextIndex;
   };
-  nextImage.onerror=()=>image.classList.remove('is-changing');
-  nextImage.src=scenes[current];
+  preload.onerror=()=>{};
+  preload.src=scenes[nextIndex];
  },5000);
 })();
 </script>
