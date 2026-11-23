@@ -36,7 +36,20 @@ jobs:
           cp -R index.html about.html services.html diagnostics.html advertising.html scheduler.html booking.html gallery.html pricing.html faq.html contact.html privacy.html robots.txt sitemap.xml assets deploy/
           cp -R report-studio deploy/
           cp -R api deploy/
-          printf '%s\n' 'Options -Indexes' 'DirectoryIndex index.html' > deploy/.htaccess
+          cat > deploy/.htaccess <<'HTACCESS'
+          Options -Indexes
+          DirectoryIndex index.html
+          <IfModule mod_headers.c>
+            Header always set X-Content-Type-Options "nosniff"
+            Header always set X-Frame-Options "DENY"
+            Header always set Referrer-Policy "strict-origin-when-cross-origin"
+            Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+            Header always set Strict-Transport-Security "max-age=31536000"
+          </IfModule>
+          <FilesMatch "(^\\.|\\.(env|ini|log|sql|bak|dist|example)$)">
+            Require all denied
+          </FilesMatch>
+          HTACCESS
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
