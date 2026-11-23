@@ -176,7 +176,12 @@ textarea.form-control{min-height:86px}
 /* HERO: the five rotating business photos are the ONLY hero background. */
 html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}
 html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
-#localBusinessHero{position:relative!important;display:flex!important;align-items:center!important;min-height:470px!important;height:auto!important;padding:60px 22px!important;margin:0!important;overflow:hidden!important;background:transparent!important;box-shadow:none!important;border:0!important;border-radius:0!important}
+#localBusinessHero{position:relative!important;display:block!important;min-height:470px!important;height:470px!important;padding:0!important;margin:0!important;overflow:hidden!important;background:transparent!important;box-shadow:none!important;border:0!important;border-radius:0!important}
+#localBusinessHero .local-scene-backdrop{position:absolute!important;inset:0!important}
+#localBusinessHero .wrap{display:none!important}
+#localBusinessHero+.hero-copy-section{display:block!important;position:relative!important;width:100%!important;padding:30px 22px!important;margin:0!important;background:transparent!important}
+#localBusinessHero+.hero-copy-section>.wrap{max-width:1120px!important;margin:0 auto!important;padding:0!important}
+#localBusinessHero+.hero-copy-section .hero-copy-box{display:block!important;width:100%!important;max-width:100%!important;margin:0 auto!important;padding:26px 30px!important;background:#000!important;color:#fff!important;border:0!important;border-radius:12px!important;box-shadow:none!important}
 #localBusinessHero:before,#localBusinessHero:after{content:none!important;display:none!important;background:none!important}
 #localBusinessHero .local-scene-backdrop{position:absolute!important;inset:0!important;z-index:0!important;display:block!important;width:100%!important;height:100%!important;margin:0!important;overflow:hidden!important;background:none!important;border:0!important;box-shadow:none!important;border-radius:0!important}
 #localBusinessHero .local-scene-backdrop:before,#localBusinessHero .local-scene-backdrop:after{content:none!important;display:none!important}
@@ -187,16 +192,16 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 #localBusinessHero .hero-copy-box{display:block!important;width:fit-content!important;max-width:min(850px,100%)!important;margin:0!important;padding:26px 30px!important;background:#000!important;color:#fff!important;border:0!important;border-radius:12px!important;box-shadow:none!important}
 #localBusinessHero .hero-copy-box *{color:#fff!important}
 #localBusinessHero .suggestion-chips{display:none!important}
-@media(max-width:600px){#localBusinessHero{min-height:440px!important;padding:36px 14px!important}#localBusinessHero .hero-copy-box{width:100%!important;padding:20px 17px!important}}
+@media(max-width:600px){#localBusinessHero{min-height:340px!important;height:340px!important}#localBusinessHero+.hero-copy-section{padding:20px 14px!important}#localBusinessHero+.hero-copy-section .hero-copy-box{width:100%!important;padding:20px 17px!important}}
 </style>
 
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
-<main><section class="planner-intro" id="localBusinessHero">
+<main><section class="planner-intro" id="localBusinessHero" aria-label="Rotating business photographs">
  <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
-
- <div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div><div class="suggestion-chips"><span>📅 Recommended day & time</span><span>📣 Media suggestions</span><span>💰 Your own TZS budget</span><span>🚘 Car scanner or any business</span></div></div></section>
+</section>
+<div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
 <section class="platform-showcase" aria-label="Supported social media platforms">
  <div class="platform-showcase-inner">
   <p class="platform-eyebrow">ONE PLACE · YOUR SOCIAL CHANNELS</p>
