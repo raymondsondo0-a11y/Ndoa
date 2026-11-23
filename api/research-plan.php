@@ -81,6 +81,18 @@ function containsAny(string $s, array $words): bool {
     foreach ($words as $w) if (stripos($s, $w) !== false) return true;
     return false;
 }
+
+function researchCategory(string $type): string {
+    $s = strtolower($type);
+    if (containsAny($s,['hotel','lodge','guest house','restaurant','food','hoteli','mgahawa'])) return 'hospitality and food businesses';
+    if (containsAny($s,['real estate','plot','land','house','property','kiwanja','ardhi','nyumba'])) return 'real estate businesses';
+    if (containsAny($s,['clothes','fashion','beauty','nguo','mitindo','urembo'])) return 'fashion and beauty businesses';
+    if (containsAny($s,['car','garage','vehicle','scanner','gari','gereji','magari'])) return 'automotive businesses';
+    if (containsAny($s,['school','training','course','education','elimu','mafunzo'])) return 'education and training businesses';
+    if (containsAny($s,['farm','agriculture','livestock','kilimo','mifugo'])) return 'agriculture and livestock businesses';
+    return 'small businesses';
+}
+
 function chooseChannels(string $type, string $offer, string $audience, string $goal, string $preferred): array {
     if ($preferred !== 'auto' && $preferred !== 'Multi-platform') return [$preferred];
     $s = strtolower($type.' '.$offer);
@@ -131,11 +143,12 @@ $last=$date->modify('last day of this month'); $dates=[];
 for($d=$date;$d<=$last;$d=$d->modify('+1 day')) $dates[]=$d->format('Y-m-d');
 $localHint='';
 if (preg_match('/\\b(Dar es Salaam|Dodoma|Mbeya|Arusha|Mwanza|Morogoro|Zanzibar|Tanga|Iringa|Kigoma|Tabora|Singida|Shinyanga|Mtwara|Lindi|Njombe|Ruvuma|Kilimanjaro)\\b/i',$notes,$m)) $localHint=$m[1];
-$context=$type.' Tanzania'.($localHint!==''?' '.$localHint:'');
+$researchCategory=researchCategory($type);
+$context=$researchCategory.' Tanzania'.($localHint!==''?' '.$localHint:'');
 $queries=[
  $context.' customers market demand competitors',
- $type.' Tanzania business services and customer market information',
- $type.' marketing channels customers Tanzania social media'
+ $researchCategory.' Tanzania business services and customer market information',
+ $researchCategory.' marketing channels customers Tanzania social media'
 ];
 $research=[];
 foreach($queries as $q) {
