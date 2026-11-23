@@ -171,6 +171,20 @@ textarea.form-control{min-height:86px}
 .platform-icon img{display:block;width:25px;height:25px;object-fit:contain}
 @media(max-width:520px){.platform-showcase{padding:23px 12px}.platform-logo-row{gap:8px}.platform-logo-item{padding:8px 10px;font-size:13px;gap:7px}.platform-icon{width:24px;height:24px}.platform-icon img{width:22px;height:22px}}
 </style>
+
+<style>
+/* HERO: keep the rotating photo in its own row, with the black copy box below it. */
+html,body{scrollbar-width:none!important;-ms-overflow-style:none!important}
+html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!important;height:0!important;display:none!important}
+#localBusinessHero{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:18px!important;min-height:0!important;height:auto!important;padding:26px 18px 30px!important;background:#fff!important;overflow:visible!important}
+#localBusinessHero .local-scene-backdrop{position:relative!important;inset:auto!important;z-index:0!important;display:block!important;width:min(1120px,100%)!important;height:clamp(190px,30vw,330px)!important;margin:0 auto!important;overflow:hidden!important}
+#localBusinessHero .local-scene-backdrop img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+#localBusinessHero>.wrap{position:relative!important;z-index:1!important;width:min(1120px,100%)!important;max-width:1120px!important;margin:0 auto!important;padding:0!important}
+#localBusinessHero .hero-copy-box{width:100%!important;max-width:none!important;margin:0!important;background:#000!important;color:#fff!important;border-radius:12px!important}
+#localBusinessHero .hero-copy-box *{color:#fff!important}
+@media(max-width:600px){#localBusinessHero{padding:16px 12px 24px!important;gap:12px!important}#localBusinessHero .local-scene-backdrop{height:210px!important}#localBusinessHero .hero-copy-box{padding:20px 17px!important}}
+</style>
+
 </head>
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
@@ -280,26 +294,26 @@ textarea.form-control{min-height:86px}
 <script>
 (function(){
  const image=document.getElementById('localSceneImage');
- const label=document.getElementById('localSceneLabel');
- if(!image||!label)return;
+ if(!image)return;
  const scenes=[
-  {name:'Mama ntilie · anapika',url:'https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg'},
-  {name:'Bodaboda · dereva kazini',url:'https://www.thecitizen.co.tz/resource/image/5154910/landscape_ratio16x9/1600/900/6c8f8e8c2e98726ee4fec6f1c9c66e65/AB/bodaboda-pic.jpg'},
-  {name:'Fundi ujenzi · anajenga',url:'https://media.licdn.com/dms/image/v2/D4E22AQGyOjwntDZG-Q/feedshare-shrink_800/B4EZqgiqV7GoAg-/0/1763630081623?e=2147483647&t=815HfFrC7QVwTnOWAd2dEetXloZIaIexxSRNXAdeve&v=beta'},
-  {name:'Mama lishe · anauza sokoni',url:'https://media.licdn.com/dms/image/v2/D4E12AQFqYFkjicHFjA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1733319710028?e=2147483647&t=LaaPm5kscPjt8JiYi2J_LzKhpPhEp05o8imjra8ByS8&v=beta'},
-  {name:'Mkulima · mazao ya shamba',url:'https://images.squarespace-cdn.com/content/v1/62a067e5deea9a028a3eae4b/62a1894b-7519-4cb4-b3c8-d256d1dffd5f/2Y7B0465.jpg'}
+  'https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg',
+  'https://www.thecitizen.co.tz/resource/image/5154910/landscape_ratio16x9/1600/900/6c8f8e8c2e98726ee4fec6f1c9c66e65/AB/bodaboda-pic.jpg',
+  'https://media.licdn.com/dms/image/v2/D4E22AQGyOjwntDZG-Q/feedshare-shrink_800/B4EZqgiqV7GoAg-/0/1763630081623?e=2147483647&t=815HfFrC7QVwTnOWAd2dEetXloZIaIexxSRNXAdeve&v=beta',
+  'https://media.licdn.com/dms/image/v2/D4E12AQFqYFkjicHFjA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1733319710028?e=2147483647&t=LaaPm5kscPjt8JiYi2J_LzKhpPhEp05o8imjra8ByS8&v=beta',
+  'https://images.squarespace-cdn.com/content/v1/62a067e5deea9a028a3eae4b/62a1894b-7519-4cb4-b3c8-d256d1dffd5f/2Y7B0465.jpg'
  ];
  let current=0;
- scenes.forEach((scene)=>{const preload=new Image();preload.src=scene.url;});
+ scenes.forEach(url=>{const preload=new Image();preload.src=url;});
  window.setInterval(()=>{
-  const next=(current+1)%scenes.length;
+  current=(current+1)%scenes.length;
   image.classList.add('is-changing');
-  window.setTimeout(()=>{
-   image.src=scenes[next].url;
-   label.textContent=scenes[next].name;
-   image.onload=()=>image.classList.remove('is-changing');
-   current=next;
-  },420);
+  const nextImage=new Image();
+  nextImage.onload=()=>{
+   image.src=scenes[current];
+   image.classList.remove('is-changing');
+  };
+  nextImage.onerror=()=>image.classList.remove('is-changing');
+  nextImage.src=scenes[current];
  },5000);
 })();
 </script>
