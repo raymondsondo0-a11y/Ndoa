@@ -5,6 +5,8 @@ if(booking)booking.addEventListener('submit',e=>{e.preventDefault();const r=docu
 const form=document.querySelector('#campaignForm'); if(!form)return;
 const $=s=>document.querySelector(s);
 let data=[];try{data=JSON.parse(localStorage.getItem('ndoa_campaigns')||'[]');if(!Array.isArray(data))data=[]}catch(e){data=[]}
+ // One-time cleanup of legacy mixed campaign data from older planner versions.
+ try{if(localStorage.getItem('ndoa_campaigns_schema_v2')!=='1'){data=[];localStorage.removeItem('ndoa_campaigns');localStorage.setItem('ndoa_campaigns_schema_v2','1');}}catch(e){data=[]}
 let hasGeneratedPlan=false;
 const today=new Date();today.setHours(0,0,0,0);
 const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -153,10 +155,10 @@ function selectedChannelCreative(channel,weekday,business,offer){
  return {media:channel,task:task};
 }
 function buildMonthlyPlan(start,budget,type,business,offer,notes,goal,preferredMedia){
- const first=new Date(start+'T12:00:00'),last=new Date(first.getFullYear(),first.getMonth()+1,0,12),days=[];
+ const first=new Date(start+'T12:00:00'),last=new Date(first.getFullYear(),first.getMonth()+1,0,12),days=[],planId='plan-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
  for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1)){const base=weekly[d.getDay()],specific=preferredMedia&&preferredMedia!=='auto'?selectedChannelCreative(preferredMedia,d.getDay(),business,offer):dailyCreative(type,d.getDay(),business,offer);const item={...base,media:specific.media,task:specific.task,topic:specific.topic||specific.task};days.push({...item,date:iso(d),businessType:type,businessName:business,offer,audience:'',goal,notes,creative:specific.task,status:'Planned'});}
  const paid=days.filter(x=>x.paid),base=paid.length?Math.floor(budget/paid.length):0,extra=budget-base*paid.length;let n=0;
- days.forEach(x=>{x.totalBudget=budget;x.budget=x.paid?(base+(n++===0?extra:0)):0;x.planId='plan-'+Date.now();x.id=x.planId+'-'+x.date;x.frequency='Daily Monday–Sunday monthly plan';});
+ days.forEach(x=>{x.totalBudget=budget;x.budget=x.paid?(base+(n++===0?extra:0)):0;x.planId=planId;x.id=planId+'-'+x.date;x.frequency='Daily Monday–Sunday monthly plan';});
  return days;
 }
 function drawList(){
@@ -181,10 +183,11 @@ form.addEventListener('submit',e=>{
  window.__ndoaSchedulerHandled=true;
  e.preventDefault();if(!form.reportValidity())return;
  const f=Object.fromEntries(new FormData(form).entries()),budget=Number(f.budget);
+ if(f.businessType==='hotel'&&/(gari|magari|car|cars|vehicle|vehicles)/i.test(f.offer)){const msg='Umechagua Hoteli / nyumba ya kulala wageni / mgahawa, lakini bidhaa uliyoandika ni gari. Chagua aina sahihi ya biashara ya magari (kuuza magari au gereji) kabla ya kutengeneza ratiba.';$('#plannerFeedback').textContent=msg;$('#businessType').focus();return;}
  if(!Number.isFinite(budget)||budget<0){$('#plannerFeedback').textContent='Enter a valid monthly budget in TZS.';return}
  const plan=buildMonthlyPlan(f.startDate,budget,f.businessType,f.businessName,f.offer,f.notes,f.goal,f.preferredMedia);if(selectedPhotoData){try{localStorage.setItem('ndoa_photo_'+plan[0].planId,selectedPhotoData);plan.forEach(x=>x.customPhotoKey='ndoa_photo_'+plan[0].planId);}catch(photoError){$('#plannerFeedback').textContent='Photo is too large for this browser storage. Your schedule will still be created without saving the image.';}}month=new Date(f.startDate+'T12:00:00');
  plan.forEach(x=>{x.audience=f.audience;x.preferredMedia=f.preferredMedia});
- data.push(...plan);hasGeneratedPlan=true;
+ data=plan;hasGeneratedPlan=true;
  if(persist()){const calPanel=$('#calendarPanel');if(calPanel){calPanel.hidden=false;calPanel.scrollIntoView({behavior:'smooth',block:'start'});}const savedPanel=$('#savedCampaignPanel');if(savedPanel)savedPanel.hidden=false;const recommendationPanel=$('#generatedRecommendation');if(recommendationPanel)recommendationPanel.hidden=false;recommendation();$('#plannerFeedback').textContent='Created a detailed calendar for '+plan.length+' days. Every date now has a specific post/video idea, platform, time and budget. Paid budget TZS '+money(budget)+' is split across paid promotion dates; organic tasks cost TZS 0 in planned ad spend.';drawCalendar();}
 });
 const printButton=$('#printReport');
