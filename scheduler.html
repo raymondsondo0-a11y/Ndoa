@@ -199,7 +199,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <body><div class="top"><div class="wrap"><b>NDOA</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>N</span>NDOA</a><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="diagnostics.html">Car Diagnostics</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro" id="localBusinessHero" aria-label="Rotating business photographs">
- <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
+ <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1800&q=85" alt=""><img id="localSceneImageNext" class="scene-hidden" src="" alt=""></div>
 </section>
 <div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="kicker">NDOA / SOCIAL MEDIA STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
 <section class="platform-showcase" aria-label="Supported social media platforms">
@@ -286,8 +286,10 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 #localBusinessHero:before,#localBusinessHero:after{content:none!important;display:none!important;background:none!important;box-shadow:none!important}
 #localBusinessHero .local-scene-backdrop{position:absolute!important;inset:0!important;z-index:0!important;background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 #localBusinessHero .local-scene-backdrop:before,#localBusinessHero .local-scene-backdrop:after{content:none!important;display:none!important;background:none!important;box-shadow:none!important}
-#localBusinessHero .local-scene-backdrop img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 48%!important;display:block!important;opacity:1!important;transition:opacity .8s ease!important;transform:none!important;filter:none!important}
+#localBusinessHero .local-scene-backdrop img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 48%!important;display:block!important;opacity:1!important;transition:opacity 2.2s ease-in-out!important;opacity:0!important;transform:none!important;filter:none!important}
 #localBusinessHero .local-scene-backdrop img.is-changing{opacity:.15!important;transform:none!important}
+#localBusinessHero .local-scene-backdrop img.scene-visible{opacity:1!important}
+#localBusinessHero .local-scene-backdrop img.scene-hidden{opacity:0!important}
 #localBusinessHero .local-scene-caption{display:none!important}
 #localBusinessHero .wrap{position:relative!important;z-index:1!important;max-width:1120px!important;margin-left:auto!important;margin-right:auto!important;text-align:left!important}
 #localBusinessHero .hero-copy-box{display:block;width:fit-content;max-width:min(850px,100%);padding:26px 30px;background:#000!important;color:#fff!important;border:0!important;border-radius:14px!important;box-shadow:none!important}
@@ -307,28 +309,38 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
  let back=document.getElementById('localSceneImageNext');
  if(!front||!back)return;
  const scenes=[
-  'https://www.thecitizen.co.tz/resource/image/4064968/landscape_ratio3x2/1620/1080/b00c8041a78fb9bfa14fea04bbbadebd/lI/vendors-2.jpg',
-  'https://www.thecitizen.co.tz/resource/image/5154910/landscape_ratio16x9/1600/900/6c8f8e8c2e98726ee4fec6f1c9c66e65/AB/bodaboda-pic.jpg',
-  'https://media.licdn.com/dms/image/v2/D4E22AQGyOjwntDZG-Q/feedshare-shrink_800/B4EZqgiqV7GoAg-/0/1763630081623?e=2147483647&t=815HfFrC7QVwTnOWAd2dEetXloZIaIexxSRNXAdeve&v=beta',
-  'https://media.licdn.com/dms/image/v2/D4E12AQFqYFkjicHFjA/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1733319710028?e=2147483647&t=LaaPm5kscPjt8JiYi2J_LzKhpPhEp05o8imjra8ByS8&v=beta',
-  'https://images.squarespace-cdn.com/content/v1/62a067e5deea9a028a3eae4b/62a1894b-7519-4cb4-b3c8-d256d1dffd5f/2Y7B0465.jpg'
+  'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1800&q=85', // Mama ntilie / food preparation
+  'https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=1800&q=85', // Bodaboda / motorcycle rider
+  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1800&q=85', // Fundi ujenzi / construction worker
+  'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1800&q=85', // Mama anayeuza sokoni / fresh produce
+  'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=85', // Mkulima / shamba
+  'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1800&q=85', // Fundi / workshop craft
+  'https://images.unsplash.com/photo-1590736969955-71cc94901144?auto=format&fit=crop&w=1800&q=85', // Fundi cherehani / tailor
+  'https://images.unsplash.com/photo-1604719312566-8912e9c8a213?auto=format&fit=crop&w=1800&q=85', // Duka / small trader
+  'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=85', // Mfanyabiashara mkubwa / office business
+  'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=1800&q=85' // Garage / service business
  ];
  let current=0;
  scenes.forEach(url=>{const preload=new Image();preload.src=url;});
  window.setInterval(()=>{
-  const nextIndex=(current+1)%scenes.length;
-  const preload=new Image();
-  preload.onload=()=>{
-   back.src=scenes[nextIndex];
-   back.classList.remove('scene-hidden');
-   back.classList.add('scene-visible');
-   front.classList.remove('scene-visible');
-   front.classList.add('scene-hidden');
-   const previous=front;front=back;back=previous;current=nextIndex;
+  let nextIndex=(current+1)%scenes.length;
+  const tryNext=(attemptsLeft)=>{
+   const preload=new Image();
+   preload.onload=()=>{
+    back.src=scenes[nextIndex];
+    back.classList.remove('scene-hidden');
+    back.classList.add('scene-visible');
+    front.classList.remove('scene-visible');
+    front.classList.add('scene-hidden');
+    const previous=front;front=back;back=previous;current=nextIndex;
+   };
+   preload.onerror=()=>{
+    if(attemptsLeft>1){nextIndex=(nextIndex+1)%scenes.length;tryNext(attemptsLeft-1);}
+   };
+   preload.src=scenes[nextIndex];
   };
-  preload.onerror=()=>{};
-  preload.src=scenes[nextIndex];
- },5000);
+  tryNext(scenes.length);
+ },6000);
 })();
 </script>
 </body></html>
