@@ -505,29 +505,33 @@ footer,.foot{background:#f0f0f5!important;color:#55566a!important;border-top:1px
   let index=(from+1)%scenes.length;
   return index;
  }
+ function applyScene(index){
+  backEl.src=scenes[index];
+  backEl.classList.remove('scene-hidden');
+  backEl.classList.add('scene-visible');
+  frontEl.classList.remove('scene-visible');
+  frontEl.classList.add('scene-hidden');
+  const old=frontEl;frontEl=backEl;backEl=old;current=index;
+  preloadIndex=-1;preloadImage=null;transitioning=false;
+  deferIdle(()=>preloadScene(nextScene(current)));
+ }
  function transitionTo(index){
   if(transitioning||!heroInView||document.hidden)return;
   transitioning=true;
-  const loader=preloadImage&&preloadIndex===index?preloadImage:new Image();
+  if(preloadIndex===index&&preloadImage&&preloadImage.complete&&preloadImage.naturalWidth>0){
+   applyScene(index);
+   return;
+  }
+  const loader=new Image();
   loader.decoding='async';
   loader.fetchPriority='low';
-  loader.onload=()=>{
-   backEl.src=scenes[index];
-   backEl.classList.remove('scene-hidden');
-   backEl.classList.add('scene-visible');
-   frontEl.classList.remove('scene-visible');
-   frontEl.classList.add('scene-hidden');
-   const old=frontEl;frontEl=backEl;backEl=old;current=index;
-   preloadIndex=-1;preloadImage=null;transitioning=false;
-   deferIdle(()=>preloadScene(nextScene(current)));
-  };
+  loader.onload=()=>applyScene(index);
   loader.onerror=()=>{
    transitioning=false;
    preloadIndex=-1;preloadImage=null;
    deferIdle(()=>preloadScene(nextScene(current)));
   };
-  if(loader===preloadImage){loader.onload=loader.onload;backEl.src=scenes[index];}
-  else loader.src=scenes[index];
+  loader.src=scenes[index];
  }
  if('IntersectionObserver' in window){
   new IntersectionObserver(entries=>{
