@@ -178,6 +178,9 @@ textarea.form-control{min-height:86px}
 .platform-icon{display:grid;place-items:center;width:29px;height:29px}
 .platform-icon img{display:block;width:25px;height:25px;object-fit:contain}
 @media(max-width:520px){.platform-showcase{padding:23px 12px}.platform-logo-row{gap:8px}.platform-logo-item{padding:8px 10px;font-size:13px;gap:7px}.platform-icon{width:24px;height:24px}.platform-icon img{width:22px;height:22px}}
+
+.platform-icon{font-size:24px;font-weight:900;line-height:1;border-radius:7px}
+.platform-tiktok{color:#111}.platform-whatsapp{color:#25D366}.platform-instagram{color:#E4405F}.platform-facebook{color:#1877F2;font-family:Arial,sans-serif}.platform-youtube{color:#FF0000}
 </style>
 
 <style>
@@ -303,7 +306,7 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
 <body><div class="top"><div class="wrap"><b>PRIMONIZER</b> · SOCIAL MEDIA POSTING STUDIO</div></div>
 <header><div class="wrap nav"><a class="logo" href="scheduler.html"><span>P</span>PRIMONIZER TANGAZA NASI BIASHARA YAKO</a><div class="language-switcher" id="languageSwitcher" role="group" aria-label="Choose language"><button type="button" class="language-choice" id="langEn" aria-pressed="true" title="Switch to English">EN</button><span aria-hidden="true"></span><button type="button" class="language-choice" id="langSw" aria-pressed="false" title="Badili kwenda Kiswahili">SW</button></div><button class="menu" aria-label="Menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="advertising.html">Digital Ads</a><a class="current" href="scheduler.html">Campaign Planner</a><a href="booking.html">Book a Visit</a><a href="gallery.html">Gallery</a><a href="pricing.html">Pricing</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav><a class="btn gold" href="booking.html">Book a visit ↗</a></div></header>
 <main><section class="planner-intro" id="localBusinessHero" aria-label="Rotating business photographs">
- <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://static.wixstatic.com/media/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_85/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg" alt="" loading="eager" fetchpriority="high" decoding="async"><img id="localSceneImageNext" class="scene-hidden" src="" alt="" loading="lazy" fetchpriority="low" decoding="async"></div>
+ <div class="local-scene-backdrop" aria-hidden="true"><img id="localSceneImage" class="scene-visible" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=82" alt="" loading="eager" fetchpriority="high" decoding="async"><img id="localSceneImageNext" class="scene-hidden" src="" alt="" loading="lazy" fetchpriority="low" decoding="async"></div>
 </section>
 <div class="hero-copy-section"><div class="wrap"><div class="hero-copy-box"><div class="kicker">PRIMONIZER / DIGITAL ADVERTISING STUDIO</div><h1>Know what to advertise.<br><span class="goldtext">Know when and where.</span></h1><p class="lead text-light" style="max-width:760px">Tell the planner your business and total monthly budget. It builds a Monday–Sunday action plan for every day of the month, rotates Facebook, TikTok and YouTube paid promotion, and assigns organic tasks on the other days.</p></div></div></div>
 <section class="platform-showcase" aria-label="Supported social media platforms">
@@ -311,11 +314,11 @@ html::-webkit-scrollbar,body::-webkit-scrollbar,*::-webkit-scrollbar{width:0!imp
   <p class="platform-eyebrow">ONE PLACE · YOUR SOCIAL CHANNELS</p>
   <h2>Plan across the platforms your customers use.</h2>
   <div class="platform-logo-row">
-   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/tiktok/111111" alt=""></span><span>TikTok</span></div>
-   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt=""></span><span>WhatsApp</span></div>
-   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt=""></span><span>Instagram</span></div>
-   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/facebook/1877F2" alt=""></span><span>Facebook</span></div>
-   <div class="platform-logo-item"><span class="platform-icon"><img src="https://cdn.simpleicons.org/youtube/FF0000" alt=""></span><span>YouTube</span></div>
+   <div class="platform-logo-item"><span class="platform-icon platform-tiktok">♪</span><span>TikTok</span></div>
+   <div class="platform-logo-item"><span class="platform-icon platform-whatsapp">☎</span><span>WhatsApp</span></div>
+   <div class="platform-logo-item"><span class="platform-icon platform-instagram">◎</span><span>Instagram</span></div>
+   <div class="platform-logo-item"><span class="platform-icon platform-facebook">f</span><span>Facebook</span></div>
+   <div class="platform-logo-item"><span class="platform-icon platform-youtube">▶</span><span>YouTube</span></div>
   </div>
  </div>
 </section>
@@ -457,19 +460,13 @@ footer,.foot{background:#f0f0f5!important;color:#55566a!important;border-top:1px
  backEl.decoding='async';
 
  const businessScenes=[
-  'https://static.wixstatic.com/media/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_85/8b1cc5_decd32e8c79c42f0806306cea0481e1c~mv2.jpg',
-  'https://image-cdn-homes.beforward.jp/images/agent-user/151/property/85063/1005681375_582661_20260318061038.jpg',
-  'https://image-cdn-homes.beforward.jp/images/agent-user/577/property/66702/IMG-20251118-WA0370_432263_20251119155417.jpg',
-  'https://www.thecitizen.co.tz/resource/image/5200556/landscape_ratio3x2/1620/1080/31b25ed8df22e215b57553488c4ef8ad/El/digital-pic.jpg',
-  'https://mutuoprojectblog.wordpress.com/wp-content/uploads/2015/03/img_3083.jpg',
-  'https://www.unesco.org/sites/default/files/styles/paragraph_medium_desktop/article/2025-01/bear-tanzania-02.jpg.webp?itok=HXdSkr6e',
-  'https://cashessentials.org/app/uploads/2022/06/iStock-1200487501-2.jpg',
-  'https://cdn.allafrica.com/download/pic/main/main/csiid/00650057%3Abf4faf4fa4728348a7f2d1d842a00344%3Aarc614x376%3Aw1200.jpg',
-  'https://images.ctfassets.net/v1fsq8y1pr0o/7hNt5KkCx7hd9ST48QWiJv/99bdd81f6f1102bc004a274522012e85/CC-TZ040200158-15-2202.jpg',
-  'https://www.ametikool.ee/sites/ametikool.ee/files/2023-12/whatsapp_image_2023-12-11_at_19.19.39.jpeg',
-  'https://www.mwananchi.co.tz/resource/image/4813394/landscape_ratio3x2/1620/1080/67c8b624e8f85258b3a3e3ac97fe13d2/ZA/bodaboda-pic.jpg',
-  'https://images.squarespace-cdn.com/content/v1/5e95d9b13e6b2f7f177b574b/1587743498385-EJCR3Z89ABXD28LQ1ZNC/4.%2BBoat%2Bbuilders%2C%2BZanzibar.jpg',
-  'https://kupatana.com/api/v1/filestorage/image/large/8d1597502036e615e928728db6e08b96.jpeg'
+  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1560253023-3ec5d502959f?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=82',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=82'
  ];
  const platformSlides=[
   ['WhatsApp','#25D366','WhatsApp','Chat with customers and receive enquiries'],
